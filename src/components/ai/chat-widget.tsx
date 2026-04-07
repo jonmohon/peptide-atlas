@@ -18,7 +18,7 @@ export function ChatWidget() {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     if (!input.trim() || isLoading) return;
-    sendMessage({ role: 'user', content: input.trim() });
+    sendMessage({ text: input.trim() });
     setInput('');
   };
 
@@ -108,9 +108,10 @@ export function ChatWidget() {
                     )}
                   >
                     <div className="whitespace-pre-wrap">
-                      {message.parts?.map((part, i) =>
-                        part.type === 'text' ? <span key={i}>{part.text}</span> : null
-                      ) ?? String(message.content)}
+                      {message.parts
+                        ?.filter((part): part is { type: 'text'; text: string } => part.type === 'text')
+                        .map((part, i) => <span key={i}>{part.text}</span>)
+                      }
                     </div>
                   </div>
                 </div>
