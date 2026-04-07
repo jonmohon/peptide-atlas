@@ -14,6 +14,7 @@ import { bodyRegions } from '@/data/body-regions';
 import { getPathwaysForPeptide } from '@/data/pathways';
 import { Tag } from '@/components/ui/tag';
 import { Button } from '@/components/ui/button';
+import { RegionSuggestion } from '@/components/ai/region-suggestion';
 
 interface BodyMapViewProps {
   peptides: Peptide[];
@@ -342,6 +343,12 @@ export function BodyMapView({ peptides }: BodyMapViewProps) {
               <h4 className="text-[10px] font-semibold uppercase tracking-widest text-text-secondary mb-3">
                 Peptides affecting this region ({regionPeptides.length})
               </h4>
+              {selectedRegionInfo && regionPeptides.length > 0 && (
+                <RegionSuggestion
+                  regionId={selectedRegion!}
+                  peptideIds={regionPeptides.slice(0, 3).map((p) => p.id)}
+                />
+              )}
               <AnimatePresence mode="popLayout">
                 <div className="space-y-2">
                   {regionPeptides.map((peptide) => (

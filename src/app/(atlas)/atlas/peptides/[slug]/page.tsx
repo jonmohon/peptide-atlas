@@ -7,6 +7,8 @@ import { IntensityIndicator } from '@/components/shared/intensity-indicator';
 import { Tag } from '@/components/ui/tag';
 import { bodyRegions } from '@/data/body-regions';
 import { formatCategoryLabel } from '@/lib/utils';
+import { MechanismExplainer } from '@/components/ai/mechanism-explainer';
+import { WhatToExpect } from '@/components/ai/what-to-expect';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -83,6 +85,9 @@ export default async function PeptideDetailPage({ params }: Props) {
           ))}
         </div>
       </section>
+
+      {/* Mechanism Explainer */}
+      <MechanismExplainer peptideId={peptide.id} peptideName={peptide.name} />
 
       {/* Affected Body Regions */}
       <section className="mb-8">
@@ -162,6 +167,9 @@ export default async function PeptideDetailPage({ params }: Props) {
           ))}
         </div>
       </section>
+
+      {/* What to Expect */}
+      <WhatToExpect peptideIds={[peptide.id]} />
 
       {/* Ratings */}
       <section className="mb-8">

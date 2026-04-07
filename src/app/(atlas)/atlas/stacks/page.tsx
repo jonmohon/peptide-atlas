@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import { stacks } from '@/data/stacks';
 import { peptides } from '@/data/peptides';
 import { useStackStore } from '@/stores/use-stack-store';
@@ -8,6 +8,9 @@ import { PeptideCard } from '@/components/peptides/peptide-card';
 import { Tag } from '@/components/ui/tag';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { StackAnalysisPanel } from '@/components/ai/stack-analysis-panel';
+import { AILoadingSkeleton } from '@/components/ai/ai-loading-skeleton';
+import type { StackAnalysis } from '@/lib/ai/schemas';
 
 export default function StacksPage() {
   const {
@@ -31,6 +34,33 @@ export default function StacksPage() {
       .map((id) => peptides.find((p) => p.id === id))
       .filter(Boolean) as typeof peptides;
   }, [customStackPeptideIds]);
+
+  const [analysis, setAnalysis] = useState<StackAnalysis | null>(null);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [analysisError, setAnalysisError] = useState<string | null>(null);
+
+  const handleAnalyze = useCallback(async (peptideIds: string[]) => {
+    setIsAnalyzing(true);
+    setAnalysisError(null);
+    setAnalysis(null);
+    try {
+      const res = await fetch('/api/ai/optimize', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ peptideIds }),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || `Request failed (${res.status})`);
+      }
+      const data = await res.json();
+      setAnalysis(data);
+    } catch (err) {
+      setAnalysisError(err instanceof Error ? err.message : 'Analysis failed');
+    } finally {
+      setIsAnalyzing(false);
+    }
+  }, []);
 
   const displayPeptides = activeStack
     ? activeStack.peptides
@@ -172,6 +202,42 @@ export default function StacksPage() {
                           )
                         )}
                   </div>
+                </div>
+              )}
+
+              {/* AI Analysis */}
+              {displayPeptides.length >= 2 && !analysis && !isAnalyzing && (
+                <div className="mt-4 pt-4 border-t border-border">
+                  <Button
+                    size="sm"
+                    onClick={() => handleAnalyze(displayPeptides.map((p) => p.id))}
+                    className="w-full"
+                  >
+                    <svg className="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                    </svg>
+                    Analyze with AI
+                  </Button>
+                </div>
+              )}
+
+              {isAnalyzing && (
+                <div className="mt-4 pt-4 border-t border-border">
+                  <AILoadingSkeleton variant="analysis" />
+                </div>
+              )}
+
+              {analysisError && (
+                <div className="mt-4 pt-4 border-t border-border">
+                  <div className="text-xs text-[#ff6b35] bg-[#ff6b35]/10 border border-[#ff6b35]/20 rounded-lg p-2">
+                    {analysisError}
+                  </div>
+                </div>
+              )}
+
+              {analysis && (
+                <div className="mt-4 pt-4 border-t border-border">
+                  <StackAnalysisPanel analysis={analysis} isLoading={false} />
                 </div>
               )}
             </div>

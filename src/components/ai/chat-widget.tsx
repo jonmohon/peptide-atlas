@@ -1,19 +1,27 @@
 'use client';
 
-import { useState, type FormEvent } from 'react';
+import { useState, useEffect, type FormEvent } from 'react';
 import { useChat } from '@ai-sdk/react';
 import { DefaultChatTransport } from 'ai';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
+import { useChatStore } from '@/stores/use-chat-store';
 
 const transport = new DefaultChatTransport({ api: '/api/ai/chat' });
 
 export function ChatWidget() {
-  const [isOpen, setIsOpen] = useState(false);
+  const { isOpen, prefillText, setOpen } = useChatStore();
   const [input, setInput] = useState('');
   const { messages, sendMessage, status, error } = useChat({ transport });
   const isLoading = status === 'streaming' || status === 'submitted';
+
+  useEffect(() => {
+    if (prefillText) {
+      setInput(prefillText);
+      useChatStore.setState({ prefillText: '' });
+    }
+  }, [prefillText]);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -26,7 +34,7 @@ export function ChatWidget() {
     <>
       {/* Floating button */}
       <button
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => setOpen(!isOpen)}
         className="fixed bottom-6 right-6 z-50 w-12 h-12 rounded-full bg-neon-cyan/20 border border-neon-cyan/30 text-neon-cyan shadow-[0_0_15px_rgba(0,212,255,0.2)] hover:bg-neon-cyan/30 hover:shadow-[0_0_20px_rgba(0,212,255,0.3)] transition-all hover:scale-105 flex items-center justify-center"
         aria-label={isOpen ? 'Close chat' : 'Open AI assistant'}
       >

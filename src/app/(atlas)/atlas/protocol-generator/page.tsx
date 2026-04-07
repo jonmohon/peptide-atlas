@@ -1,8 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Tag } from '@/components/ui/tag';
+import { useStreamingText } from '@/hooks/use-streaming-text';
+import { ProtocolDisplay } from '@/components/ai/protocol-display';
+import { AILoadingSkeleton } from '@/components/ai/ai-loading-skeleton';
 
 const goals = [
   { id: 'healing', label: 'Healing & Recovery', icon: '🩹' },
@@ -25,6 +28,14 @@ export default function ProtocolGeneratorPage() {
   const [selectedGoals, setSelectedGoals] = useState<string[]>([]);
   const [experience, setExperience] = useState<string>('');
   const [step, setStep] = useState(1);
+  const { text, isStreaming, error, startStream, reset: resetStream } = useStreamingText();
+
+  useEffect(() => {
+    if (step === 3 && !text && !isStreaming) {
+      startStream('/api/ai/protocol', { goals: selectedGoals, experience });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [step]);
 
   const toggleGoal = (goalId: string) => {
     setSelectedGoals((prev) =>
@@ -41,12 +52,13 @@ export default function ProtocolGeneratorPage() {
         <p className="text-text-secondary mt-1">
           Tell us your goals and we&apos;ll generate a personalized peptide protocol
         </p>
-        <div className="mt-3 bg-amber-50 border border-amber-200 rounded-lg p-3">
-          <p className="text-xs text-amber-800">
-            <strong>Note:</strong> AI features require an API key to be configured.
-            This feature will be available once the AI backend is set up.
-          </p>
-        </div>
+        {error && (
+          <div className="mt-3 bg-[#ff6b35]/10 border border-[#ff6b35]/20 rounded-lg p-3">
+            <p className="text-xs text-[#ff6b35]">
+              <strong>Note:</strong> {error}
+            </p>
+          </div>
+        )}
       </div>
 
       {/* Step Indicator */}
@@ -136,30 +148,62 @@ export default function ProtocolGeneratorPage() {
       {step === 3 && (
         <div>
           <h2 className="text-lg font-semibold mb-4">Your Protocol</h2>
-          <div className="bg-surface-dim rounded-xl border border-border p-6 text-center">
-            <p className="text-text-secondary mb-4">
-              AI protocol generation will be available once the backend is configured.
-            </p>
-            <div className="mb-4">
-              <span className="text-sm font-medium">Selected Goals: </span>
-              <div className="flex flex-wrap gap-1 justify-center mt-1">
-                {selectedGoals.map((g) => {
-                  const goal = goals.find((gl) => gl.id === g);
-                  return (
-                    <Tag key={g} variant="medical" size="sm">
-                      {goal?.icon} {goal?.label}
-                    </Tag>
-                  );
-                })}
-              </div>
+
+          {/* Selected goals summary */}
+          <div className="mb-4">
+            <div className="flex flex-wrap gap-1 mb-2">
+              {selectedGoals.map((g) => {
+                const goal = goals.find((gl) => gl.id === g);
+                return (
+                  <Tag key={g} variant="medical" size="sm">
+                    {goal?.icon} {goal?.label}
+                  </Tag>
+                );
+              })}
             </div>
             <p className="text-xs text-text-secondary">
               Experience: {experience}
             </p>
+          </div>
+
+          {/* Protocol display */}
+          {(isStreaming || text) && (
+            <ProtocolDisplay text={text} isStreaming={isStreaming} />
+          )}
+
+          {!text && isStreaming && (
+            <AILoadingSkeleton variant="protocol" />
+          )}
+
+          {error && (
+            <div className="rounded-xl border border-[#ff6b35]/20 bg-[#ff6b35]/[0.05] p-4 text-sm text-[#ff6b35]">
+              {error}
+            </div>
+          )}
+
+          {/* Action buttons */}
+          <div className="mt-6 flex flex-wrap gap-3">
+            {text && !isStreaming && (
+              <Button
+                onClick={() => navigator.clipboard.writeText(text)}
+              >
+                Copy Protocol
+              </Button>
+            )}
             <Button
               variant="ghost"
-              className="mt-4"
+              disabled={isStreaming}
               onClick={() => {
+                resetStream();
+                startStream('/api/ai/protocol', { goals: selectedGoals, experience });
+              }}
+            >
+              Regenerate
+            </Button>
+            <Button
+              variant="ghost"
+              onClick={() => {
+                resetStream();
                 setStep(1);
                 setSelectedGoals([]);
                 setExperience('');

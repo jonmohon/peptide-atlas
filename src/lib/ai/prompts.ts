@@ -87,3 +87,14 @@ Explain the mechanism of action for the specified peptide. Tailor the explanatio
 - beginner: Use analogies, avoid jargon, max 150 words
 - intermediate: Use technical terms but define them, max 250 words
 - advanced: Full molecular detail with pathway names, max 400 words`;
+
+export const COMPARISON_SYSTEM_PROMPT = `${BASE_SYSTEM_PROMPT}
+
+Compare the given peptides in detail. For each peptide:
+1. Key strengths and primary use cases
+2. How it differs from the others
+3. Which goals each peptide is best suited for
+4. Can they be combined? If so, what synergies exist?
+5. A clear recommendation on when to choose each
+
+Be specific, reference the database properties, and keep it under 400 words.`;

@@ -7,6 +7,7 @@ import { EvidenceBadge } from '@/components/shared/evidence-badge';
 import { Tag } from '@/components/ui/tag';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { ComparisonInsights } from '@/components/ai/comparison-insights';
 
 const axisLabels: Record<string, string> = {
   efficacy: 'Efficacy',
@@ -178,6 +179,11 @@ export default function ComparePage() {
         <div className="text-center py-16 text-text-secondary">
           <p className="text-lg">Select at least 2 peptides to compare</p>
         </div>
+      )}
+
+      {/* AI Comparison Insights */}
+      {selectedPeptides.length >= 2 && (
+        <ComparisonInsights peptideIds={selectedPeptideIds} />
       )}
     </div>
   );
