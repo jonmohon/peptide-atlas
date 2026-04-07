@@ -2,16 +2,17 @@
 
 import { useState, type FormEvent } from 'react';
 import { useChat } from '@ai-sdk/react';
+import { DefaultChatTransport } from 'ai';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 
+const transport = new DefaultChatTransport({ api: '/api/ai/chat' });
+
 export function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState('');
-  const { messages, sendMessage, status, error } = useChat({
-    api: '/api/ai/chat',
-  });
+  const { messages, sendMessage, status, error } = useChat({ transport });
   const isLoading = status === 'streaming' || status === 'submitted';
 
   const handleSubmit = (e: FormEvent) => {
