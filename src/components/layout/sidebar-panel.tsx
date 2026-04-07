@@ -28,28 +28,29 @@ export function SidebarPanel({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/20 z-30 md:hidden"
+            className="fixed inset-0 bg-black/50 z-30 md:hidden backdrop-blur-sm"
             onClick={onClose}
           />
 
           {/* Panel */}
           <motion.div
-            initial={{ x: '100%' }}
-            animate={{ x: 0 }}
-            exit={{ x: '100%' }}
+            initial={{ x: '100%', opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: '100%', opacity: 0 }}
             transition={{ type: 'spring', damping: 30, stiffness: 300 }}
             className={cn(
-              'fixed right-0 top-16 bottom-0 w-full sm:w-96 md:w-[420px] bg-white border-l border-border z-40 overflow-hidden flex flex-col',
-              'md:relative md:top-0 md:z-auto',
+              'fixed right-0 top-12 bottom-0 w-full sm:w-96 md:w-[400px] z-40 overflow-hidden flex flex-col',
+              'glass-bright',
+              'md:relative md:top-0 md:z-auto md:shrink-0',
               className
             )}
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-5 py-4 border-b border-border bg-white shrink-0">
-              <h2 className="text-base font-semibold">{title}</h2>
+            <div className="flex items-center justify-between px-5 py-3 border-b border-white/[0.06] shrink-0">
+              <h2 className="text-sm font-semibold text-foreground">{title}</h2>
               <button
                 onClick={onClose}
-                className="p-1.5 rounded-lg hover:bg-surface-dim transition-colors"
+                className="p-1.5 rounded-lg hover:bg-white/[0.06] transition-colors text-text-secondary hover:text-foreground"
                 aria-label="Close panel"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

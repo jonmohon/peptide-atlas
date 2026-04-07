@@ -8,14 +8,14 @@ interface CategoryIconProps {
 }
 
 const categoryConfig: Record<PeptideCategory, { icon: string; color: string; bg: string }> = {
-  'growth-hormone': { icon: 'GH', color: 'text-indigo-600', bg: 'bg-indigo-50' },
-  'healing-repair': { icon: 'HR', color: 'text-green-600', bg: 'bg-green-50' },
-  'cognitive': { icon: 'CG', color: 'text-purple-600', bg: 'bg-purple-50' },
-  'metabolic': { icon: 'MT', color: 'text-amber-600', bg: 'bg-amber-50' },
-  'immune': { icon: 'IM', color: 'text-cyan-600', bg: 'bg-cyan-50' },
-  'sexual-health': { icon: 'SH', color: 'text-pink-600', bg: 'bg-pink-50' },
-  'longevity': { icon: 'LG', color: 'text-teal-600', bg: 'bg-teal-50' },
-  'sleep-recovery': { icon: 'SR', color: 'text-blue-600', bg: 'bg-blue-50' },
+  'growth-hormone': { icon: 'GH', color: 'text-[#a78bfa]', bg: 'bg-[#a78bfa]/10 border border-[#a78bfa]/20' },
+  'healing-repair': { icon: 'HR', color: 'text-[#00ff88]', bg: 'bg-[#00ff88]/10 border border-[#00ff88]/20' },
+  'cognitive': { icon: 'CG', color: 'text-[#a855f7]', bg: 'bg-[#a855f7]/10 border border-[#a855f7]/20' },
+  'metabolic': { icon: 'MT', color: 'text-[#ff6b35]', bg: 'bg-[#ff6b35]/10 border border-[#ff6b35]/20' },
+  'immune': { icon: 'IM', color: 'text-[#00d4ff]', bg: 'bg-[#00d4ff]/10 border border-[#00d4ff]/20' },
+  'sexual-health': { icon: 'SH', color: 'text-[#f472b6]', bg: 'bg-[#f472b6]/10 border border-[#f472b6]/20' },
+  'longevity': { icon: 'LG', color: 'text-[#2dd4bf]', bg: 'bg-[#2dd4bf]/10 border border-[#2dd4bf]/20' },
+  'sleep-recovery': { icon: 'SR', color: 'text-[#60a5fa]', bg: 'bg-[#60a5fa]/10 border border-[#60a5fa]/20' },
 };
 
 export function CategoryIcon({ category, size = 'md', className }: CategoryIconProps) {

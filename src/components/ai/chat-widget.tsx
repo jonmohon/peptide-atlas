@@ -8,25 +8,26 @@ import { Button } from '@/components/ui/button';
 
 export function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
-  const { messages, input, handleInputChange, handleSubmit, isLoading, error } =
+  const { messages, input, handleInputChange, handleSubmit, status, error } =
     useChat({
       api: '/api/ai/chat',
     });
+  const isLoading = status === 'streaming' || status === 'submitted';
 
   return (
     <>
       {/* Floating button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-medical-500 text-white shadow-lg hover:bg-medical-600 transition-all hover:scale-105 flex items-center justify-center"
+        className="fixed bottom-6 right-6 z-50 w-12 h-12 rounded-full bg-neon-cyan/20 border border-neon-cyan/30 text-neon-cyan shadow-[0_0_15px_rgba(0,212,255,0.2)] hover:bg-neon-cyan/30 hover:shadow-[0_0_20px_rgba(0,212,255,0.3)] transition-all hover:scale-105 flex items-center justify-center"
         aria-label={isOpen ? 'Close chat' : 'Open AI assistant'}
       >
         {isOpen ? (
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
         ) : (
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
           </svg>
         )}
@@ -40,19 +41,19 @@ export function ChatWidget() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="fixed bottom-24 right-6 z-50 w-[380px] max-h-[520px] bg-white rounded-2xl shadow-2xl border border-border flex flex-col overflow-hidden"
+            className="fixed bottom-22 right-6 z-50 w-[380px] max-h-[520px] glass-bright rounded-2xl shadow-2xl flex flex-col overflow-hidden"
           >
             {/* Header */}
-            <div className="px-4 py-3 bg-medical-500 text-white">
+            <div className="px-4 py-3 bg-neon-cyan/10 border-b border-neon-cyan/20">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="w-8 h-8 rounded-full bg-neon-cyan/20 border border-neon-cyan/30 flex items-center justify-center">
+                  <svg className="w-4 h-4 text-neon-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
                 </div>
                 <div>
-                  <div className="text-sm font-semibold">PeptideAtlas AI</div>
-                  <div className="text-xs text-white/70">Ask about peptides, stacks, effects</div>
+                  <div className="text-sm font-semibold text-foreground">PeptideAtlas AI</div>
+                  <div className="text-xs text-text-secondary">Ask about peptides, stacks, effects</div>
                 </div>
               </div>
             </div>
@@ -78,7 +79,7 @@ export function ChatWidget() {
                           } as React.ChangeEvent<HTMLInputElement>;
                           handleInputChange(fakeEvent);
                         }}
-                        className="block w-full text-left text-xs px-3 py-2 rounded-lg bg-surface-dim hover:bg-medical-50 text-text-secondary hover:text-medical-600 transition-colors"
+                        className="block w-full text-left text-xs px-3 py-2 rounded-lg bg-white/[0.03] border border-white/[0.06] hover:bg-neon-cyan/[0.05] hover:border-neon-cyan/20 text-text-secondary hover:text-neon-cyan transition-colors"
                       >
                         {suggestion}
                       </button>
@@ -99,8 +100,8 @@ export function ChatWidget() {
                     className={cn(
                       'max-w-[85%] rounded-2xl px-3.5 py-2.5 text-sm',
                       message.role === 'user'
-                        ? 'bg-medical-500 text-white rounded-tr-sm'
-                        : 'bg-surface-dim text-foreground rounded-tl-sm'
+                        ? 'bg-neon-cyan/20 text-foreground border border-neon-cyan/20 rounded-tr-sm'
+                        : 'bg-white/[0.04] text-foreground border border-white/[0.06] rounded-tl-sm'
                     )}
                   >
                     <div className="whitespace-pre-wrap">{message.content}</div>
@@ -110,18 +111,18 @@ export function ChatWidget() {
 
               {isLoading && (
                 <div className="flex justify-start">
-                  <div className="bg-surface-dim rounded-2xl rounded-tl-sm px-3.5 py-2.5">
+                  <div className="bg-white/[0.04] border border-white/[0.06] rounded-2xl rounded-tl-sm px-3.5 py-2.5">
                     <div className="flex items-center gap-1">
-                      <div className="w-2 h-2 rounded-full bg-medical-400 animate-bounce" />
-                      <div className="w-2 h-2 rounded-full bg-medical-400 animate-bounce [animation-delay:0.1s]" />
-                      <div className="w-2 h-2 rounded-full bg-medical-400 animate-bounce [animation-delay:0.2s]" />
+                      <div className="w-2 h-2 rounded-full bg-neon-cyan animate-bounce" />
+                      <div className="w-2 h-2 rounded-full bg-neon-cyan animate-bounce [animation-delay:0.1s]" />
+                      <div className="w-2 h-2 rounded-full bg-neon-cyan animate-bounce [animation-delay:0.2s]" />
                     </div>
                   </div>
                 </div>
               )}
 
               {error && (
-                <div className="text-center text-xs text-red-500 bg-red-50 rounded-lg p-2">
+                <div className="text-center text-xs text-[#ff6b35] bg-[#ff6b35]/10 border border-[#ff6b35]/20 rounded-lg p-2">
                   {error.message.includes('API_KEY')
                     ? 'AI features require an ANTHROPIC_API_KEY to be configured in .env.local'
                     : 'An error occurred. Please try again.'}
@@ -130,20 +131,20 @@ export function ChatWidget() {
             </div>
 
             {/* Disclaimer */}
-            <div className="px-4 py-1.5 bg-amber-50 border-t border-amber-200">
-              <p className="text-[10px] text-amber-700 text-center">
+            <div className="px-4 py-1.5 bg-white/[0.02] border-t border-white/[0.06]">
+              <p className="text-[10px] text-text-muted text-center">
                 For educational purposes only. Not medical advice.
               </p>
             </div>
 
             {/* Input */}
-            <form onSubmit={handleSubmit} className="p-3 border-t border-border">
+            <form onSubmit={handleSubmit} className="p-3 border-t border-white/[0.06]">
               <div className="flex items-center gap-2">
                 <input
                   value={input}
                   onChange={handleInputChange}
                   placeholder="Ask about peptides..."
-                  className="flex-1 text-sm px-3 py-2 rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-medical-500/30 focus:border-medical-500"
+                  className="flex-1 text-sm px-3 py-2 rounded-lg bg-white/[0.03] border border-white/[0.08] text-foreground focus:outline-none focus:ring-1 focus:ring-neon-cyan/20 focus:border-neon-cyan/30 placeholder:text-text-muted"
                   disabled={isLoading}
                 />
                 <Button

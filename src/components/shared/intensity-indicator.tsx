@@ -18,7 +18,9 @@ export function IntensityIndicator({
           key={i}
           className={cn(
             'w-2 h-2 rounded-full transition-colors',
-            i < intensity ? 'bg-medical-500' : 'bg-border'
+            i < intensity
+              ? 'bg-neon-cyan shadow-[0_0_4px_rgba(0,212,255,0.4)]'
+              : 'bg-white/[0.08]'
           )}
         />
       ))}

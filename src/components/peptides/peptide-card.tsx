@@ -34,8 +34,8 @@ export function PeptideCard({
         'rounded-xl border transition-all duration-200',
         onClick && 'cursor-pointer',
         isSelected
-          ? 'border-medical-400 bg-medical-50 shadow-sm shadow-medical-200'
-          : 'border-border bg-white hover:border-medical-200 hover:shadow-sm',
+          ? 'border-neon-cyan/40 bg-neon-cyan/[0.06] shadow-[0_0_15px_rgba(0,212,255,0.1)]'
+          : 'border-white/[0.06] bg-white/[0.02] hover:border-neon-cyan/20 hover:bg-white/[0.04] hover:shadow-[0_0_10px_rgba(0,212,255,0.05)]',
         className
       )}
     >
@@ -45,7 +45,7 @@ export function PeptideCard({
           <CategoryIcon category={peptide.category} size={compact ? 'sm' : 'md'} />
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2">
-              <h3 className={cn('font-semibold truncate', compact ? 'text-sm' : 'text-base')}>
+              <h3 className={cn('font-semibold truncate text-foreground', compact ? 'text-sm' : 'text-base')}>
                 {peptide.name}
               </h3>
               <EvidenceBadge level={peptide.evidenceLevel} />
@@ -79,7 +79,7 @@ export function PeptideCard({
 
         {/* Ratings preview */}
         {!compact && (
-          <div className="flex items-center gap-4 mt-3 pt-3 border-t border-border">
+          <div className="flex items-center gap-4 mt-3 pt-3 border-t border-white/[0.06]">
             <div className="flex items-center gap-1.5">
               <span className="text-[10px] text-text-secondary uppercase tracking-wide">Efficacy</span>
               <IntensityIndicator intensity={Math.round(peptide.ratings.efficacy / 2)} />

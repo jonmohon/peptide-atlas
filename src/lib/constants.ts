@@ -1,35 +1,47 @@
 export const COLORS = {
+  neon: {
+    cyan: '#00d4ff',
+    green: '#00ff88',
+    orange: '#ff6b35',
+    purple: '#a855f7',
+  },
+  background: {
+    base: '#0a0e17',
+    surface: '#111827',
+    bright: '#1a1f2e',
+    dim: '#0d1220',
+  },
   medical: {
-    50: '#f0f7ff',
-    100: '#e0effe',
-    200: '#b9dffc',
-    300: '#7cc5fa',
-    400: '#36a9f5',
-    500: '#0066cc',
-    600: '#0052a3',
-    700: '#003d7a',
+    50: 'rgba(0, 212, 255, 0.05)',
+    100: 'rgba(0, 212, 255, 0.1)',
+    200: 'rgba(0, 212, 255, 0.2)',
+    300: 'rgba(0, 212, 255, 0.35)',
+    400: '#00b8db',
+    500: '#00d4ff',
+    600: '#33ddff',
+    700: '#66e6ff',
   },
   accent: {
-    50: '#ecfdf5',
-    100: '#d1fae5',
-    200: '#a7f3d0',
-    300: '#6ee7b7',
-    400: '#00cc88',
-    500: '#00b377',
-    600: '#009963',
+    50: 'rgba(0, 255, 136, 0.05)',
+    100: 'rgba(0, 255, 136, 0.1)',
+    200: 'rgba(0, 255, 136, 0.2)',
+    300: 'rgba(0, 255, 136, 0.35)',
+    400: '#00cc6a',
+    500: '#00ff88',
+    600: '#33ff9f',
   },
   evidence: {
-    strong: '#22c55e',
-    moderate: '#f59e0b',
-    emerging: '#8b5cf6',
-    preclinical: '#94a3b8',
+    strong: '#00ff88',
+    moderate: '#ff6b35',
+    emerging: '#a855f7',
+    preclinical: '#64748b',
   },
   intensity: {
-    1: 'rgba(0, 102, 204, 0.15)',
-    2: 'rgba(0, 102, 204, 0.30)',
-    3: 'rgba(0, 102, 204, 0.45)',
-    4: 'rgba(0, 102, 204, 0.65)',
-    5: 'rgba(0, 102, 204, 0.85)',
+    1: 'rgba(0, 212, 255, 0.15)',
+    2: 'rgba(0, 212, 255, 0.30)',
+    3: 'rgba(0, 212, 255, 0.45)',
+    4: 'rgba(0, 212, 255, 0.65)',
+    5: 'rgba(0, 212, 255, 0.85)',
   },
 } as const;
 
@@ -60,10 +72,27 @@ export const BREAKPOINTS = {
 } as const;
 
 export const BODY_SVG = {
-  viewBox: '0 0 400 800',
-  width: 400,
-  height: 800,
+  viewBox: '0 0 100 210',
+  width: 100,
+  height: 210,
 } as const;
+
+// Region label positions for tooltip display
+export const REGION_LABEL_POSITIONS: Record<string, { x: number; y: number }> = {
+  brain: { x: 200, y: 55 },
+  pituitary: { x: 200, y: 86 },
+  heart: { x: 200, y: 200 },
+  lungs: { x: 200, y: 210 },
+  liver: { x: 220, y: 264 },
+  gut: { x: 200, y: 330 },
+  kidneys: { x: 200, y: 288 },
+  muscles: { x: 200, y: 200 },
+  joints: { x: 200, y: 160 },
+  skin: { x: 200, y: 60 },
+  bones: { x: 200, y: 420 },
+  reproductive: { x: 200, y: 404 },
+  'immune-system': { x: 200, y: 130 },
+};
 
 export const MAX_STACK_SIZE = 5;
 export const MAX_COMPARE_SIZE = 4;

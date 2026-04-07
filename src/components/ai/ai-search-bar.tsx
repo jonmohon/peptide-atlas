@@ -16,7 +16,7 @@ export function AISearchBar({ className }: { className?: string }) {
   const [isSearching, setIsSearching] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [useAI, setUseAI] = useState(false);
-  const debounceRef = useRef<ReturnType<typeof setTimeout>>();
+  const debounceRef = useRef<ReturnType<typeof setTimeout>>(undefined);
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Close on click outside
@@ -90,7 +90,7 @@ export function AISearchBar({ className }: { className?: string }) {
     <div ref={containerRef} className={cn('relative', className)}>
       <div className="relative">
         <svg
-          className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-secondary"
+          className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-text-secondary"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -107,16 +107,16 @@ export function AISearchBar({ className }: { className?: string }) {
           value={query}
           onChange={(e) => handleInputChange(e.target.value)}
           onFocus={() => query && setIsOpen(true)}
-          placeholder="Search peptides or ask a question..."
-          className="w-full pl-10 pr-20 py-2 text-sm bg-white border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-medical-500/30 focus:border-medical-500 transition-all placeholder:text-text-secondary"
+          placeholder="Search peptides..."
+          className="w-full pl-9 pr-16 py-1.5 text-xs bg-white/[0.03] border border-white/[0.08] rounded-full text-foreground focus:outline-none focus:ring-1 focus:ring-neon-cyan/20 focus:border-neon-cyan/30 transition-all placeholder:text-text-muted"
         />
         <button
           onClick={() => setUseAI(!useAI)}
           className={cn(
-            'absolute right-2 top-1/2 -translate-y-1/2 text-[10px] font-medium px-2 py-0.5 rounded-full transition-colors',
+            'absolute right-1.5 top-1/2 -translate-y-1/2 text-[9px] font-medium px-2 py-0.5 rounded-full transition-all',
             useAI
-              ? 'bg-medical-500 text-white'
-              : 'bg-surface-dim text-text-secondary hover:bg-medical-50'
+              ? 'bg-neon-cyan/20 text-neon-cyan border border-neon-cyan/30 shadow-[0_0_6px_rgba(0,212,255,0.15)]'
+              : 'bg-white/[0.04] text-text-secondary border border-white/[0.06] hover:bg-white/[0.08]'
           )}
         >
           AI {useAI ? 'ON' : 'OFF'}
@@ -125,10 +125,10 @@ export function AISearchBar({ className }: { className?: string }) {
 
       {/* Results dropdown */}
       {isOpen && results.length > 0 && (
-        <div className="absolute z-50 mt-1 w-full bg-white border border-border rounded-lg shadow-lg py-1 max-h-80 overflow-y-auto">
+        <div className="absolute z-50 mt-1 w-full glass-bright rounded-lg shadow-lg py-1 max-h-80 overflow-y-auto">
           {isSearching && (
-            <div className="px-3 py-2 text-xs text-medical-500 flex items-center gap-2">
-              <div className="w-3 h-3 border-2 border-medical-500 border-t-transparent rounded-full animate-spin" />
+            <div className="px-3 py-2 text-xs text-neon-cyan flex items-center gap-2">
+              <div className="w-3 h-3 border-2 border-neon-cyan border-t-transparent rounded-full animate-spin" />
               Searching with AI...
             </div>
           )}
@@ -139,11 +139,11 @@ export function AISearchBar({ className }: { className?: string }) {
               <a
                 key={result.peptideId}
                 href={`/peptides/${peptide.slug}`}
-                className="block px-3 py-2.5 hover:bg-surface-dim transition-colors"
+                className="block px-3 py-2.5 hover:bg-white/[0.05] transition-colors"
               >
                 <div className="flex items-center gap-2">
-                  <span className="text-sm font-medium">{peptide.name}</span>
-                  <span className="text-[10px] text-text-secondary capitalize px-1.5 py-0.5 bg-surface-dim rounded">
+                  <span className="text-sm font-medium text-foreground">{peptide.name}</span>
+                  <span className="text-[10px] text-text-secondary capitalize px-1.5 py-0.5 bg-white/[0.05] rounded border border-white/[0.06]">
                     {peptide.category.replace(/-/g, ' ')}
                   </span>
                 </div>

@@ -17,15 +17,15 @@ export function Button({
   return (
     <button
       className={cn(
-        'inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-medical-500 disabled:opacity-50 disabled:pointer-events-none',
+        'inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neon-cyan disabled:opacity-50 disabled:pointer-events-none',
         {
-          'bg-medical-500 text-white hover:bg-medical-600 active:bg-medical-700 shadow-sm':
+          'bg-neon-cyan/20 text-neon-cyan border border-neon-cyan/30 hover:bg-neon-cyan/30 active:bg-neon-cyan/40 shadow-[0_0_10px_rgba(0,212,255,0.15)]':
             variant === 'primary',
-          'bg-surface-dim text-foreground hover:bg-border active:bg-border/80':
+          'bg-white/[0.05] text-foreground border border-white/[0.08] hover:bg-white/[0.08] active:bg-white/[0.12]':
             variant === 'secondary',
-          'text-text-secondary hover:text-foreground hover:bg-surface-dim':
+          'text-text-secondary hover:text-foreground hover:bg-white/[0.05]':
             variant === 'ghost',
-          'border border-border text-foreground hover:bg-surface-dim':
+          'border border-white/[0.1] text-text-secondary hover:text-foreground hover:border-neon-cyan/30 hover:bg-neon-cyan/[0.05]':
             variant === 'outline',
         },
         {

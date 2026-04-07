@@ -1,18 +1,22 @@
 import { BodyMapView } from '@/components/body/body-map-view';
+import { Header } from '@/components/layout/header';
 import { peptides } from '@/data/peptides';
 
 export default function HomePage() {
   return (
-    <div className="flex flex-col flex-1">
-      {/* Medical Disclaimer */}
-      <div className="bg-amber-50 border-b border-amber-200 px-4 py-2">
-        <p className="text-xs text-amber-800 text-center">
-          <strong>Disclaimer:</strong> This content is for educational purposes only and does not constitute medical advice. Consult a healthcare professional before using any peptides.
+    <div className="flex flex-col h-screen overflow-hidden bg-background">
+      {/* Minimal top bar */}
+      <Header />
+
+      {/* Full-screen body map */}
+      <BodyMapView peptides={peptides} />
+
+      {/* Disclaimer - minimal, bottom-fixed */}
+      <div className="absolute bottom-0 left-0 right-0 z-10 pointer-events-none">
+        <p className="text-[10px] text-text-muted text-center py-1 opacity-50">
+          Educational purposes only. Not medical advice. Consult a healthcare professional before using any peptides.
         </p>
       </div>
-
-      {/* Main Body Map */}
-      <BodyMapView peptides={peptides} />
     </div>
   );
 }
