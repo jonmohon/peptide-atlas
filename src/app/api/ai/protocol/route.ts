@@ -29,5 +29,5 @@ Provide a detailed, structured protocol recommendation.`;
     maxOutputTokens: 2048,
   });
 
-  return result.toDataStreamResponse();
+  return result.toTextStreamResponse();
 }

@@ -44,5 +44,5 @@ Keep it under 200 words. End with a brief medical disclaimer.`;
     maxOutputTokens: 512,
   });
 
-  return result.toDataStreamResponse();
+  return result.toTextStreamResponse();
 }

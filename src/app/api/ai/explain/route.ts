@@ -37,5 +37,5 @@ Affected regions: ${peptide.affectedRegions.map((r) => r.regionId).join(', ')}`;
     maxOutputTokens: 1024,
   });
 
-  return result.toDataStreamResponse();
+  return result.toTextStreamResponse();
 }
