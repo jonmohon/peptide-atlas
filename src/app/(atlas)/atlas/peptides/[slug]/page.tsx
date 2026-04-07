@@ -43,7 +43,7 @@ export default async function PeptideDetailPage({ params }: Props) {
     <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8">
       {/* Breadcrumb */}
       <nav className="text-sm text-text-secondary mb-6">
-        <a href="/peptides" className="hover:text-medical-500 transition-colors">
+        <a href="/atlas/peptides" className="hover:text-medical-500 transition-colors">
           Peptides
         </a>
         <span className="mx-2">/</span>

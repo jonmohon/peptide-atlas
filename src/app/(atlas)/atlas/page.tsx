@@ -1,13 +1,9 @@
 import { BodyMapView } from '@/components/body/body-map-view';
-import { Header } from '@/components/layout/header';
 import { peptides } from '@/data/peptides';
 
 export default function HomePage() {
   return (
-    <div className="flex flex-col h-screen overflow-hidden bg-background">
-      {/* Minimal top bar */}
-      <Header />
-
+    <div className="flex flex-col flex-1 overflow-hidden bg-background">
       {/* Full-screen body map */}
       <BodyMapView peptides={peptides} />
 

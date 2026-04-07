@@ -4,7 +4,7 @@ export function Footer() {
   return (
     <footer className="border-t border-white/[0.06] bg-surface-dim">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand */}
           <div>
             <div className="flex items-center gap-2 mb-3">
@@ -22,15 +22,26 @@ export function Footer() {
             </p>
           </div>
 
-          {/* Links */}
+          {/* Atlas Links */}
           <div>
-            <h3 className="text-sm font-semibold text-foreground mb-3">Explore</h3>
+            <h3 className="text-sm font-semibold text-foreground mb-3">Atlas</h3>
             <ul className="space-y-2">
-              <li><Link href="/" className="text-sm text-text-secondary hover:text-neon-cyan transition-colors">Body Map</Link></li>
-              <li><Link href="/peptides" className="text-sm text-text-secondary hover:text-neon-cyan transition-colors">Peptide Database</Link></li>
-              <li><Link href="/stacks" className="text-sm text-text-secondary hover:text-neon-cyan transition-colors">Stack Builder</Link></li>
-              <li><Link href="/effects" className="text-sm text-text-secondary hover:text-neon-cyan transition-colors">Effects Explorer</Link></li>
-              <li><Link href="/compare" className="text-sm text-text-secondary hover:text-neon-cyan transition-colors">Compare Peptides</Link></li>
+              <li><Link href="/atlas" className="text-sm text-text-secondary hover:text-neon-cyan transition-colors">Body Map</Link></li>
+              <li><Link href="/atlas/peptides" className="text-sm text-text-secondary hover:text-neon-cyan transition-colors">Peptide Database</Link></li>
+              <li><Link href="/atlas/stacks" className="text-sm text-text-secondary hover:text-neon-cyan transition-colors">Stack Builder</Link></li>
+              <li><Link href="/atlas/effects" className="text-sm text-text-secondary hover:text-neon-cyan transition-colors">Effects Explorer</Link></li>
+              <li><Link href="/atlas/compare" className="text-sm text-text-secondary hover:text-neon-cyan transition-colors">Compare Peptides</Link></li>
+            </ul>
+          </div>
+
+          {/* Resources */}
+          <div>
+            <h3 className="text-sm font-semibold text-foreground mb-3">Resources</h3>
+            <ul className="space-y-2">
+              <li><Link href="/learn" className="text-sm text-text-secondary hover:text-neon-cyan transition-colors">Learn</Link></li>
+              <li><Link href="/about" className="text-sm text-text-secondary hover:text-neon-cyan transition-colors">About</Link></li>
+              <li><Link href="/glossary" className="text-sm text-text-secondary hover:text-neon-cyan transition-colors">Glossary</Link></li>
+              <li><Link href="/faq" className="text-sm text-text-secondary hover:text-neon-cyan transition-colors">FAQ</Link></li>
             </ul>
           </div>
 

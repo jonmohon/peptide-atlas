@@ -115,7 +115,7 @@ export default function EffectsPage() {
               key={peptide.id}
               peptide={peptide}
               onClick={() => {
-                window.location.href = `/peptides/${peptide.slug}`;
+                window.location.href = `/atlas/peptides/${peptide.slug}`;
               }}
             />
           ))}

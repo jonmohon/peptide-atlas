@@ -33,7 +33,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} h-full`}>
-      <body className="h-full bg-background text-foreground font-sans antialiased overflow-hidden">
+      <body className="h-full bg-background text-foreground font-sans antialiased">
         {children}
         <ChatWidget />
       </body>
