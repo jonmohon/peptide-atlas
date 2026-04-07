@@ -33,7 +33,7 @@ export async function POST(req: Request) {
     system: STACK_OPTIMIZER_PROMPT,
     prompt: `Analyze this peptide stack:\n${stackDescription}`,
     schema: stackAnalysisSchema,
-    maxTokens: 1536,
+    maxOutputTokens: 1536,
   });
 
   return new Response(JSON.stringify(result.object), {

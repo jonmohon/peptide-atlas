@@ -21,7 +21,7 @@ export async function POST(req: Request) {
     system: SEARCH_SYSTEM_PROMPT,
     prompt: `Find the most relevant peptides for this query: "${query}"`,
     schema: searchResultSchema,
-    maxTokens: 512,
+    maxOutputTokens: 512,
   });
 
   return new Response(JSON.stringify(result.object), {

@@ -41,7 +41,7 @@ Keep it under 200 words. End with a brief medical disclaimer.`;
     model: anthropic('claude-haiku-4-5-20251001'),
     system: BASE_SYSTEM_PROMPT,
     prompt,
-    maxTokens: 512,
+    maxOutputTokens: 512,
   });
 
   return result.toDataStreamResponse();

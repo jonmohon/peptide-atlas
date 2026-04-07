@@ -34,7 +34,7 @@ Affected regions: ${peptide.affectedRegions.map((r) => r.regionId).join(', ')}`;
     model: anthropic('claude-sonnet-4-6'),
     system: MECHANISM_SYSTEM_PROMPT,
     prompt,
-    maxTokens: 1024,
+    maxOutputTokens: 1024,
   });
 
   return result.toDataStreamResponse();

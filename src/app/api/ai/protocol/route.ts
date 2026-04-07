@@ -26,7 +26,7 @@ Provide a detailed, structured protocol recommendation.`;
     model: anthropic('claude-sonnet-4-6'),
     system: PROTOCOL_SYSTEM_PROMPT,
     prompt,
-    maxTokens: 2048,
+    maxOutputTokens: 2048,
   });
 
   return result.toDataStreamResponse();

@@ -19,7 +19,7 @@ export async function POST(req: Request) {
     model: anthropic('claude-sonnet-4-6'),
     system: CHAT_SYSTEM_PROMPT,
     messages,
-    maxTokens: 1024,
+    maxOutputTokens: 1024,
   });
 
   return result.toDataStreamResponse();
