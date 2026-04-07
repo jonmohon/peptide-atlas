@@ -1,0 +1,108 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #1e293b;
+  --surface-dim: #f8fafc;
+  --border: #e2e8f0;
+  --text-secondary: #64748b;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface-dim: var(--surface-dim);
+  --color-border: var(--border);
+  --color-text-secondary: var(--text-secondary);
+
+  --color-medical-50: #f0f7ff;
+  --color-medical-100: #e0effe;
+  --color-medical-200: #b9dffc;
+  --color-medical-300: #7cc5fa;
+  --color-medical-400: #36a9f5;
+  --color-medical-500: #0066cc;
+  --color-medical-600: #0052a3;
+  --color-medical-700: #003d7a;
+  --color-medical-800: #002b5c;
+  --color-medical-900: #001d3d;
+
+  --color-accent-50: #ecfdf5;
+  --color-accent-100: #d1fae5;
+  --color-accent-200: #a7f3d0;
+  --color-accent-300: #6ee7b7;
+  --color-accent-400: #00cc88;
+  --color-accent-500: #00b377;
+  --color-accent-600: #009963;
+
+  --color-evidence-strong: #22c55e;
+  --color-evidence-moderate: #f59e0b;
+  --color-evidence-emerging: #8b5cf6;
+  --color-evidence-preclinical: #94a3b8;
+
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+
+  --shadow-glow-blue: 0 0 15px 3px rgba(0, 102, 204, 0.3);
+  --shadow-glow-green: 0 0 15px 3px rgba(0, 204, 136, 0.3);
+  --shadow-glow-blue-strong: 0 0 25px 6px rgba(0, 102, 204, 0.5);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Body SVG Styles */
+.body-region {
+  cursor: pointer;
+  transition: fill 200ms ease, opacity 200ms ease, filter 200ms ease;
+}
+
+.body-region:hover {
+  filter: url(#glow-blue);
+}
+
+.body-region.active {
+  filter: url(#glow-blue-strong);
+}
+
+.body-region:focus-visible {
+  outline: 2px solid var(--color-medical-500);
+  outline-offset: 2px;
+}
+
+/* Pathway Animation */
+.pathway-dot {
+  filter: url(#glow-green);
+}
+
+.pathway-line {
+  stroke-dasharray: 8 4;
+  animation: dash 1s linear infinite;
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: -12;
+  }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-secondary);
+}
