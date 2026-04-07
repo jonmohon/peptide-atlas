@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, type FormEvent } from 'react';
 import { useChat } from '@ai-sdk/react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
@@ -8,11 +8,18 @@ import { Button } from '@/components/ui/button';
 
 export function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
-  const { messages, input, handleInputChange, handleSubmit, status, error } =
-    useChat({
-      api: '/api/ai/chat',
-    });
+  const [input, setInput] = useState('');
+  const { messages, sendMessage, status, error } = useChat({
+    api: '/api/ai/chat',
+  });
   const isLoading = status === 'streaming' || status === 'submitted';
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    if (!input.trim() || isLoading) return;
+    sendMessage({ role: 'user', content: input.trim() });
+    setInput('');
+  };
 
   return (
     <>
@@ -73,12 +80,7 @@ export function ChatWidget() {
                     ].map((suggestion) => (
                       <button
                         key={suggestion}
-                        onClick={() => {
-                          const fakeEvent = {
-                            target: { value: suggestion },
-                          } as React.ChangeEvent<HTMLInputElement>;
-                          handleInputChange(fakeEvent);
-                        }}
+                        onClick={() => setInput(suggestion)}
                         className="block w-full text-left text-xs px-3 py-2 rounded-lg bg-white/[0.03] border border-white/[0.06] hover:bg-neon-cyan/[0.05] hover:border-neon-cyan/20 text-text-secondary hover:text-neon-cyan transition-colors"
                       >
                         {suggestion}
@@ -104,7 +106,11 @@ export function ChatWidget() {
                         : 'bg-white/[0.04] text-foreground border border-white/[0.06] rounded-tl-sm'
                     )}
                   >
-                    <div className="whitespace-pre-wrap">{message.content}</div>
+                    <div className="whitespace-pre-wrap">
+                      {message.parts?.map((part, i) =>
+                        part.type === 'text' ? <span key={i}>{part.text}</span> : null
+                      ) ?? String(message.content)}
+                    </div>
                   </div>
                 </div>
               ))}
@@ -124,7 +130,7 @@ export function ChatWidget() {
               {error && (
                 <div className="text-center text-xs text-[#ff6b35] bg-[#ff6b35]/10 border border-[#ff6b35]/20 rounded-lg p-2">
                   {error.message.includes('API_KEY')
-                    ? 'AI features require an ANTHROPIC_API_KEY to be configured in .env.local'
+                    ? 'AI features require an ANTHROPIC_API_KEY to be configured'
                     : 'An error occurred. Please try again.'}
                 </div>
               )}
@@ -142,7 +148,7 @@ export function ChatWidget() {
               <div className="flex items-center gap-2">
                 <input
                   value={input}
-                  onChange={handleInputChange}
+                  onChange={(e) => setInput(e.target.value)}
                   placeholder="Ask about peptides..."
                   className="flex-1 text-sm px-3 py-2 rounded-lg bg-white/[0.03] border border-white/[0.08] text-foreground focus:outline-none focus:ring-1 focus:ring-neon-cyan/20 focus:border-neon-cyan/30 placeholder:text-text-muted"
                   disabled={isLoading}
