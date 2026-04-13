@@ -11,7 +11,7 @@ import { BodySvg } from './body-svg';
 import { SidebarPanel } from '@/components/layout/sidebar-panel';
 import { PeptideCard } from '@/components/peptides/peptide-card';
 import { bodyRegions } from '@/data/body-regions';
-import { categories as categoryData } from '@/data/categories';
+import { categories as categoryData, getCategoryInfo } from '@/data/categories';
 import { getPathwaysForPeptide } from '@/data/pathways';
 import { Tag } from '@/components/ui/tag';
 import { Button } from '@/components/ui/button';
@@ -80,18 +80,32 @@ export function BodyMapView({ peptides }: BodyMapViewProps) {
     [selectPeptide, selectedPeptideId]
   );
 
+  const handleCategoryClick = useCallback(
+    (categoryId: string | null) => {
+      setCategory(categoryId as import('@/types').PeptideCategory | null);
+      selectRegion(null);
+      selectPeptide(null);
+    },
+    [setCategory, selectRegion, selectPeptide]
+  );
+
   const handleCloseSidebar = useCallback(() => {
     selectRegion(null);
     selectPeptide(null);
-  }, [selectRegion, selectPeptide]);
+    setCategory(null);
+  }, [selectRegion, selectPeptide, setCategory]);
 
-  const isPanelOpen = selectedRegion !== null || selectedPeptideId !== null;
+  const activeCategoryInfo = activeCategory ? getCategoryInfo(activeCategory) : null;
+
+  const isPanelOpen = selectedRegion !== null || selectedPeptideId !== null || activeCategory !== null;
 
   const panelTitle = selectedPeptide
     ? selectedPeptide.name
     : selectedRegionInfo
       ? selectedRegionInfo.label
-      : 'Select a Region';
+      : activeCategoryInfo
+        ? activeCategoryInfo.label
+        : 'Select a Region';
 
   return (
     <div className="flex flex-1 min-h-0 relative overflow-hidden">
@@ -126,7 +140,7 @@ export function BodyMapView({ peptides }: BodyMapViewProps) {
               </h3>
               <div className="space-y-0.5">
                 <button
-                  onClick={() => setCategory(null)}
+                  onClick={() => handleCategoryClick(null)}
                   className={`w-full text-left px-2.5 py-1.5 text-xs rounded-md transition-all duration-150 ${
                     activeCategory === null
                       ? 'text-neon-cyan bg-neon-cyan/10 shadow-[0_0_8px_rgba(0,212,255,0.1)]'
@@ -138,7 +152,7 @@ export function BodyMapView({ peptides }: BodyMapViewProps) {
                 {categoryData.map((cat) => (
                   <button
                     key={cat.id}
-                    onClick={() => setCategory(cat.id)}
+                    onClick={() => handleCategoryClick(cat.id)}
                     className={`w-full text-left px-2.5 py-1.5 text-xs rounded-md transition-all duration-150 ${
                       activeCategory === cat.id
                         ? 'text-neon-cyan bg-neon-cyan/10 shadow-[0_0_8px_rgba(0,212,255,0.1)]'
@@ -370,6 +384,37 @@ export function BodyMapView({ peptides }: BodyMapViewProps) {
               {regionPeptides.length === 0 && (
                 <p className="text-sm text-text-secondary italic">
                   No peptides directly target this region.
+                </p>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Category peptide list */}
+        {!selectedPeptide && !selectedRegionInfo && activeCategoryInfo && (
+          <div className="space-y-4">
+            <p className="text-sm text-text-secondary">
+              {activeCategoryInfo.description}
+            </p>
+
+            <div>
+              <h4 className="text-[10px] font-semibold uppercase tracking-widest text-text-secondary mb-3">
+                Peptides in this category ({filteredPeptides.length})
+              </h4>
+              <div className="space-y-2">
+                {filteredPeptides.map((peptide) => (
+                  <PeptideCard
+                    key={peptide.id}
+                    peptide={peptide}
+                    compact
+                    isSelected={selectedPeptideId === peptide.id}
+                    onClick={() => handlePeptideClick(peptide.id)}
+                  />
+                ))}
+              </div>
+              {filteredPeptides.length === 0 && (
+                <p className="text-sm text-text-secondary italic">
+                  No peptides in this category.
                 </p>
               )}
             </div>
