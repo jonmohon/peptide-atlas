@@ -11,6 +11,7 @@ import { BodySvg } from './body-svg';
 import { SidebarPanel } from '@/components/layout/sidebar-panel';
 import { PeptideCard } from '@/components/peptides/peptide-card';
 import { bodyRegions } from '@/data/body-regions';
+import { categories as categoryData } from '@/data/categories';
 import { getPathwaysForPeptide } from '@/data/pathways';
 import { Tag } from '@/components/ui/tag';
 import { Button } from '@/components/ui/button';
@@ -19,16 +20,6 @@ import { RegionSuggestion } from '@/components/ai/region-suggestion';
 interface BodyMapViewProps {
   peptides: Peptide[];
 }
-
-const categories = [
-  { id: 'all', label: 'All' },
-  { id: 'growth-hormone', label: 'Growth Hormone' },
-  { id: 'healing', label: 'Healing' },
-  { id: 'cognitive', label: 'Cognitive' },
-  { id: 'immune', label: 'Immune' },
-  { id: 'sexual-health', label: 'Sexual Health' },
-  { id: 'weight-loss', label: 'Weight Loss' },
-];
 
 export function BodyMapView({ peptides }: BodyMapViewProps) {
   const {
@@ -42,11 +33,15 @@ export function BodyMapView({ peptides }: BodyMapViewProps) {
     clearAll,
   } = useBodyStore();
 
-  const { selectedPeptideId, selectPeptide } = usePeptideStore();
+  const { selectedPeptideId, selectPeptide, activeCategory, setCategory } = usePeptideStore();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [activeCategory, setActiveCategory] = useState('all');
 
-  const highlights = useBodyHighlights(peptides, selectedPeptideId, selectedRegion);
+  const filteredPeptides = useMemo(() => {
+    if (!activeCategory) return peptides;
+    return peptides.filter((p) => p.category === activeCategory);
+  }, [peptides, activeCategory]);
+
+  const highlights = useBodyHighlights(filteredPeptides, selectedPeptideId, selectedRegion);
 
   const activePathways = useMemo(() => {
     if (!activePathwayPeptideId) return [];
@@ -55,10 +50,10 @@ export function BodyMapView({ peptides }: BodyMapViewProps) {
 
   const regionPeptides = useMemo(() => {
     if (!selectedRegion) return [];
-    return peptides.filter((p) =>
+    return filteredPeptides.filter((p) =>
       p.affectedRegions.some((r) => r.regionId === selectedRegion)
     );
-  }, [peptides, selectedRegion]);
+  }, [filteredPeptides, selectedRegion]);
 
   const selectedPeptide = useMemo(() => {
     if (!selectedPeptideId) return null;
@@ -130,10 +125,20 @@ export function BodyMapView({ peptides }: BodyMapViewProps) {
                 Categories
               </h3>
               <div className="space-y-0.5">
-                {categories.map((cat) => (
+                <button
+                  onClick={() => setCategory(null)}
+                  className={`w-full text-left px-2.5 py-1.5 text-xs rounded-md transition-all duration-150 ${
+                    activeCategory === null
+                      ? 'text-neon-cyan bg-neon-cyan/10 shadow-[0_0_8px_rgba(0,212,255,0.1)]'
+                      : 'text-text-secondary hover:text-foreground hover:bg-white/[0.04]'
+                  }`}
+                >
+                  All
+                </button>
+                {categoryData.map((cat) => (
                   <button
                     key={cat.id}
-                    onClick={() => setActiveCategory(cat.id)}
+                    onClick={() => setCategory(cat.id)}
                     className={`w-full text-left px-2.5 py-1.5 text-xs rounded-md transition-all duration-150 ${
                       activeCategory === cat.id
                         ? 'text-neon-cyan bg-neon-cyan/10 shadow-[0_0_8px_rgba(0,212,255,0.1)]'
