@@ -1,5 +1,10 @@
 'use client';
 
+/**
+ * Bloodwork tracker — lets users log lab panels with common and custom markers,
+ * then streams an AI interpretation from /api/ai/bloodwork. Results are cached in DynamoDB.
+ */
+
 import { useState, useEffect } from 'react';
 import { dataClient } from '@/lib/amplify-data';
 import { cn } from '@/lib/utils';

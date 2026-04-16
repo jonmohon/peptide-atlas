@@ -1,5 +1,11 @@
 'use client';
 
+/**
+ * Side effect tag selector for the daily journal entry form.
+ * Provides a preset list of common effects plus a custom input; each selected effect
+ * has a 1-5 severity rating.
+ */
+
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 import type { SideEffect } from '@/types/journal';

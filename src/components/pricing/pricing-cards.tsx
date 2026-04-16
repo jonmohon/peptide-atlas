@@ -1,5 +1,10 @@
 'use client';
 
+/**
+ * Three-tier pricing comparison cards (Free / Pro / Pro+) with monthly/yearly billing toggle.
+ * Initiates a Stripe Checkout session via /api/stripe/checkout on plan selection.
+ */
+
 import { useState, useEffect } from 'react';
 import { getCurrentUser } from 'aws-amplify/auth';
 import { cn } from '@/lib/utils';

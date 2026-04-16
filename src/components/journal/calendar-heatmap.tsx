@@ -1,5 +1,10 @@
 'use client';
 
+/**
+ * Monthly calendar grid that color-codes each day by journal status (logged/partial/empty).
+ * Supports month navigation and calls onDayClick to route to the daily entry form.
+ */
+
 import { useMemo } from 'react';
 import { cn } from '@/lib/utils';
 import type { CalendarDay } from '@/types/journal';

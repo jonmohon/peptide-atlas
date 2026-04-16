@@ -1,3 +1,8 @@
+/**
+ * Pricing tiers page — renders the three-tier PricingCards grid with monthly/yearly
+ * billing toggle, and a FAQ accordion below.
+ */
+
 import type { Metadata } from 'next';
 import { PricingCards } from '@/components/pricing/pricing-cards';
 

@@ -1,3 +1,8 @@
+/**
+ * Zustand store for journal state — manages the current entry draft, calendar day statuses,
+ * streak counters, and all CRUD operations against the DynamoDB JournalEntry model.
+ */
+
 import { create } from 'zustand';
 import type { JournalEntryData, CalendarDay, PeptideDose } from '@/types/journal';
 import { createEmptyEntry } from '@/types/journal';

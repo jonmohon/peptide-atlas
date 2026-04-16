@@ -1,3 +1,8 @@
+/**
+ * Body map page — full-screen interactive SVG visualization
+ * mapping peptides to affected body regions.
+ */
+
 import { BodyMapView } from '@/components/body/body-map-view';
 import { peptides } from '@/data/peptides';
 

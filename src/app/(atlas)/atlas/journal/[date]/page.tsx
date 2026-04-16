@@ -1,5 +1,11 @@
 'use client';
 
+/**
+ * Daily journal entry form for a specific date ([date] route param).
+ * Manages collapsible sections for doses, metrics, diet, side effects, and notes,
+ * with copy-from-yesterday and prev/next day navigation.
+ */
+
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { DoseLog } from '@/components/journal/dose-log';

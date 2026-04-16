@@ -1,3 +1,8 @@
+/**
+ * Lazy Stripe client singleton (initialized on first call) and PLANS config
+ * mapping PRO/PRO_PLUS tiers to their Stripe Price IDs and amounts.
+ */
+
 import Stripe from 'stripe';
 
 let _stripe: Stripe | null = null;

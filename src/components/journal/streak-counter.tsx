@@ -1,5 +1,10 @@
 'use client';
 
+/**
+ * Displays the user's current and all-time best consecutive logging streaks
+ * with a motivational message based on streak length.
+ */
+
 interface StreakCounterProps {
   current: number;
   best: number;

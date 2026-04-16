@@ -1,3 +1,8 @@
+/**
+ * AtlasSidebar — Collapsible sidebar navigation for the atlas platform.
+ * Groups nav items into Explore, My Data, and Tools sections.
+ * Collapses to icon-only mode for more screen space.
+ */
 'use client';
 
 import Link from 'next/link';

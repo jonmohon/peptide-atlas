@@ -150,10 +150,14 @@ Every AI prompt includes the full peptide database (~15-20K tokens) in the syste
 ViewBox is `0 0 100 210`. Marker positions in `body-regions.ts` use this coordinate system. The polygons come from `react-body-highlighter` — don't modify them directly. → `docs/body-map.md`
 
 ### Auth (Cognito)
-`auth()` returns the Cognito user but does NOT fetch tier from DynamoDB. Tier is fetched separately via `/api/user/tier` or `buildUserContext()`. Client-side auth uses `getCurrentUser()` from `aws-amplify/auth`. Server-side uses `runWithAmplifyServerContext` with `cookies`. → `docs/auth-and-payments.md`
+`auth()` returns the Cognito user but does NOT fetch tier from DynamoDB. Tier is fetched separately via `/api/user/tier` or `buildUserContext()`. Client-side auth uses `getCurrentUser()` from `aws-amplify/auth`. Server-side uses `runWithAmplifyServerContext` with `cookies`. Sign-in redirects to `/atlas` (the dashboard) on success. → `docs/auth-and-payments.md`
 
 ### Two Route Groups
-`(marketing)/` has a scrollable layout with MarketingHeader + Footer. `(atlas)/` has a full-screen layout with AtlasHeader and `overflow-hidden`. Never mix components between layouts without checking scroll behavior. → `docs/architecture.md`
+`(marketing)/` has a scrollable layout with MarketingHeader + Footer. `(atlas)/` has a full-screen layout with a collapsible sidebar, a slim AtlasHeader (logo, AI search bar, user menu — no nav pills), and `overflow-hidden`. The sidebar has three groups: **Explore** (Dashboard, Body Map, Peptides, Stacks, Effects, Compare, Protocol Generator), **My Data** (Journal, Bloodwork, AI Insights, Notes), **Tools** (Reconstitution Calc, All Tools). Never mix components between layouts without checking scroll behavior. → `docs/architecture.md`
+
+**Key atlas routes:**
+- `/atlas` — Dashboard (today's log status, streak, quick actions, explore cards)
+- `/atlas/body-map` — Interactive body map with region markers (moved from `/atlas`)
 
 ### Journal System
 Journal entries use `a.json()` for peptideDoses, sideEffects, and measurements because the structure varies per user. The "copy from yesterday" feature fetches the previous day's entry and pre-fills the form. Trend charts use recharts. → `docs/journal.md`

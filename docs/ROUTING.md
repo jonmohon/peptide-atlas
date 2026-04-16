@@ -37,7 +37,7 @@ root layout (src/app/layout.tsx)
   │
   └── (atlas) layout (src/app/(atlas)/layout.tsx)
         │
-        ├── Provides: AtlasHeader, overflow-hidden <main>
+        ├── Provides: AtlasHeader (logo, AI search bar, user menu), collapsible sidebar, overflow-hidden <main>
         └── Structure: flex-col h-screen overflow-hidden
 ```
 
@@ -49,7 +49,7 @@ The root layout renders `ChatWidget` globally -- it appears as a floating button
 
 | URL Path | Page File | Purpose | Dynamic? |
 |----------|-----------|---------|----------|
-| `/auth/signin` | `auth/signin/page.tsx` | Cognito-backed sign-in page | No |
+| `/auth/signin` | `auth/signin/page.tsx` | Cognito-backed sign-in page (redirects to `/atlas` dashboard on success) | No |
 | `/auth/verify` | `auth/verify/page.tsx` | Email verification / confirm code | No |
 
 ### Marketing Routes (Scrollable Content Pages)
@@ -70,7 +70,8 @@ The root layout renders `ChatWidget` globally -- it appears as a floating button
 
 | URL Path | Page File | Purpose | Dynamic? |
 |----------|-----------|---------|----------|
-| `/atlas` | `(atlas)/atlas/page.tsx` | Interactive body map with region markers | No |
+| `/atlas` | `(atlas)/atlas/page.tsx` | Dashboard: today's log status, streak, quick actions, explore cards | No |
+| `/atlas/body-map` | `(atlas)/atlas/body-map/page.tsx` | Interactive body map with region markers | No |
 | `/atlas/peptides` | `(atlas)/atlas/peptides/page.tsx` | Peptide database browser with search/filter | No |
 | `/atlas/peptides/[slug]` | `(atlas)/atlas/peptides/[slug]/page.tsx` | Individual peptide detail page | Yes |
 | `/atlas/stacks` | `(atlas)/atlas/stacks/page.tsx` | Pre-built stacks and custom stack builder | No |

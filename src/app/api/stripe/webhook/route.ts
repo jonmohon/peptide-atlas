@@ -1,3 +1,9 @@
+/**
+ * Stripe webhook handler — verifies the event signature and processes
+ * checkout.session.completed and customer.subscription.deleted events.
+ * Full tier update integration with Amplify Data is pending (see TODO comments inside).
+ */
+
 import { NextRequest, NextResponse } from 'next/server';
 import { getStripe } from '@/lib/stripe';
 import Stripe from 'stripe';

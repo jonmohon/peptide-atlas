@@ -1,3 +1,8 @@
+/**
+ * Reconstitution calculator page — shell page that renders the ReconstitutionCalculator
+ * component with page heading and metadata.
+ */
+
 import type { Metadata } from 'next';
 import { ReconstitutionCalculator } from '@/components/tools/reconstitution-calculator';
 

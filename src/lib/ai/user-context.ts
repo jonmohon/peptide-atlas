@@ -1,3 +1,9 @@
+/**
+ * Builds a personalized context block injected into AI system prompts.
+ * Fetches the authenticated user's identity server-side; full profile data
+ * (goals, conditions, journal) is intended to be passed via request body.
+ */
+
 import { cookies } from 'next/headers';
 import { runWithAmplifyServerContext } from '@/lib/amplify-server';
 import { getCurrentUser } from 'aws-amplify/auth/server';

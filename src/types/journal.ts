@@ -1,3 +1,8 @@
+/**
+ * Core journal type definitions — PeptideDose, SideEffect, BodyMeasurements, JournalEntryData,
+ * CalendarDay — plus the createEmptyEntry factory used to initialise new draft entries.
+ */
+
 export interface PeptideDose {
   peptideId: string;
   dose: number;

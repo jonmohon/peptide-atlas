@@ -1,5 +1,10 @@
 'use client';
 
+/**
+ * Reconstitution calculator — computes draw volume, units, doses-per-vial, concentration,
+ * and optional cost-per-dose from user inputs (peptide, vial size, water added, desired dose, syringe type).
+ */
+
 import { useState, useMemo } from 'react';
 import { peptides } from '@/data/peptides';
 import { getReconstitutionInfo } from '@/data/reconstitution';

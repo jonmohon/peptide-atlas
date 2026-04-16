@@ -1,3 +1,8 @@
+/**
+ * Tier definitions (FREE/PRO/PRO_PLUS), per-tier resource limits, PremiumFeature enum,
+ * and the canAccessFeature() guard used by PremiumGate and server-side checks.
+ */
+
 export type Tier = 'FREE' | 'PRO' | 'PRO_PLUS';
 
 export interface UserProfile {

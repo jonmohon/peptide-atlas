@@ -21,18 +21,19 @@ PeptideAtlas is a Next.js 16 interactive peptide education platform. Users explo
     |  (marketing)      |  |   API Routes    |  |    (atlas)       |
     |  Route Group      |  |                 |  |  Route Group     |
     |                   |  | /api/ai/*       |  |                  |
-    | /                 |  |  10 endpoints   |  | /atlas           |
-    | /learn            |  |                 |  | /atlas/peptides  |
-    | /learn/[slug]     |  | /api/stripe/*   |  | /atlas/stacks    |
-    | /about            |  |  checkout       |  | /atlas/effects   |
-    | /glossary         |  |  webhook        |  | /atlas/compare   |
-    | /faq              |  |                 |  | /atlas/protocol- |
-    | /privacy          |  | /api/user/*     |  |   generator      |
-    | /terms            |  |  tier           |  | /atlas/journal/* |
-    | /pricing          |  |                 |  | /atlas/tools/*   |
+    | /                 |  |  10 endpoints   |  | /atlas (dash.)   |
+    | /learn            |  |                 |  | /atlas/body-map  |
+    | /learn/[slug]     |  | /api/stripe/*   |  | /atlas/peptides  |
+    | /about            |  |  checkout       |  | /atlas/stacks    |
+    | /glossary         |  |  webhook        |  | /atlas/effects   |
+    | /faq              |  |                 |  | /atlas/compare   |
+    | /privacy          |  | /api/user/*     |  | /atlas/protocol- |
+    | /terms            |  |  tier           |  |   generator      |
+    | /pricing          |  |                 |  | /atlas/journal/* |
     +---------+---------+  +--------+--------+  | /atlas/notes     |
               |                     |           | /atlas/profile   |
-              |            +--------v--------+  +--------+---------+
+              |                     |           +--------+---------+
+              |            +--------v--------+           |
               |            | Anthropic API   |           |
               |            | (Claude Sonnet  |           |
               |            |  & Haiku)       |           |
@@ -113,7 +114,8 @@ Next.js route groups use parenthesized folder names to organize routes without a
 
 | Route | Purpose |
 |-------|---------|
-| `/atlas` | Body map with interactive region markers |
+| `/atlas` | Dashboard: today's log status, streak, quick actions, explore cards |
+| `/atlas/body-map` | Interactive body map with region markers |
 | `/atlas/peptides` | Peptide database browser with search/filter |
 | `/atlas/peptides/[slug]` | Individual peptide detail page |
 | `/atlas/stacks` | Pre-built stacks and custom stack builder |
@@ -129,9 +131,14 @@ Next.js route groups use parenthesized folder names to organize routes without a
 | `/atlas/tools` | Tools hub page |
 | `/atlas/tools/reconstitution` | Reconstitution calculator with SVG syringe visual |
 
-**Layout:** `AtlasHeader` + full-screen `<main>` with `overflow-hidden`. No footer. Designed for tool-like interaction.
+**Layout:** Collapsible sidebar + slim `AtlasHeader` + full-screen `<main>` with `overflow-hidden`. No footer. Designed for tool-like interaction.
 
-**Nav items added to AtlasHeader:** Tools, Journal, Notes.
+**Sidebar groups:**
+- **Explore:** Dashboard, Body Map, Peptides, Stacks, Effects, Compare, Protocol Generator
+- **My Data:** Journal, Bloodwork, AI Insights, Notes
+- **Tools:** Reconstitution Calc, All Tools
+
+**AtlasHeader:** Logo, AI search bar, and user menu only. No navigation pills.
 
 ### Shared Root Layout
 
@@ -152,7 +159,8 @@ RootLayout
   │     │     └── [page content]
   │     └── Footer
   └── (atlas)/layout
-        ├── AtlasHeader
+        ├── AtlasHeader (logo, AI search bar, user menu)
+        ├── CollapsibleSidebar (3 groups: Explore, My Data, Tools)
         └── <main> (overflow-auto, flex-1)
               └── [page content]
 ```

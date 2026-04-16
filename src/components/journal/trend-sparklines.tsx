@@ -1,5 +1,10 @@
 'use client';
 
+/**
+ * 2×2 grid of mini recharts line charts showing 14-day trends for
+ * weight, mood, energy, and sleep quality pulled from recent journal entries.
+ */
+
 import { LineChart, Line, ResponsiveContainer, Tooltip } from 'recharts';
 
 interface SparklineData {

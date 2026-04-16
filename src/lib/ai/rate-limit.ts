@@ -1,3 +1,8 @@
+/**
+ * AI rate-limiting middleware — enforces per-user, per-day call limits based on tier
+ * (FREE: 5/day, PRO/PRO_PLUS: unlimited) using an in-memory serverless cache.
+ */
+
 import { NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { TIER_LIMITS, type Tier } from '@/types/user';

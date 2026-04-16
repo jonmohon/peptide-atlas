@@ -1,5 +1,10 @@
 'use client';
 
+/**
+ * SVG syringe illustration that fills proportionally to the calculated draw volume.
+ * Renders tick marks in units for U-100 (1 mL) or U-50 (0.5 mL) insulin syringes.
+ */
+
 interface SyringeVisualProps {
   /** Volume to draw in mL */
   volumeMl: number;

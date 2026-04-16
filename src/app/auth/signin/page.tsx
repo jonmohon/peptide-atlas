@@ -1,5 +1,10 @@
 'use client';
 
+/**
+ * Full-page Cognito sign-in/sign-up form.
+ * Handles email+password and Google OAuth flows, plus email-code verification step.
+ */
+
 import { useState } from 'react';
 import { signIn, signUp, confirmSignUp } from 'aws-amplify/auth';
 import Link from 'next/link';

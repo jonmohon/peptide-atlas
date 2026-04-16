@@ -1,5 +1,10 @@
 'use client';
 
+/**
+ * Feature-gating wrapper that checks the user's tier via /api/user/tier.
+ * Renders children if the tier grants access; otherwise renders an upgrade prompt (or custom fallback).
+ */
+
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { canAccessFeature, type PremiumFeature, type Tier } from '@/types/user';

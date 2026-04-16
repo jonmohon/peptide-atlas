@@ -1,3 +1,9 @@
+/**
+ * Streaming AI endpoint for bloodwork interpretation.
+ * Accepts an array of lab markers with reference ranges and streams an educational
+ * analysis (not medical advice) using the BLOODWORK_INTERPRETATION_PROMPT system prompt.
+ */
+
 import { anthropic } from '@ai-sdk/anthropic';
 import { streamText } from 'ai';
 import { BLOODWORK_INTERPRETATION_PROMPT } from '@/lib/ai/prompts';

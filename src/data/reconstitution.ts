@@ -1,3 +1,9 @@
+/**
+ * Reconstitution data for all injectable peptides — vial sizes, diluent type, storage
+ * temperature, reconstituted shelf life, and typical dose per peptide ID.
+ * Also exports getReconstitutionInfo() to filter out non-injectable (oral) peptides.
+ */
+
 import type { ReconstitutionInfo } from '@/types/peptide';
 
 /**

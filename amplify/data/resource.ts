@@ -1,3 +1,9 @@
+/**
+ * Amplify Gen 2 AppSync/DynamoDB schema — defines all data models (UserProfile, JournalEntry,
+ * BloodworkPanel, SavedStack, SavedProtocol, AiUsage, UserNote, AiConversation, AiInsightReport)
+ * each scoped to the authenticated owner via allow.owner().
+ */
+
 import { a, defineData, type ClientSchema } from '@aws-amplify/backend';
 
 const schema = a.schema({

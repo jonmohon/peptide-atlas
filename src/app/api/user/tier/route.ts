@@ -1,3 +1,8 @@
+/**
+ * GET /api/user/tier — returns the authenticated user's current tier (FREE/PRO/PRO_PLUS).
+ * Unauthenticated requests receive { tier: 'FREE' } rather than an error.
+ */
+
 import { NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 

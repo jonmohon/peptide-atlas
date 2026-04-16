@@ -1,5 +1,10 @@
 'use client';
 
+/**
+ * AI Insights page — fetches journal entries for a selected period (weekly/monthly)
+ * and streams an AI-generated analysis report from /api/ai/journal-insight.
+ */
+
 import { useState } from 'react';
 import { dataClient } from '@/lib/amplify-data';
 import { cn } from '@/lib/utils';

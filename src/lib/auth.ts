@@ -1,3 +1,8 @@
+/**
+ * Server-side Cognito auth helpers — auth() returns the current user session
+ * (with tier defaulting to FREE), isAuthenticated() provides a lightweight token check.
+ */
+
 import { cookies } from 'next/headers';
 import { runWithAmplifyServerContext } from './amplify-server';
 import { fetchAuthSession, getCurrentUser } from 'aws-amplify/auth/server';

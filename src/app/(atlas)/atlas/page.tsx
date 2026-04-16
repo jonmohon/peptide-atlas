@@ -1,5 +1,10 @@
 'use client';
 
+/**
+ * Atlas dashboard home page.
+ * Shows today's logging status, streak, quick-action links, and explore cards.
+ */
+
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useJournalStore } from '@/stores/use-journal-store';

@@ -1,3 +1,8 @@
+/**
+ * Email verification confirmation page shown after a magic-link or code is sent.
+ * Static — just instructs the user to check their inbox.
+ */
+
 import Link from 'next/link';
 
 export default function VerifyPage() {

@@ -1,3 +1,8 @@
+/**
+ * Tools hub page — grid of available and coming-soon peptide utility tools
+ * (reconstitution calculator, cycle planner, dosing schedule).
+ */
+
 import type { Metadata } from 'next';
 import Link from 'next/link';
 

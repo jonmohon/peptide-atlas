@@ -1,3 +1,8 @@
+/**
+ * Amplify Gen 2 Cognito User Pool configuration — email login with code-based verification,
+ * optional TOTP MFA, and email-only account recovery.
+ */
+
 import { defineAuth } from '@aws-amplify/backend';
 
 export const auth = defineAuth({

@@ -1,3 +1,8 @@
+/**
+ * Streaming AI endpoint that analyses a batch of journal entries for a given period
+ * (weekly/monthly) and returns a personalized insight report (max 2048 output tokens).
+ */
+
 import { anthropic } from '@ai-sdk/anthropic';
 import { streamText } from 'ai';
 import { JOURNAL_INSIGHT_PROMPT } from '@/lib/ai/prompts';

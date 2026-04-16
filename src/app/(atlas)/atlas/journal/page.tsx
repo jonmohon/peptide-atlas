@@ -1,5 +1,10 @@
 'use client';
 
+/**
+ * Journal dashboard — calendar heatmap, streak counters, trend sparklines,
+ * and entry-point links to AI Insights and Bloodwork.
+ */
+
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { CalendarHeatmap } from '@/components/journal/calendar-heatmap';

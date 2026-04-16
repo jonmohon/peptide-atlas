@@ -1,3 +1,9 @@
+/**
+ * Streaming AI chat endpoint for protocol-aware conversations.
+ * Requires authentication; injects user context into the system prompt before streaming
+ * via the Vercel AI SDK (claude-sonnet-4-6, max 1024 output tokens).
+ */
+
 import { anthropic } from '@ai-sdk/anthropic';
 import { streamText } from 'ai';
 import { PROTOCOL_CHAT_PROMPT } from '@/lib/ai/prompts';

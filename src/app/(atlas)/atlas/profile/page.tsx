@@ -1,5 +1,10 @@
 'use client';
 
+/**
+ * User profile page — collects goals, experience level, body stats, health conditions,
+ * allergies, and current protocol summary that are injected into every AI prompt.
+ */
+
 import { useState, useEffect } from 'react';
 import { getCurrentUser } from 'aws-amplify/auth';
 import { dataClient } from '@/lib/amplify-data';

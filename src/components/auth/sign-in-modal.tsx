@@ -1,5 +1,10 @@
 'use client';
 
+/**
+ * Animated modal overlay for sign-in, sign-up, and email-confirmation flows.
+ * Used in the marketing header to allow auth without leaving the current page.
+ */
+
 import { useState } from 'react';
 import { signIn, signUp, confirmSignUp } from 'aws-amplify/auth';
 import { motion, AnimatePresence } from 'framer-motion';

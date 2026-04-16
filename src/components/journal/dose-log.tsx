@@ -1,5 +1,10 @@
 'use client';
 
+/**
+ * Multi-row peptide dose entry form for a single journal entry.
+ * Each row captures peptide, dose, unit, administration route, injection site, and time.
+ */
+
 import { useState } from 'react';
 import { peptides } from '@/data/peptides';
 import { cn } from '@/lib/utils';

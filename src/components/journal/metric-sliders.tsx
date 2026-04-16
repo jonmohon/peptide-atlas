@@ -1,5 +1,10 @@
 'use client';
 
+/**
+ * Subjective metric sliders (mood, energy, sleep quality 1-10) and numeric inputs
+ * (sleep hours, weight, body fat) for the daily journal entry form.
+ */
+
 import { cn } from '@/lib/utils';
 
 interface SliderProps {

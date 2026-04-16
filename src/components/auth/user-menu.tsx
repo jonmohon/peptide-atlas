@@ -1,5 +1,10 @@
 'use client';
 
+/**
+ * User avatar button with a dropdown menu showing name, email, tier badge,
+ * upgrade link, profile nav, and sign-out. Falls back to a "Sign In" button when unauthenticated.
+ */
+
 import { useState, useRef, useEffect } from 'react';
 import { getCurrentUser, signOut, fetchUserAttributes } from 'aws-amplify/auth';
 import Link from 'next/link';

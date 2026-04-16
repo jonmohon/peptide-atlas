@@ -1,3 +1,8 @@
+/**
+ * Creates a Stripe Checkout session for the selected plan and billing cycle.
+ * Requires an authenticated user; redirects to /atlas on success or /pricing on cancel.
+ */
+
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { getStripe, PLANS } from '@/lib/stripe';

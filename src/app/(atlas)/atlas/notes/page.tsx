@@ -1,5 +1,10 @@
 'use client';
 
+/**
+ * Notes hub — search, filter by attachment type (peptide/stack/protocol/general),
+ * create, pin, and delete user notes stored in DynamoDB via Amplify Data.
+ */
+
 import { useState, useEffect } from 'react';
 import { dataClient } from '@/lib/amplify-data';
 import { peptides } from '@/data/peptides';
