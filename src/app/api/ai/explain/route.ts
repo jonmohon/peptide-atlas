@@ -2,6 +2,8 @@ import { anthropic } from '@ai-sdk/anthropic';
 import { streamText } from 'ai';
 import { MECHANISM_SYSTEM_PROMPT } from '@/lib/ai/prompts';
 import { peptides } from '@/data/peptides';
+import { auth } from '@/lib/auth';
+import { buildUserContext } from '@/lib/ai/user-context';
 
 export const maxDuration = 20;
 
@@ -30,9 +32,12 @@ Peptide details: ${peptide.description}
 Effects: ${peptide.effects.join(', ')}
 Affected regions: ${peptide.affectedRegions.map((r) => r.regionId).join(', ')}`;
 
+  const session = await auth();
+  const userContext = session?.user?.id ? await buildUserContext(session.user.id) : '';
+
   const result = streamText({
     model: anthropic('claude-sonnet-4-6'),
-    system: MECHANISM_SYSTEM_PROMPT,
+    system: `${MECHANISM_SYSTEM_PROMPT}${userContext}`,
     prompt,
     maxOutputTokens: 1024,
   });

@@ -1,6 +1,6 @@
 # Routing
 
-PeptideAtlas uses Next.js 16 App Router with two route groups, 7 API routes, dynamic routes, permanent redirects, and SEO files.
+PeptideAtlas uses Next.js 16 App Router with two route groups plus auth pages, 16 API routes, dynamic routes, permanent redirects, and SEO files.
 
 ## Route Group Architecture
 
@@ -12,6 +12,9 @@ src/app/
   ├── globals.css             Global styles
   ├── robots.ts               robots.txt generation
   ├── sitemap.ts              sitemap.xml generation
+  ├── auth/                   Auth pages (outside route groups)
+  │     ├── signin/           Sign-in page
+  │     └── verify/           Email verification page
   ├── (marketing)/            Content pages group
   │     ├── layout.tsx        MarketingHeader + Footer
   │     └── ...pages
@@ -42,6 +45,13 @@ The root layout renders `ChatWidget` globally -- it appears as a floating button
 
 ## Complete Route Table
 
+### Auth Routes
+
+| URL Path | Page File | Purpose | Dynamic? |
+|----------|-----------|---------|----------|
+| `/auth/signin` | `auth/signin/page.tsx` | Cognito-backed sign-in page | No |
+| `/auth/verify` | `auth/verify/page.tsx` | Email verification / confirm code | No |
+
 ### Marketing Routes (Scrollable Content Pages)
 
 | URL Path | Page File | Purpose | Dynamic? |
@@ -54,6 +64,7 @@ The root layout renders `ChatWidget` globally -- it appears as a floating button
 | `/faq` | `(marketing)/faq/page.tsx` | Categorized FAQ accordion | No |
 | `/privacy` | `(marketing)/privacy/page.tsx` | Privacy policy | No |
 | `/terms` | `(marketing)/terms/page.tsx` | Terms of service | No |
+| `/pricing` | `(marketing)/pricing/page.tsx` | Subscription pricing page (Free / Pro / Elite) | No |
 
 ### Atlas Routes (Full-Screen Interactive Tool)
 
@@ -66,8 +77,18 @@ The root layout renders `ChatWidget` globally -- it appears as a floating button
 | `/atlas/effects` | `(atlas)/atlas/effects/page.tsx` | Effects browser organized by category | No |
 | `/atlas/compare` | `(atlas)/atlas/compare/page.tsx` | Side-by-side peptide comparison (up to 4) | No |
 | `/atlas/protocol-generator` | `(atlas)/atlas/protocol-generator/page.tsx` | AI-powered protocol generation | No |
+| `/atlas/journal` | `(atlas)/atlas/journal/page.tsx` | Journal calendar overview | No |
+| `/atlas/journal/[date]` | `(atlas)/atlas/journal/[date]/page.tsx` | Daily journal entry form | Yes |
+| `/atlas/journal/insights` | `(atlas)/atlas/journal/insights/page.tsx` | AI-generated trend analysis of journal data | No |
+| `/atlas/journal/bloodwork` | `(atlas)/atlas/journal/bloodwork/page.tsx` | Bloodwork panel upload + AI interpretation | No |
+| `/atlas/notes` | `(atlas)/atlas/notes/page.tsx` | User notes attached to peptides and stacks | No |
+| `/atlas/profile` | `(atlas)/atlas/profile/page.tsx` | User profile: goals, conditions, tier | No |
+| `/atlas/tools` | `(atlas)/atlas/tools/page.tsx` | Tools hub page | No |
+| `/atlas/tools/reconstitution` | `(atlas)/atlas/tools/reconstitution/page.tsx` | Reconstitution calculator with SVG syringe visual | No |
 
 ### API Routes
+
+#### AI Routes (`/api/ai/*`)
 
 | URL Path | File | Method | Purpose |
 |----------|------|--------|---------|
@@ -78,6 +99,22 @@ The root layout renders `ChatWidget` globally -- it appears as a floating button
 | `/api/ai/optimize` | `api/ai/optimize/route.ts` | POST | Stack analysis/optimization (returns JSON) |
 | `/api/ai/predict` | `api/ai/predict/route.ts` | POST | What-to-expect predictions (streams text) |
 | `/api/ai/compare` | `api/ai/compare/route.ts` | POST | Peptide comparison insights (streams text) |
+| `/api/ai/protocol-chat` | `api/ai/protocol-chat/route.ts` | POST | Protocol advisor chat using journal + bloodwork context (streams UI messages) |
+| `/api/ai/journal-insight` | `api/ai/journal-insight/route.ts` | POST | AI trend analysis of journal entries (streams text) |
+| `/api/ai/bloodwork` | `api/ai/bloodwork/route.ts` | POST | Bloodwork marker interpretation correlated with user's protocol (streams text) |
+
+#### Stripe Routes (`/api/stripe/*`)
+
+| URL Path | File | Method | Purpose |
+|----------|------|--------|---------|
+| `/api/stripe/checkout` | `api/stripe/checkout/route.ts` | POST | Create Stripe checkout session for Pro/Elite upgrade |
+| `/api/stripe/webhook` | `api/stripe/webhook/route.ts` | POST | Handle Stripe webhook events (subscription created/updated/cancelled) |
+
+#### User Routes (`/api/user/*`)
+
+| URL Path | File | Method | Purpose |
+|----------|------|--------|---------|
+| `/api/user/tier` | `api/user/tier/route.ts` | GET | Fetch the authenticated user's subscription tier from DynamoDB |
 
 ## Dynamic Routes
 
@@ -92,6 +129,14 @@ Blog post pages. The `slug` parameter matches the MDX filename in `content/blog/
 Individual peptide detail pages. The `slug` parameter matches the peptide's `slug` field from `src/data/peptides.ts`.
 
 **Example:** A peptide with `slug: "bpc-157"` renders at `/atlas/peptides/bpc-157`
+
+### `/atlas/journal/[date]`
+
+Daily journal entry form. The `date` parameter is an ISO-8601 date string (`YYYY-MM-DD`).
+
+**Example:** The journal entry for April 15 2026 renders at `/atlas/journal/2026-04-15`
+
+The page fetches the existing `JournalEntry` for that date (if any) from DynamoDB and pre-fills the form. If no entry exists, an empty form is shown. The "copy from yesterday" button fetches the previous day's entry and pre-fills peptide doses.
 
 ## Redirects
 

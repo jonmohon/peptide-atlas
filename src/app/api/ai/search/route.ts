@@ -2,6 +2,8 @@ import { anthropic } from '@ai-sdk/anthropic';
 import { generateObject } from 'ai';
 import { SEARCH_SYSTEM_PROMPT } from '@/lib/ai/prompts';
 import { searchResultSchema } from '@/lib/ai/schemas';
+import { auth } from '@/lib/auth';
+import { buildUserContext } from '@/lib/ai/user-context';
 
 export const maxDuration = 15;
 
@@ -16,9 +18,12 @@ export async function POST(req: Request) {
     );
   }
 
+  const session = await auth();
+  const userContext = session?.user?.id ? await buildUserContext(session.user.id) : '';
+
   const result = await generateObject({
     model: anthropic('claude-haiku-4-5-20251001'),
-    system: SEARCH_SYSTEM_PROMPT,
+    system: `${SEARCH_SYSTEM_PROMPT}${userContext}`,
     prompt: `Find the most relevant peptides for this query: "${query}"`,
     schema: searchResultSchema,
     maxOutputTokens: 512,

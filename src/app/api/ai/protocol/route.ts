@@ -1,6 +1,8 @@
 import { anthropic } from '@ai-sdk/anthropic';
 import { streamText } from 'ai';
 import { PROTOCOL_SYSTEM_PROMPT } from '@/lib/ai/prompts';
+import { auth } from '@/lib/auth';
+import { buildUserContext } from '@/lib/ai/user-context';
 
 export const maxDuration = 30;
 
@@ -15,6 +17,9 @@ export async function POST(req: Request) {
     );
   }
 
+  const session = await auth();
+  const userContext = session?.user?.id ? await buildUserContext(session.user.id) : '';
+
   const prompt = `Generate a personalized peptide protocol for someone with the following profile:
 Goals: ${goals.join(', ')}
 Experience Level: ${experience}
@@ -24,7 +29,7 @@ Provide a detailed, structured protocol recommendation.`;
 
   const result = streamText({
     model: anthropic('claude-sonnet-4-6'),
-    system: PROTOCOL_SYSTEM_PROMPT,
+    system: `${PROTOCOL_SYSTEM_PROMPT}${userContext}`,
     prompt,
     maxOutputTokens: 2048,
   });

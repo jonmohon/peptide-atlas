@@ -19,37 +19,60 @@ PeptideAtlas is a Next.js 16 interactive peptide education platform. Users explo
               |                  |   |   |   |                  |
     +---------v---------+  +----v---v---v----+  +---------------v--+
     |  (marketing)      |  |   API Routes    |  |    (atlas)       |
-    |  Route Group      |  |  /api/ai/*      |  |  Route Group     |
-    |                   |  |  7 endpoints    |  |                  |
-    | /                 |  |                 |  | /atlas           |
-    | /learn            |  |  chat           |  | /atlas/peptides  |
-    | /learn/[slug]     |  |  search         |  | /atlas/stacks    |
-    | /about            |  |  explain        |  | /atlas/effects   |
-    | /glossary         |  |  protocol       |  | /atlas/compare   |
-    | /faq              |  |  optimize       |  | /atlas/protocol- |
-    | /privacy          |  |  predict        |  |   generator      |
-    | /terms            |  |  compare        |  |                  |
-    +---------+---------+  +--------+--------+  +--------+---------+
-              |                     |                     |
-              |            +--------v--------+            |
-              |            | Anthropic API   |            |
-              |            | (Claude Sonnet  |            |
-              |            |  & Haiku)       |            |
-              |            +-----------------+            |
-              |                                           |
-    +---------v---------+                     +-----------v----------+
-    | MarketingHeader   |                     | AtlasHeader          |
-    | + Footer          |                     | (no footer, full     |
-    | (scrollable)      |                     |  screen, overflow-   |
-    +-------------------+                     |  hidden)             |
-                                              +----------------------+
+    |  Route Group      |  |                 |  |  Route Group     |
+    |                   |  | /api/ai/*       |  |                  |
+    | /                 |  |  10 endpoints   |  | /atlas           |
+    | /learn            |  |                 |  | /atlas/peptides  |
+    | /learn/[slug]     |  | /api/stripe/*   |  | /atlas/stacks    |
+    | /about            |  |  checkout       |  | /atlas/effects   |
+    | /glossary         |  |  webhook        |  | /atlas/compare   |
+    | /faq              |  |                 |  | /atlas/protocol- |
+    | /privacy          |  | /api/user/*     |  |   generator      |
+    | /terms            |  |  tier           |  | /atlas/journal/* |
+    | /pricing          |  |                 |  | /atlas/tools/*   |
+    +---------+---------+  +--------+--------+  | /atlas/notes     |
+              |                     |           | /atlas/profile   |
+              |            +--------v--------+  +--------+---------+
+              |            | Anthropic API   |           |
+              |            | (Claude Sonnet  |           |
+              |            |  & Haiku)       |           |
+              |            +-----------------+           |
+              |                                          |
+              |            +----------------+            |
+              |            | Stripe API     |            |
+              |            | (checkout,     |            |
+              |            |  webhooks)     |            |
+              |            +----------------+            |
+              |                                          |
+    +---------v---------+  +----------------+  +---------v---------+
+    | MarketingHeader   |  | AWS Cognito    |  | AtlasHeader       |
+    | + Footer          |  | (Auth)         |  | (no footer, full  |
+    | (scrollable)      |  +-------+--------+  |  screen, overflow-|
+    +-------------------+          |           |  hidden)          |
+                                   v           +-------------------+
+                         +---------+----------+
+                         | AWS AppSync        |
+                         | (GraphQL API)      |
+                         +--------+-----------+
+                                  |
+                         +--------v-----------+
+                         | AWS DynamoDB       |
+                         | UserProfile        |
+                         | JournalEntry       |
+                         | BloodworkPanel     |
+                         | SavedStack         |
+                         | SavedProtocol      |
+                         | AiUsage            |
+                         | UserNote           |
+                         | AiConversation     |
+                         +--------------------+
               |                                           |
               +----------------+   +----------------------+
                                |   |
                      +---------v---v---------+
                      |   Shared Services     |
                      |                       |
-                     | 5 Zustand Stores      |
+                     | 6 Zustand Stores      |
                      | 5 Custom Hooks        |
                      | Static Data Layer     |
                      |   (peptides, stacks,  |
@@ -75,8 +98,16 @@ Next.js route groups use parenthesized folder names to organize routes without a
 | `/faq` | Categorized FAQ accordion |
 | `/privacy` | Privacy policy |
 | `/terms` | Terms of service |
+| `/pricing` | Subscription pricing page (Free / Pro / Elite tiers) |
 
 **Layout:** `MarketingHeader` + scrollable `<main>` + `Footer`. Standard content page pattern.
+
+### Auth Pages (outside route groups)
+
+| Route | Purpose |
+|-------|---------|
+| `/auth/signin` | Cognito-backed sign-in page |
+| `/auth/verify` | Email verification / confirm code page |
 
 ### `(atlas)` -- Interactive Tool
 
@@ -89,8 +120,18 @@ Next.js route groups use parenthesized folder names to organize routes without a
 | `/atlas/effects` | Effects browser organized by category |
 | `/atlas/compare` | Side-by-side peptide comparison (up to 4) |
 | `/atlas/protocol-generator` | AI-powered protocol generation |
+| `/atlas/journal` | Journal calendar overview |
+| `/atlas/journal/[date]` | Daily journal entry form (dynamic) |
+| `/atlas/journal/insights` | AI-generated trend analysis of journal data |
+| `/atlas/journal/bloodwork` | Bloodwork panel upload + AI interpretation |
+| `/atlas/notes` | User notes attached to peptides and stacks |
+| `/atlas/profile` | User profile: goals, health conditions, tier |
+| `/atlas/tools` | Tools hub page |
+| `/atlas/tools/reconstitution` | Reconstitution calculator with SVG syringe visual |
 
 **Layout:** `AtlasHeader` + full-screen `<main>` with `overflow-hidden`. No footer. Designed for tool-like interaction.
+
+**Nav items added to AtlasHeader:** Tools, Journal, Notes.
 
 ### Shared Root Layout
 
@@ -118,7 +159,7 @@ RootLayout
 
 ## State Management
 
-The app uses 5 Zustand stores, each focused on a single concern. All stores are client-side only.
+The app uses 6 Zustand stores, each focused on a single concern. All stores are client-side only.
 
 | Store | File | Purpose | Key State |
 |-------|------|---------|-----------|
@@ -127,6 +168,7 @@ The app uses 5 Zustand stores, each focused on a single concern. All stores are 
 | `useStackStore` | `src/stores/use-stack-store.ts` | Stack builder (preset + custom) | `activePresetStackId`, `customStackPeptideIds[]` (max 5) |
 | `useCompareStore` | `src/stores/use-compare-store.ts` | Comparison tool selections | `selectedPeptideIds[]` (max 4), `activeAxes[]` (6 rating dimensions) |
 | `useChatStore` | `src/stores/use-chat-store.ts` | Global chat widget state | `isOpen`, `prefillText` |
+| `useJournalStore` | `src/stores/use-journal-store.ts` | Journal UI state | `selectedDate`, `currentEntry`, `calendarDays[]`, draft entry fields |
 
 **Design principles:**
 - Stores are minimal -- each manages one feature's state
@@ -176,8 +218,10 @@ User clicks body region marker
 See [AI-FEATURES.md](./AI-FEATURES.md) for full details.
 
 **Summary:**
-- 7 API routes at `/api/ai/*` using `@ai-sdk/anthropic` + Vercel AI SDK v6
+- 10 API routes at `/api/ai/*` using `@ai-sdk/anthropic` + Vercel AI SDK v6
 - System prompts in `src/lib/ai/prompts.ts` with BASE prompt containing full peptide database
+- All routes inject personalized user context via `buildUserContext()` in `src/lib/ai/user-context.ts`
+- Rate limiting tracked in `AiUsage` DynamoDB model via `src/lib/ai/rate-limit.ts`
 - Structured output via Zod schemas in `src/lib/ai/schemas.ts`
 - Client-side caching in `src/lib/ai/cache.ts` (sessionStorage, 30min TTL)
 - Two consumption patterns: streaming text (`useStreamingText` hook) and structured JSON (`generateObject` + `fetch`)
@@ -211,6 +255,21 @@ Developer pushes to main
 - `ANTHROPIC_API_KEY` must be set in Amplify environment variables
 - Old URLs (`/peptides`, `/stacks`, etc.) have permanent redirects to `/atlas/*`
 
+## Tech Stack (Backend)
+
+| Service | Purpose |
+|---------|---------|
+| AWS Amplify Gen 2 | CI/CD hosting + backend orchestration |
+| AWS Cognito | User authentication (email/password) |
+| AWS AppSync | GraphQL API layer in front of DynamoDB |
+| AWS DynamoDB | NoSQL user data storage (via Amplify Data) |
+| Stripe | Subscription billing (checkout sessions + webhooks) |
+
+**Amplify backend source:** `amplify/` directory at repo root.
+- `amplify/auth/resource.ts` — Cognito configuration
+- `amplify/data/resource.ts` — DynamoDB model definitions (10 models)
+- `amplify/backend.ts` — Combines auth + data resources
+
 ## Key Dependencies
 
 | Package | Version | Purpose |
@@ -220,11 +279,14 @@ Developer pushes to main
 | `ai` | ^6.0.149 | Vercel AI SDK (streaming, structured output) |
 | `@ai-sdk/anthropic` | ^3.0.67 | Claude model provider |
 | `@ai-sdk/react` | ^3.0.151 | React hooks for AI (useChat) |
+| `aws-amplify` | ^6 | Amplify client (auth, data) |
+| `@aws-amplify/adapter-nextjs` | ^1 | Server-side Amplify context for Next.js |
+| `stripe` | ^17 | Stripe Node.js SDK |
 | `zustand` | ^5 | State management |
 | `framer-motion` | ^12 | Animations |
 | `gsap` | ^3 | Pathway animations on body map |
 | `next-mdx-remote` | ^6.0.0 | Server-side MDX rendering |
 | `gray-matter` | ^4.0.3 | Frontmatter parsing |
-| `recharts` | ^2 | Charts for comparison view |
+| `recharts` | ^2 | Charts for comparison view and journal trends |
 | `react-body-highlighter` | ^2.0.5 | Body silhouette polygon data |
 | `tailwindcss` | ^4 | Styling |

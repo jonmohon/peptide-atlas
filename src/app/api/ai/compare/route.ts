@@ -2,6 +2,8 @@ import { anthropic } from '@ai-sdk/anthropic';
 import { streamText } from 'ai';
 import { COMPARISON_SYSTEM_PROMPT } from '@/lib/ai/prompts';
 import { peptides } from '@/data/peptides';
+import { auth } from '@/lib/auth';
+import { buildUserContext } from '@/lib/ai/user-context';
 
 export const maxDuration = 20;
 
@@ -26,9 +28,12 @@ export async function POST(req: Request) {
     )
     .join('\n');
 
+  const session = await auth();
+  const userContext = session?.user?.id ? await buildUserContext(session.user.id) : '';
+
   const result = streamText({
     model: anthropic('claude-sonnet-4-6'),
-    system: COMPARISON_SYSTEM_PROMPT,
+    system: `${COMPARISON_SYSTEM_PROMPT}${userContext}`,
     prompt: `Compare these peptides:\n${desc}`,
     maxOutputTokens: 1024,
   });

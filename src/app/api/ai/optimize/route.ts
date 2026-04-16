@@ -3,6 +3,8 @@ import { generateObject } from 'ai';
 import { STACK_OPTIMIZER_PROMPT } from '@/lib/ai/prompts';
 import { stackAnalysisSchema } from '@/lib/ai/schemas';
 import { peptides } from '@/data/peptides';
+import { auth } from '@/lib/auth';
+import { buildUserContext } from '@/lib/ai/user-context';
 
 export const maxDuration = 20;
 
@@ -28,9 +30,12 @@ export async function POST(req: Request) {
     )
     .join('\n');
 
+  const session = await auth();
+  const userContext = session?.user?.id ? await buildUserContext(session.user.id) : '';
+
   const result = await generateObject({
     model: anthropic('claude-sonnet-4-6'),
-    system: STACK_OPTIMIZER_PROMPT,
+    system: `${STACK_OPTIMIZER_PROMPT}${userContext}`,
     prompt: `Analyze this peptide stack:\n${stackDescription}`,
     schema: stackAnalysisSchema,
     maxOutputTokens: 1536,

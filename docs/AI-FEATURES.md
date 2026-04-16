@@ -15,6 +15,9 @@ All routes are in `src/app/api/ai/` and follow a consistent pattern: validate AP
 | `/api/ai/optimize` | claude-sonnet-4-6 | `peptideIds[]` | Structured JSON | 1536 | 20s | StackAnalysisPanel |
 | `/api/ai/predict` | claude-haiku-4-5 | `peptideIds[]`, `level` | Text stream | 512 | 15s | WhatToExpect, RegionSuggestion |
 | `/api/ai/compare` | claude-sonnet-4-6 | `peptideIds[]` | Text stream | 1024 | 20s | ComparisonInsights |
+| `/api/ai/protocol-chat` | claude-sonnet-4-6 | `messages[]` | UI message stream | 1024 | 30s | Protocol advisor chat in /atlas/journal |
+| `/api/ai/journal-insight` | claude-sonnet-4-6 | `entries[]` | Text stream | 2048 | 30s | Journal Insights page |
+| `/api/ai/bloodwork` | claude-sonnet-4-6 | `panelId` or raw markers | Text stream | 2048 | 30s | Bloodwork interpretation in /atlas/journal/bloodwork |
 
 **Model selection rationale:**
 - **Sonnet** for complex tasks requiring nuanced analysis (chat, explain, protocol, optimize, compare)
@@ -51,6 +54,9 @@ Each endpoint appends task-specific instructions to the base prompt:
 | `SEARCH_SYSTEM_PROMPT` | Ranked peptide matching with peptideId, relevanceScore, explanation |
 | `MECHANISM_SYSTEM_PROMPT` | Mechanism of action at 3 knowledge levels (beginner/intermediate/advanced) |
 | `COMPARISON_SYSTEM_PROMPT` | Multi-peptide comparison (strengths, differences, best use cases, combinations) |
+| `PROTOCOL_CHAT_PROMPT` | Protocol advisor: correlates user's journal data + bloodwork with their active peptides; requires USER CONTEXT |
+| `JOURNAL_INSIGHT_PROMPT` | Structured journal analysis: trends, correlations, concerns, adherence, recommendations from `entries[]` |
+| `BLOODWORK_INTERPRETATION_PROMPT` | Per-marker interpretation correlated with user's active peptides; flags critical values |
 
 ### Peptide Database Injection
 
@@ -70,6 +76,30 @@ The `buildStackContext()` function similarly serializes stacks:
 - Recovery Stack (Accelerate healing): bpc-157(primary) + tb-500(synergist) + ...
   Effects: gut-healing, joint-repair, ...
 ```
+
+## User Context Injection
+
+All AI routes inject a personalized `USER CONTEXT` block into the system prompt for authenticated users. This is what allows the AI to reference the user's specific peptides, goals, journal trends, and bloodwork — rather than giving generic advice.
+
+**Source:** `src/lib/ai/user-context.ts` — `buildUserContext(userId: string): Promise<string>`
+
+**Pattern used in every AI route:**
+
+```typescript
+const session = await auth();
+const userContext = session?.user?.id
+  ? await buildUserContext(session.user.id)
+  : '';
+const system = `${BASE_SYSTEM_PROMPT}\n\n${userContext}\n\n${ENDPOINT_PROMPT}`;
+```
+
+**What `buildUserContext()` returns:**
+
+The function fetches the user's Cognito identity server-side via `runWithAmplifyServerContext`. It returns a `--- USER CONTEXT --- / --- END USER CONTEXT ---` block injected between the base prompt and the endpoint-specific prompt. The block is ~1-2K tokens and stays well under the 4K budget reserved for user context.
+
+If the user is unauthenticated or the fetch fails, it returns an empty string (the prompt degrades gracefully to generic advice).
+
+**Rate limiting:** Every AI request is tracked in the `AiUsage` DynamoDB model. Free-tier users are subject to monthly request limits checked before the Claude API call. See `src/lib/ai/rate-limit.ts`.
 
 ## Frontend Integration Patterns
 

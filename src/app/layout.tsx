@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { ChatWidget } from '@/components/ai/chat-widget';
+import { SessionProvider } from '@/components/auth/session-provider';
 import './globals.css';
 
 const inter = Inter({
@@ -34,8 +35,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} h-full`}>
       <body className="h-full bg-background text-foreground font-sans antialiased">
-        {children}
-        <ChatWidget />
+        <SessionProvider>
+          {children}
+          <ChatWidget />
+        </SessionProvider>
       </body>
     </html>
   );

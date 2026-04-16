@@ -1,153 +1,166 @@
-# CLAUDE.md — PeptideAtlas Project Guide
+# CLAUDE.md — PeptideAtlas
 
-## What This Project Is
+## Documentation
 
-PeptideAtlas is an interactive peptide education platform. Users explore how peptides affect the body through a visual atlas, build stacks, compare peptides, and get AI-powered recommendations. It's a Next.js 16 app deployed on AWS Amplify.
+**Always check `README.md` first** — it contains the documentation index with links to all detailed docs in `/docs`.
 
-## Quick Start
+Before implementing or modifying features, **read the relevant doc**:
 
-```bash
-cd /Volumes/T9/Development/peptide-atlas
-npm run dev          # Starts on port 3000
-npm run build        # Production build (must pass for Amplify deploy)
-npx tsc --noEmit     # Type check without building
+| Area | Doc |
+|------|-----|
+| Architecture & tech stack | `docs/architecture.md` |
+| Data models (Amplify Data / DynamoDB) | `docs/database.md` |
+| AI system (prompts, schemas, endpoints) | `docs/ai-system.md` |
+| Auth & payments (Cognito, Stripe) | `docs/auth-and-payments.md` |
+| Journal & tracking system | `docs/journal.md` |
+| Tools (reconstitution calc, cycle planner) | `docs/tools.md` |
+| Body map & visualization | `docs/body-map.md` |
+| Blog & content system | `docs/blog.md` |
+| Getting started | `docs/getting-started.md` |
+
+## Architecture Overview
+
+```
+User → Cognito Auth → UserProfile (DynamoDB)
+  ├── JournalEntry (daily tracking)
+  ├── BloodworkPanel (lab results)
+  ├── SavedStack / SavedProtocol (saved work)
+  ├── AiUsage (rate limiting)
+  ├── UserNote (attached to peptides/stacks)
+  └── AiConversation (AI memory)
 ```
 
-**Environment:** Requires `ANTHROPIC_API_KEY` in `.env.local` for AI features. Without it, AI features show friendly error messages but the site works fine otherwise.
+- **User**: Cognito identity. One user owns all their data via `allow.owner()`.
+- **UserProfile**: Goals, health conditions, tier — injected into every AI prompt for personalization.
+- **JournalEntry**: Daily doses, weight, mood, energy, sleep, side effects. The retention anchor.
+- **AI endpoints**: 7+ Claude API routes. All read user context from UserProfile + recent journal data.
 
-**Important:** The T9 external drive is slow for npm/build operations. `npm install` can take 5-10 minutes. Use `npm rebuild` if `.bin` symlinks are missing after install.
+## Critical Rules
 
-## Architecture
+### 1. ALWAYS scope data with owner auth
 
-### Route Groups
+Every Amplify Data model uses `allow.owner()`. Never create a model without it. Never query another user's data.
 
-The app uses two Next.js route groups with different layouts:
+```typescript
+// CORRECT — amplify/data/resource.ts
+SavedStack: a.model({ ... })
+  .authorization((allow) => [allow.owner()])
 
-- **`(marketing)/`** — Scrollable content pages with MarketingHeader + Footer. Routes: `/`, `/learn`, `/about`, `/glossary`, `/faq`, `/privacy`, `/terms`
-- **`(atlas)/`** — Full-screen interactive tool with AtlasHeader, overflow-hidden. Routes: `/atlas`, `/atlas/peptides`, `/atlas/stacks`, `/atlas/effects`, `/atlas/compare`, `/atlas/protocol-generator`
+// WRONG — data leaks across users
+SavedStack: a.model({ ... })
+  .authorization((allow) => [allow.authenticated()])
+```
 
-### Key Directories
+### 2. ALWAYS use AI SDK v6 patterns
 
-| Directory | Purpose |
-|-----------|---------|
-| `src/app/(atlas)/atlas/` | Interactive atlas pages |
-| `src/app/(marketing)/` | Marketing/content pages |
-| `src/app/api/ai/` | 7 AI API routes (Claude Sonnet/Haiku) |
-| `src/components/ai/` | 11 AI-powered UI components |
-| `src/components/body/` | Interactive body map SVG components |
-| `src/components/marketing/` | Landing page sections |
-| `src/components/blog/` | Blog system components |
-| `src/components/layout/` | Headers, footer, sidebar, logo |
-| `src/components/ui/` | Base UI primitives |
-| `src/data/` | Static data (31 peptides, 10 stacks, 27 effects, 13 regions) |
-| `src/lib/ai/` | AI prompts, schemas, caching |
-| `src/stores/` | 5 Zustand state stores |
-| `src/hooks/` | 5 custom React hooks |
-| `src/types/` | TypeScript type definitions |
-| `content/blog/` | 5 MDX blog articles |
-| `docs/` | Project documentation |
+The project uses AI SDK v6 which has breaking changes from v5.
 
-### Two Headers
+```typescript
+// CORRECT
+streamText({ model, system, messages, maxOutputTokens: 1024 })
+return result.toTextStreamResponse()
 
-- **MarketingHeader** (`components/layout/marketing-header.tsx`): Logo, nav (Home, Learn, About, Glossary, FAQ), "Launch Atlas" CTA button
-- **AtlasHeader** (`components/layout/atlas-header.tsx`): Logo, atlas nav (Body Map, Peptides, Stacks, Effects, Compare), AI search bar, "← Site" link
+// WRONG — v5 API, will fail at runtime
+streamText({ model, system, messages, maxTokens: 1024 })
+return result.toDataStreamResponse()
+```
+
+### 3. NEVER add overflow-hidden to root layout or globals.css
+
+The `(atlas)` layout applies `overflow-hidden` locally. Adding it globally breaks scrolling on marketing pages.
+
+### 4. ALWAYS inject user context into AI prompts for authenticated users
+
+```typescript
+// CORRECT — personalized AI
+const userContext = session?.user?.id
+  ? await buildUserContext(session.user.id)
+  : '';
+const system = `${BASE_SYSTEM_PROMPT}\n\n${userContext}\n\n${ENDPOINT_PROMPT}`;
+
+// WRONG — generic AI, no personalization
+const system = `${BASE_SYSTEM_PROMPT}\n\n${ENDPOINT_PROMPT}`;
+```
+
+### 5. ALWAYS use glass panels for new UI components
+
+All surfaces use the glass-morphism design system. Never use solid background colors.
+
+```tsx
+// CORRECT
+<div className="glass rounded-xl p-5">
+
+// WRONG — breaks visual consistency
+<div className="bg-gray-800 rounded-xl p-5">
+```
+
+### 6. NEVER put secrets in amplify_outputs.json or NEXT_PUBLIC_ env vars
+
+`amplify_outputs.json` is committed to git. `NEXT_PUBLIC_` vars are exposed to the browser. Secrets go in `.env.local` (gitignored) or Amplify environment variables.
+
+### 7. ALWAYS check tier before premium features
+
+```typescript
+// CORRECT — server-side
+const session = await auth();
+if (session?.user?.tier === 'FREE') {
+  return NextResponse.json({ error: 'Upgrade required' }, { status: 403 });
+}
+
+// CORRECT — client-side
+<PremiumGate feature="bloodwork_tracker">
+  <BloodworkUpload />
+</PremiumGate>
+```
+
+## Common Commands
+
+```bash
+npm run dev                        # Dev server on port 3000
+npm run build                      # Production build (must pass for Amplify)
+npx tsc --noEmit                   # Type check
+npm run lint                       # ESLint
+npx ampx sandbox --profile nexvato # Amplify sandbox (deploys Cognito + DynamoDB + AppSync)
+npx ampx sandbox --once            # Deploy sandbox once (no watch mode)
+npx ampx generate outputs          # Regenerate amplify_outputs.json
+```
+
+## Don'ts
+
+- Don't use `maxTokens` — use `maxOutputTokens` (AI SDK v6)
+- Don't use `toDataStreamResponse` — use `toTextStreamResponse` or `toUIMessageStreamResponse`
+- Don't hardcode colors — use theme tokens (`neon-cyan`, `neon-green`, `neon-orange`, `text-secondary`)
+- Don't add `overflow-hidden` to root layout — only `(atlas)` layout uses it
+- Don't commit `.env.local` or `amplify_outputs.json` (both are gitignored)
+- Don't create Amplify Data models without `.authorization((allow) => [allow.owner()])`
+- Don't import from `aws-amplify` in server components — use `aws-amplify/auth/server` with `runWithAmplifyServerContext`
+- Don't skip the medical disclaimer on AI health features — every AI response about peptides needs one
+- Don't use Prisma or PostgreSQL — all data goes through Amplify Data (DynamoDB via AppSync)
+- Don't skip `npx tsc --noEmit` before pushing — Amplify build will fail on type errors
+
+## Subsystem Gotchas
+
+### Amplify Data (AppSync/DynamoDB)
+No relational joins. All queries are single-table lookups by owner + optional secondary index. If you need data from two models, make two queries client-side. `a.json()` fields are opaque to DynamoDB — you cannot query inside them. → `docs/database.md`
 
 ### AI System
-
-7 API routes at `/api/ai/`:
-
-| Route | Model | Input | Output | Used By |
-|-------|-------|-------|--------|---------|
-| `/chat` | Sonnet | messages[] | UI message stream | ChatWidget |
-| `/search` | Haiku | query string | structured JSON | AISearchBar |
-| `/protocol` | Sonnet | goals, experience | text stream | ProtocolGenerator |
-| `/optimize` | Sonnet | peptideIds[] | structured JSON | StackAnalysisPanel |
-| `/explain` | Sonnet | peptideId, level | text stream | MechanismExplainer |
-| `/predict` | Haiku | peptideIds[], level | text stream | WhatToExpect, RegionSuggestion |
-| `/compare` | Sonnet | peptideIds[] | text stream | ComparisonInsights |
-
-All prompts are in `src/lib/ai/prompts.ts`. Each includes the full peptide database (~15-20K tokens) in the system prompt. Structured output uses Zod schemas in `src/lib/ai/schemas.ts`.
+Every AI prompt includes the full peptide database (~15-20K tokens) in the system prompt. Adding user context adds ~1-2K more. Stay under 4K tokens for user context to leave room for conversation. All prompts live in `src/lib/ai/prompts.ts` — never inline prompts in route files. → `docs/ai-system.md`
 
 ### Body Map SVG
+ViewBox is `0 0 100 210`. Marker positions in `body-regions.ts` use this coordinate system. The polygons come from `react-body-highlighter` — don't modify them directly. → `docs/body-map.md`
 
-The body silhouette uses polygon data from `react-body-highlighter` (viewBox `0 0 100 210`). Interactive markers are positioned at organ coordinates defined in `src/data/body-regions.ts`. Marker rendering is in `src/components/body/body-region.tsx` — glowing dots with hover/selection states.
+### Auth (Cognito)
+`auth()` returns the Cognito user but does NOT fetch tier from DynamoDB. Tier is fetched separately via `/api/user/tier` or `buildUserContext()`. Client-side auth uses `getCurrentUser()` from `aws-amplify/auth`. Server-side uses `runWithAmplifyServerContext` with `cookies`. → `docs/auth-and-payments.md`
 
-### State Management
+### Two Route Groups
+`(marketing)/` has a scrollable layout with MarketingHeader + Footer. `(atlas)/` has a full-screen layout with AtlasHeader and `overflow-hidden`. Never mix components between layouts without checking scroll behavior. → `docs/architecture.md`
 
-5 Zustand stores, each focused on one concern:
-- `useBodyStore` — body region hover/selection/pathways
-- `usePeptideStore` — peptide search/filter/selection
-- `useStackStore` — stack builder (preset + custom)
-- `useCompareStore` — comparison selections (max 4)
-- `useChatStore` — global chat widget open/prefill state
+### Journal System
+Journal entries use `a.json()` for peptideDoses, sideEffects, and measurements because the structure varies per user. The "copy from yesterday" feature fetches the previous day's entry and pre-fills the form. Trend charts use recharts. → `docs/journal.md`
 
-### Blog System
-
-MDX files in `content/blog/` with YAML frontmatter. Parsed by `src/lib/blog.ts` using `gray-matter` + `reading-time`. Rendered server-side via `next-mdx-remote/rsc`. Custom MDX components in `src/components/blog/mdx-components.tsx`.
-
-## Design System
-
-**Theme:** All dark. Background `#0a0e17`, surfaces `#111827`/`#1a1f2e`.
-**Accents:** Neon cyan `#00d4ff`, green `#00ff88`, orange `#ff6b35`, purple `#a855f7`.
-**Patterns:** Glass-morphism panels (`.glass`, `.glass-bright`), grid dot backgrounds (`.grid-bg`), glow effects.
-**Font:** Inter (Google Fonts).
-**CSS:** Tailwind v4 with `@theme inline` custom properties in `globals.css`.
-
-## Common Tasks
-
-### Add a new peptide
-1. Add entry to `src/data/peptides.ts` following the `Peptide` interface
-2. Map to body regions via `affectedRegions` with intensity 1-5
-3. Add to relevant stacks in `src/data/stacks.ts`
-4. Update `src/data/effects.ts` if the peptide introduces new effects
-
-### Add a blog post
-1. Create `content/blog/your-slug.mdx` with frontmatter (title, date, category, excerpt, author, tags)
-2. It will automatically appear on `/learn` and generate a static page at `/learn/your-slug`
-
-### Add an AI feature
-1. Create API route in `src/app/api/ai/` using `streamText` or `generateObject`
-2. Add system prompt in `src/lib/ai/prompts.ts`
-3. If structured output, add Zod schema in `src/lib/ai/schemas.ts`
-4. Create UI component in `src/components/ai/`
-5. For streaming: use `useStreamingText` hook + `StreamingText` component
-6. For JSON: use `fetch` + `useState`
-
-### Deploy
-Push to `main` branch → Amplify auto-builds. Ensure `npx tsc --noEmit` passes before pushing.
-
-Set `ANTHROPIC_API_KEY` in Amplify environment variables for AI features.
-
-## Build Commands
-
-```bash
-npm run dev       # Development server
-npm run build     # Production build (Amplify uses this)
-npm run lint      # ESLint
-npx tsc --noEmit  # Type check
-```
-
-## Data Counts
-
-- 31 peptides across 8 categories
-- 10 pre-built stacks
-- 27 effect categories across 7 groups
-- 13 interactive body regions
-- 21 glossary terms
-- 15 FAQ items across 4 categories
-- 5 blog articles
-- 7 AI API endpoints
-- 49 React components
-
-## GitHub
+## GitHub & Deploy
 
 - Repo: https://github.com/jonmohon/peptide-atlas
-- Account: jonmohon
-- Deploy: AWS Amplify (auto-deploy on push to main)
-
-## Important Notes
-
-- AI SDK v6 breaking changes: `maxOutputTokens` (not maxTokens), `toTextStreamResponse`/`toUIMessageStreamResponse` (not toDataStreamResponse), `sendMessage({ text })` (not handleSubmit), `DefaultChatTransport` (not api option)
-- The `(atlas)` layout applies `overflow-hidden` locally — do NOT add it to globals.css or root layout
-- Old URLs (/peptides, /stacks, etc.) have permanent redirects to /atlas/* in next.config.ts
-- Body SVG viewBox is `0 0 100 210` — marker positions in body-regions.ts use this coordinate system
+- Deploy: AWS Amplify (us-east-2, nexvato profile, app ID: `d3p5rtdaradk56`)
+- Push to `main` → Amplify auto-builds backend (Cognito + DynamoDB) + frontend (Next.js SSR)
+- Amplify IAM role: `AmplifyBackendDeployRole-peptide-atlas` with `AdministratorAccess-Amplify`

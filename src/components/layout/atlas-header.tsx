@@ -6,6 +6,8 @@ import { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { AISearchBar } from '@/components/ai/ai-search-bar';
 import { Logo } from '@/components/layout/logo';
+import { UserMenu } from '@/components/auth/user-menu';
+import { SignInModal } from '@/components/auth/sign-in-modal';
 
 const navLinks = [
   { href: '/atlas', label: 'Body Map' },
@@ -13,11 +15,15 @@ const navLinks = [
   { href: '/atlas/stacks', label: 'Stacks' },
   { href: '/atlas/effects', label: 'Effects' },
   { href: '/atlas/compare', label: 'Compare' },
+  { href: '/atlas/tools', label: 'Tools' },
+  { href: '/atlas/journal', label: 'Journal' },
+  { href: '/atlas/notes', label: 'Notes' },
 ];
 
 export function AtlasHeader() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [signInOpen, setSignInOpen] = useState(false);
 
   return (
     <header className="relative z-50 glass shrink-0">
@@ -52,8 +58,11 @@ export function AtlasHeader() {
             ))}
           </nav>
 
-          {/* AI Search */}
-          <AISearchBar className="hidden lg:block w-56" />
+          {/* AI Search + User */}
+          <div className="flex items-center gap-3">
+            <AISearchBar className="hidden lg:block w-56" />
+            <UserMenu onSignInClick={() => setSignInOpen(true)} />
+          </div>
 
           {/* Mobile Menu Button */}
           <button
@@ -91,6 +100,8 @@ export function AtlasHeader() {
           </nav>
         )}
       </div>
+
+      <SignInModal open={signInOpen} onClose={() => setSignInOpen(false)} />
     </header>
   );
 }

@@ -5,6 +5,8 @@ import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { Logo } from '@/components/layout/logo';
+import { UserMenu } from '@/components/auth/user-menu';
+import { SignInModal } from '@/components/auth/sign-in-modal';
 
 const navLinks = [
   { href: '/', label: 'Home' },
@@ -12,11 +14,13 @@ const navLinks = [
   { href: '/about', label: 'About' },
   { href: '/glossary', label: 'Glossary' },
   { href: '/faq', label: 'FAQ' },
+  { href: '/pricing', label: 'Pricing' },
 ];
 
 export function MarketingHeader() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [signInOpen, setSignInOpen] = useState(false);
 
   return (
     <header className="sticky top-0 z-50 glass">
@@ -43,7 +47,7 @@ export function MarketingHeader() {
             ))}
           </nav>
 
-          {/* Right side: CTA + Mobile toggle */}
+          {/* Right side: CTA + User + Mobile toggle */}
           <div className="flex items-center gap-3">
             <Link
               href="/atlas"
@@ -51,6 +55,7 @@ export function MarketingHeader() {
             >
               Launch Atlas
             </Link>
+            <UserMenu onSignInClick={() => setSignInOpen(true)} />
 
             {/* Mobile Menu Button */}
             <button
@@ -89,6 +94,8 @@ export function MarketingHeader() {
           </nav>
         )}
       </div>
+
+      <SignInModal open={signInOpen} onClose={() => setSignInOpen(false)} />
     </header>
   );
 }

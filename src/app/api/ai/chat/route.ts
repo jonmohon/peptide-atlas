@@ -1,6 +1,8 @@
 import { anthropic } from '@ai-sdk/anthropic';
 import { streamText } from 'ai';
 import { CHAT_SYSTEM_PROMPT } from '@/lib/ai/prompts';
+import { auth } from '@/lib/auth';
+import { buildUserContext } from '@/lib/ai/user-context';
 
 export const maxDuration = 30;
 
@@ -15,9 +17,17 @@ export async function POST(req: Request) {
     );
   }
 
+  // Build personalized context for authenticated users
+  const session = await auth();
+  const userContext = session?.user?.id
+    ? await buildUserContext(session.user.id)
+    : '';
+
+  const system = `${CHAT_SYSTEM_PROMPT}${userContext}`;
+
   const result = streamText({
     model: anthropic('claude-sonnet-4-6'),
-    system: CHAT_SYSTEM_PROMPT,
+    system,
     messages,
     maxOutputTokens: 1024,
   });

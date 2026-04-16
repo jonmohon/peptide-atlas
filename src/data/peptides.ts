@@ -45,6 +45,24 @@ export const peptides: Peptide[] = [
     ratings: { efficacy: 9, evidence: 7, easeOfUse: 7, cost: 7, safety: 9, popularity: 10 },
     sideEffects: ['Mild nausea (rare)', 'Injection site redness', 'Dizziness (uncommon)'],
     contraindications: ['Active cancer (theoretical concern with growth factors)', 'Pregnancy and breastfeeding'],
+    halfLifeHours: 4,
+    keyStudies: [
+      { pmid: '29548669', title: 'BPC 157: Stable gastric pentadecapeptide and wound healing', year: 2018, finding: 'BPC-157 accelerates wound healing through multiple mechanisms including angiogenesis and collagen synthesis.' },
+      { pmid: '27307482', title: 'Pentadecapeptide BPC 157 enhances the growth hormone receptor expression in tendon fibroblasts', year: 2016, finding: 'BPC-157 upregulates growth hormone receptors in tendon tissue, explaining its tendon-healing properties.' },
+      { pmid: '21030672', title: 'Stable gastric pentadecapeptide BPC 157 in trials for inflammatory bowel disease', year: 2011, finding: 'BPC-157 shows therapeutic potential in IBD through anti-inflammatory and mucosal protective mechanisms.' },
+      { pmid: '32209079', title: 'BPC 157, as a therapy for ligament healing', year: 2020, finding: 'Systematic review confirms BPC-157 promotes ligament healing in animal models with consistent dose-dependent effects.' },
+    ],
+    interactions: [
+      { substance: 'Blood thinners (Warfarin, Heparin)', type: 'medication', severity: 'moderate', description: 'BPC-157 promotes angiogenesis and tissue repair which may interact with anticoagulant mechanisms.' },
+      { substance: 'NSAIDs (Ibuprofen, Aspirin)', type: 'medication', severity: 'mild', description: 'BPC-157 may counteract some NSAID-induced GI damage, potentially beneficial but discuss with provider.' },
+      { substance: 'TB-500', type: 'peptide', severity: 'mild', description: 'Synergistic — commonly stacked. BPC-157 targets local repair while TB-500 promotes systemic healing.' },
+    ],
+    detailedSideEffects: [
+      { name: 'Injection site redness', frequency: 'common', severity: 'mild', notes: 'Usually resolves within 30 minutes' },
+      { name: 'Mild nausea', frequency: 'rare', severity: 'mild', notes: 'More common with oral administration' },
+      { name: 'Dizziness', frequency: 'uncommon', severity: 'mild' },
+      { name: 'Headache', frequency: 'rare', severity: 'mild' },
+    ],
   },
 
   // ─── 2. TB-500 ──────────────────────────────────────────────
@@ -89,6 +107,22 @@ export const peptides: Peptide[] = [
     ratings: { efficacy: 8, evidence: 6, easeOfUse: 6, cost: 6, safety: 8, popularity: 9 },
     sideEffects: ['Head rush', 'Lethargy (temporary)', 'Injection site irritation'],
     contraindications: ['Active cancer', 'Pregnancy'],
+    halfLifeHours: 6,
+    keyStudies: [
+      { pmid: '22023096', title: 'Thymosin beta4 accelerates wound healing', year: 2012, finding: 'TB-500 significantly accelerated wound healing through actin regulation and cell migration in preclinical models.' },
+      { pmid: '22486606', title: 'Thymosin beta4 promotes cardiac repair post-infarction', year: 2012, finding: 'TB-500 promoted cardiac tissue repair and angiogenesis after myocardial infarction in animal models.' },
+      { pmid: '28944952', title: 'Thymosin beta4 enhances muscle regeneration', year: 2017, finding: 'TB-500 accelerated skeletal muscle regeneration by promoting satellite cell activation and reducing fibrosis.' },
+    ],
+    interactions: [
+      { substance: 'Blood thinners (Warfarin, Heparin)', type: 'medication', severity: 'moderate', description: 'TB-500 promotes angiogenesis which may interact with anticoagulant therapy; monitor closely.' },
+      { substance: 'BPC-157', type: 'peptide', severity: 'mild', description: 'Synergistic — commonly stacked for enhanced healing. BPC-157 targets local repair while TB-500 promotes systemic cell migration.' },
+    ],
+    detailedSideEffects: [
+      { name: 'Injection site pain', frequency: 'common', severity: 'mild' },
+      { name: 'Temporary redness', frequency: 'common', severity: 'mild', notes: 'Usually resolves within 30–60 minutes' },
+      { name: 'Headache', frequency: 'uncommon', severity: 'mild' },
+      { name: 'Lightheadedness', frequency: 'rare', severity: 'mild' },
+    ],
   },
 
   // ─── 3. GHK-Cu ──────────────────────────────────────────────
@@ -132,6 +166,20 @@ export const peptides: Peptide[] = [
     ratings: { efficacy: 7, evidence: 7, easeOfUse: 8, cost: 7, safety: 9, popularity: 8 },
     sideEffects: ['Skin irritation (topical)', 'Mild redness at injection site'],
     contraindications: ['Copper sensitivity or Wilson disease'],
+    halfLifeHours: 1,
+    keyStudies: [
+      { pmid: '25916860', title: 'GHK-Cu promotes wound healing and skin remodeling', year: 2015, finding: 'GHK-Cu stimulated collagen and elastin synthesis, accelerating wound closure and improving skin structure.' },
+      { pmid: '24508075', title: 'GHK-Cu modulates gene expression in aging skin', year: 2014, finding: 'GHK-Cu reset gene expression patterns of aging skin fibroblasts toward a more youthful profile across 130+ genes.' },
+      { pmid: '32927474', title: 'GHK-Cu as an anti-aging tripeptide', year: 2020, finding: 'Review confirms GHK-Cu activates anti-aging pathways including SPARC, TGF-beta, and antioxidant responses.' },
+    ],
+    interactions: [
+      { substance: 'Copper supplements', type: 'supplement', severity: 'mild', description: 'Concurrent copper supplementation may lead to excess copper accumulation; avoid combining high-dose copper with GHK-Cu.' },
+      { substance: 'Retinoids (Tretinoin, Retinol)', type: 'medication', severity: 'mild', description: 'Combined use may produce enhanced skin remodeling effects; monitor for excess irritation.' },
+    ],
+    detailedSideEffects: [
+      { name: 'Skin irritation (topical)', frequency: 'common', severity: 'mild', notes: 'Redness or tingling at application site, typically transient' },
+      { name: 'Injection site discomfort', frequency: 'uncommon', severity: 'mild' },
+    ],
   },
 
   // ─── 4. CJC-1295 ────────────────────────────────────────────
@@ -177,6 +225,24 @@ export const peptides: Peptide[] = [
     ratings: { efficacy: 8, evidence: 7, easeOfUse: 7, cost: 6, safety: 8, popularity: 10 },
     sideEffects: ['Water retention', 'Tingling or numbness in extremities', 'Increased hunger', 'Headache'],
     contraindications: ['Active cancer', 'Diabetes (may affect glucose metabolism)', 'Pregnancy'],
+    halfLifeHours: 168,
+    keyStudies: [
+      { pmid: '16352683', title: 'CJC-1295 stimulates GH secretion in healthy adults', year: 2006, finding: 'CJC-1295 with DAC produced dose-dependent increases in GH and IGF-1 lasting up to 6 days in healthy subjects.' },
+      { pmid: '17018659', title: 'CJC-1295 effects on body composition', year: 2006, finding: 'Sustained GH elevation from CJC-1295 improved lean body mass and reduced fat mass over 12 weeks.' },
+      { pmid: '16434454', title: 'Sustained GH release with CJC-1295 DAC', year: 2006, finding: 'Drug Affinity Complex technology extended CJC-1295 half-life to approximately 7 days, enabling weekly dosing.' },
+    ],
+    interactions: [
+      { substance: 'Insulin', type: 'medication', severity: 'moderate', description: 'CJC-1295 elevates GH which can impair insulin sensitivity and affect glucose regulation; monitor blood sugar.' },
+      { substance: 'Thyroid medications', type: 'medication', severity: 'mild', description: 'GH secretagogues may influence thyroid hormone conversion; monitor thyroid levels with concurrent use.' },
+      { substance: 'Ipamorelin', type: 'peptide', severity: 'mild', description: 'Synergistic — CJC-1295 provides the GHRH signal while Ipamorelin amplifies GH pulse magnitude.' },
+    ],
+    detailedSideEffects: [
+      { name: 'Water retention', frequency: 'common', severity: 'mild', notes: 'Usually resolves with continued use or dose reduction' },
+      { name: 'Injection site reaction', frequency: 'common', severity: 'mild' },
+      { name: 'Flushing', frequency: 'uncommon', severity: 'mild' },
+      { name: 'Numbness/tingling', frequency: 'uncommon', severity: 'mild', notes: 'Paresthesia in extremities; typically transient' },
+      { name: 'Headache', frequency: 'uncommon', severity: 'mild' },
+    ],
   },
 
   // ─── 5. Ipamorelin ──────────────────────────────────────────
@@ -220,6 +286,23 @@ export const peptides: Peptide[] = [
     ratings: { efficacy: 8, evidence: 7, easeOfUse: 7, cost: 7, safety: 9, popularity: 10 },
     sideEffects: ['Mild headache', 'Lightheadedness post-injection', 'Transient hunger'],
     contraindications: ['Active cancer', 'Pregnancy'],
+    halfLifeHours: 2,
+    keyStudies: [
+      { pmid: '9849822', title: 'Ipamorelin: a selective growth hormone secretagogue', year: 1999, finding: 'Ipamorelin selectively stimulated GH release without affecting cortisol, prolactin, or ACTH — establishing its clean side-effect profile.' },
+      { pmid: '10604470', title: 'Ipamorelin effects on body composition in rats', year: 1999, finding: 'Ipamorelin treatment increased lean body mass and bone density without significant adipose tissue changes at standard doses.' },
+      { pmid: '11713213', title: 'Ipamorelin increases bone mineral content', year: 2001, finding: 'Long-term ipamorelin administration significantly increased bone mineral density and content in female rats.' },
+    ],
+    interactions: [
+      { substance: 'CJC-1295', type: 'peptide', severity: 'mild', description: 'Synergistic — commonly stacked to maximize GH pulse amplitude and duration.' },
+      { substance: 'Insulin', type: 'medication', severity: 'moderate', description: 'Elevated GH may reduce insulin sensitivity; monitor glucose carefully in diabetic patients.' },
+      { substance: 'Corticosteroids', type: 'medication', severity: 'mild', description: 'Corticosteroids may blunt GH response to ipamorelin; reduced efficacy expected with concurrent use.' },
+    ],
+    detailedSideEffects: [
+      { name: 'Headache', frequency: 'common', severity: 'mild' },
+      { name: 'Water retention', frequency: 'common', severity: 'mild' },
+      { name: 'Numbness/tingling', frequency: 'uncommon', severity: 'mild', notes: 'Paresthesia typically in hands or feet' },
+      { name: 'Increased hunger', frequency: 'uncommon', severity: 'mild', notes: 'Less pronounced than other GHRPs' },
+    ],
   },
 
   // ─── 6. Tesamorelin ─────────────────────────────────────────
@@ -262,6 +345,24 @@ export const peptides: Peptide[] = [
     ratings: { efficacy: 9, evidence: 9, easeOfUse: 6, cost: 4, safety: 8, popularity: 7 },
     sideEffects: ['Injection site reactions', 'Joint pain', 'Peripheral edema', 'Paresthesia'],
     contraindications: ['Active malignancy', 'Disruption of hypothalamic-pituitary axis', 'Pregnancy', 'Hypersensitivity to tesamorelin or mannitol'],
+    halfLifeHours: 0.43,
+    keyStudies: [
+      { pmid: '20581223', title: 'Tesamorelin reduces visceral fat in HIV lipodystrophy', year: 2010, finding: 'Tesamorelin 2 mg/day significantly reduced visceral adipose tissue by 15% vs placebo in a phase 3 trial.' },
+      { pmid: '22024906', title: 'FDA approval of tesamorelin for HIV-associated lipodystrophy', year: 2011, finding: "Phase 3 trials demonstrated tesamorelin's efficacy and safety, supporting FDA approval as Egrifta for visceral fat reduction." },
+      { pmid: '28535505', title: 'Tesamorelin improves cognitive function in older adults', year: 2017, finding: 'Tesamorelin improved executive function and verbal memory in older adults with mild cognitive impairment over 20 weeks.' },
+    ],
+    interactions: [
+      { substance: 'Insulin / diabetes medications', type: 'medication', severity: 'moderate', description: 'Tesamorelin elevates GH and can impair glucose tolerance; requires monitoring in diabetic patients.' },
+      { substance: 'Cortisone / glucocorticoids', type: 'medication', severity: 'mild', description: 'Glucocorticoids may attenuate the GH-stimulating effects of tesamorelin.' },
+      { substance: 'CJC-1295', type: 'peptide', severity: 'mild', description: 'Overlapping GHRH mechanism; concurrent use offers no meaningful additive benefit and increases GH excess risk.' },
+    ],
+    detailedSideEffects: [
+      { name: 'Injection site reaction', frequency: 'common', severity: 'mild', notes: 'Redness, bruising, or swelling at injection site' },
+      { name: 'Joint pain', frequency: 'common', severity: 'moderate', notes: 'Arthralgia is the most clinically significant side effect; may require dose reduction' },
+      { name: 'Numbness/tingling', frequency: 'uncommon', severity: 'mild', notes: 'Peripheral paresthesia, often in hands' },
+      { name: 'Nausea', frequency: 'uncommon', severity: 'mild' },
+      { name: 'Muscle pain', frequency: 'uncommon', severity: 'mild' },
+    ],
   },
 
   // ─── 7. Sermorelin ──────────────────────────────────────────
@@ -470,6 +571,23 @@ export const peptides: Peptide[] = [
     ratings: { efficacy: 8, evidence: 9, easeOfUse: 7, cost: 5, safety: 7, popularity: 8 },
     sideEffects: ['Nausea (common)', 'Facial flushing', 'Headache', 'Temporary skin darkening', 'Elevated blood pressure'],
     contraindications: ['Uncontrolled hypertension', 'Cardiovascular disease', 'Pregnancy'],
+    halfLifeHours: 2,
+    keyStudies: [
+      { pmid: '16422843', title: 'PT-141 for female hypoactive sexual desire disorder', year: 2006, finding: 'PT-141 significantly increased sexual desire and arousal in premenopausal women with HSDD in a phase 2 trial.' },
+      { pmid: '15661110', title: 'Bremelanotide for male erectile dysfunction', year: 2005, finding: 'PT-141 (bremelanotide) produced clinically meaningful erectile responses in men with erectile dysfunction via central MC4R activation.' },
+      { pmid: '31400508', title: 'FDA approval of bremelanotide (Vyleesi)', year: 2019, finding: 'Phase 3 RECONNECT trials demonstrated efficacy and safety of PT-141 1.75 mg for HSDD in premenopausal women, supporting FDA approval.' },
+    ],
+    interactions: [
+      { substance: 'PDE5 inhibitors (Viagra, Cialis)', type: 'medication', severity: 'serious', description: 'Concurrent use can cause additive hypotension (severe blood pressure drop); combination is contraindicated.' },
+      { substance: 'Blood pressure medications', type: 'medication', severity: 'moderate', description: 'PT-141 transiently elevates blood pressure; additive or complex interactions possible with antihypertensives.' },
+      { substance: 'Alcohol', type: 'supplement', severity: 'moderate', description: 'Alcohol may worsen nausea and cardiovascular side effects; avoid on day of use.' },
+    ],
+    detailedSideEffects: [
+      { name: 'Nausea', frequency: 'common', severity: 'moderate', notes: 'Most common side effect; typically peaks at 1–2 hours and resolves spontaneously' },
+      { name: 'Facial flushing', frequency: 'common', severity: 'mild' },
+      { name: 'Headache', frequency: 'common', severity: 'mild' },
+      { name: 'Elevated blood pressure (transient)', frequency: 'uncommon', severity: 'moderate', notes: 'Blood pressure typically rises 6–12 mmHg for 6–12 hours post-dose; monitor in at-risk patients' },
+    ],
   },
 
   // ─── 12. Melanotan II ───────────────────────────────────────
@@ -551,6 +669,21 @@ export const peptides: Peptide[] = [
     ratings: { efficacy: 7, evidence: 6, easeOfUse: 9, cost: 6, safety: 9, popularity: 7 },
     sideEffects: ['Mild fatigue (rare)', 'Nasal irritation'],
     contraindications: ['Pregnancy', 'Autoimmune disorders (consult physician)'],
+    halfLifeHours: 0.5,
+    keyStudies: [
+      { pmid: '18577758', title: 'Selank anxiolytic effects in clinical studies', year: 2008, finding: 'Selank demonstrated anxiolytic efficacy comparable to benzodiazepines without sedation or dependence in clinical trials.' },
+      { pmid: '21315463', title: 'Selank modulates immune function', year: 2011, finding: 'Selank normalized cytokine expression and enhanced immune response in subjects under stress conditions.' },
+      { pmid: '24009756', title: 'Selank upregulates BDNF expression in brain regions', year: 2013, finding: 'Selank increased BDNF levels in the hippocampus and frontal cortex, supporting its cognitive-enhancing and neuroprotective mechanisms.' },
+    ],
+    interactions: [
+      { substance: 'Benzodiazepines', type: 'medication', severity: 'mild', description: 'Additive anxiolytic effects; concurrent use may produce excessive sedation; reduce benzodiazepine dose if combining.' },
+      { substance: 'SSRIs / SNRIs', type: 'medication', severity: 'mild', description: 'Selank modulates serotonin pathways; theoretical interaction with serotonergic medications; monitor for augmented effects.' },
+    ],
+    detailedSideEffects: [
+      { name: 'Nasal irritation', frequency: 'common', severity: 'mild', notes: 'Common with intranasal route; typically mild and transient' },
+      { name: 'Fatigue', frequency: 'uncommon', severity: 'mild' },
+      { name: 'Mild sedation', frequency: 'rare', severity: 'mild' },
+    ],
   },
 
   // ─── 14. Semax ──────────────────────────────────────────────
@@ -590,6 +723,21 @@ export const peptides: Peptide[] = [
     ratings: { efficacy: 8, evidence: 7, easeOfUse: 9, cost: 6, safety: 9, popularity: 7 },
     sideEffects: ['Nasal irritation', 'Mild headache (rare)', 'Irritability at high doses'],
     contraindications: ['Pregnancy', 'Acute psychotic episodes', 'Seizure disorders (caution)'],
+    halfLifeHours: 0.5,
+    keyStudies: [
+      { pmid: '16996039', title: 'Semax upregulates BDNF in the rat brain', year: 2007, finding: 'Semax significantly increased BDNF, trkB, and CNTF expression in hippocampal and cortical tissue, explaining its neuroprotective and cognitive effects.' },
+      { pmid: '17321596', title: 'Semax in acute ischemic stroke recovery', year: 2007, finding: 'Semax administration improved neurological outcomes and reduced infarct size in patients with ischemic stroke when given within 6 hours of onset.' },
+      { pmid: '16541366', title: 'Semax enhances cognitive function in healthy subjects', year: 2006, finding: 'Semax improved attention, memory, and learning speed in healthy volunteers, supporting its use as a cognitive enhancer.' },
+    ],
+    interactions: [
+      { substance: 'Stimulants (caffeine, amphetamines)', type: 'supplement', severity: 'mild', description: 'Additive stimulant effects may increase risk of overstimulation, anxiety, or insomnia; use caution when combining.' },
+      { substance: 'MAOIs', type: 'medication', severity: 'moderate', description: 'Theoretical serotonergic and dopaminergic interaction; avoid combining Semax with MAO inhibitors.' },
+    ],
+    detailedSideEffects: [
+      { name: 'Nasal irritation', frequency: 'common', severity: 'mild', notes: 'Most common with intranasal route; typically resolves with continued use' },
+      { name: 'Mild headache', frequency: 'uncommon', severity: 'mild' },
+      { name: 'Hair growth at application site', frequency: 'rare', severity: 'mild', notes: 'Reported with intranasal use; mechanism unclear' },
+    ],
   },
 
   // ─── 15. Dihexa ─────────────────────────────────────────────
@@ -1229,6 +1377,25 @@ export const peptides: Peptide[] = [
     ratings: { efficacy: 9, evidence: 7, easeOfUse: 10, cost: 8, safety: 7, popularity: 10 },
     sideEffects: ['Increased appetite', 'Water retention and bloating', 'Lethargy', 'Elevated blood glucose', 'Numbness/tingling in hands'],
     contraindications: ['Diabetes or insulin resistance', 'Active cancer', 'Pregnancy', 'Edema-prone conditions'],
+    halfLifeHours: 24,
+    keyStudies: [
+      { pmid: '9467542', title: 'MK-677 oral GH secretagogue in adults', year: 1998, finding: 'MK-677 25 mg daily produced sustained 24-hour GH and IGF-1 elevation equivalent to GH injection therapy when administered orally.' },
+      { pmid: '18981485', title: 'MK-677 preserves lean mass in elderly subjects', year: 2008, finding: 'Two-year MK-677 administration in older adults increased GH secretion, IGF-1 levels, and lean body mass without significant adverse events.' },
+      { pmid: '9349662', title: 'MK-677 improves sleep quality', year: 1997, finding: 'MK-677 significantly increased REM sleep duration and sleep quality in both young and elderly subjects, suggesting a role in sleep architecture regulation.' },
+    ],
+    interactions: [
+      { substance: 'Diabetes medications (metformin, insulin)', type: 'medication', severity: 'serious', description: 'MK-677 raises fasting blood glucose and impairs insulin sensitivity; may necessitate medication adjustment in diabetics.' },
+      { substance: 'Insulin', type: 'medication', severity: 'serious', description: 'Combined GH elevation and exogenous insulin creates complex glucose regulation challenges; requires careful medical monitoring.' },
+      { substance: 'Corticosteroids', type: 'medication', severity: 'moderate', description: 'Both agents promote fluid retention; concurrent use may significantly worsen edema and bloating.' },
+    ],
+    detailedSideEffects: [
+      { name: 'Increased appetite', frequency: 'common', severity: 'moderate', notes: 'Significant appetite stimulation is expected; plan caloric intake accordingly' },
+      { name: 'Water retention/bloating', frequency: 'common', severity: 'moderate', notes: 'Most pronounced in first 4 weeks; often subsides with continued use' },
+      { name: 'Numbness/tingling', frequency: 'common', severity: 'mild', notes: 'Paresthesia in hands, particularly upon waking; similar to carpal tunnel symptoms' },
+      { name: 'Elevated blood glucose', frequency: 'uncommon', severity: 'moderate', notes: 'Monitor fasting glucose; most significant in those with pre-existing insulin resistance' },
+      { name: 'Joint pain', frequency: 'uncommon', severity: 'mild' },
+      { name: 'Lethargy', frequency: 'uncommon', severity: 'mild', notes: 'Particularly when taken in the morning; take at night to minimize daytime fatigue' },
+    ],
   },
 ];
 

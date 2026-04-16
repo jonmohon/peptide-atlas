@@ -42,6 +42,40 @@ export interface PeptideRatings {
   popularity: number;
 }
 
+export type DiluentType = 'bacteriostatic-water' | 'sterile-water' | 'saline';
+
+export interface ReconstitutionInfo {
+  commonVialSizes: number[];        // mg (e.g. [2, 5, 10])
+  storageTempCelsius: number;       // refrigerated storage temp
+  shelfLifeReconstitutedDays: number; // days after reconstitution
+  diluentType: DiluentType;
+  typicalDoseMcg: number;           // typical dose in mcg for calculator defaults
+}
+
+export interface KeyStudy {
+  pmid: string;          // PubMed ID
+  title: string;
+  year: number;
+  finding: string;       // 1-sentence summary of key finding
+}
+
+export interface DrugInteraction {
+  substance: string;     // medication, supplement, or peptide name
+  type: 'medication' | 'supplement' | 'peptide';
+  severity: 'mild' | 'moderate' | 'serious';
+  description: string;
+}
+
+export type SideEffectFrequency = 'common' | 'uncommon' | 'rare';
+export type SideEffectSeverity = 'mild' | 'moderate' | 'severe';
+
+export interface DetailedSideEffect {
+  name: string;
+  frequency: SideEffectFrequency;
+  severity: SideEffectSeverity;
+  notes?: string;
+}
+
 export interface Peptide {
   id: string;
   slug: string;
@@ -57,7 +91,11 @@ export interface Peptide {
   timeline: TimelinePhase[];
   evidenceLevel: EvidenceLevel;
   ratings: PeptideRatings;
-  keyStudies?: string[];
+  keyStudies?: KeyStudy[];
+  interactions?: DrugInteraction[];
+  detailedSideEffects?: DetailedSideEffect[];
   contraindications?: string[];
   sideEffects?: string[];
+  reconstitution?: ReconstitutionInfo;
+  halfLifeHours?: number;
 }

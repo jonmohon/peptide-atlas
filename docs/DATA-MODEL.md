@@ -1,6 +1,14 @@
 # Data Model
 
-All data in PeptideAtlas is defined as static TypeScript constants. There is no database -- peptide data, stacks, effects, body regions, and other reference data live in `src/data/` and are imported directly by components and API routes.
+> **This document is out of date for user data.**
+> PeptideAtlas now has a full DynamoDB backend via AWS Amplify Data (AppSync + DynamoDB).
+> See [`docs/database.md`](./database.md) for the current user data model: `UserProfile`, `JournalEntry`, `BloodworkPanel`, `SavedStack`, `SavedProtocol`, `AiUsage`, `UserNote`, `AiConversation`.
+>
+> This file documents **static reference data only** — peptides, stacks, effects, body regions, and other content defined as TypeScript constants in `src/data/`. That data has not moved; it is still imported directly by components and API routes.
+
+---
+
+All static reference data in PeptideAtlas is defined as TypeScript constants. Peptide data, stacks, effects, body regions, and other reference data live in `src/data/` and are imported directly by components and API routes. User-specific data (profiles, journal entries, saved stacks, bloodwork, AI usage) is stored in DynamoDB via Amplify Data — see `docs/database.md`.
 
 ## Type Definitions
 
@@ -31,9 +39,12 @@ All interfaces are in `src/types/` and re-exported from `src/types/index.ts`.
 | `timeline` | `TimelinePhase[]` | Expected results timeline by week |
 | `evidenceLevel` | `EvidenceLevel` | Research evidence strength |
 | `ratings` | `PeptideRatings` | 6-dimensional rating profile |
-| `keyStudies` | `string[]` (optional) | Notable research study references |
+| `keyStudies` | `KeyStudy[]` (optional) | PubMed citations with author, year, title, url, finding fields — 10 peptides currently populated |
+| `interactions` | `DrugInteraction[]` (optional) | Known drug/peptide interactions with severity and description |
+| `detailedSideEffects` | `DetailedSideEffect[]` (optional) | Side effects with frequency, severity, and management notes |
+| `halfLifeHours` | `number` (optional) | Plasma half-life in hours (used by reconstitution calculator and protocol planner) |
 | `contraindications` | `string[]` (optional) | Conditions where this peptide should not be used |
-| `sideEffects` | `string[]` (optional) | Known side effects |
+| `sideEffects` | `string[]` (optional) | Known side effects (legacy; `detailedSideEffects` is preferred) |
 
 ### `PeptideCategory` enum
 
@@ -328,6 +339,56 @@ Same as `BlogPost` but without the `content` field. Used for blog index listings
 3. Assign roles: `primary` (main peptide), `synergist` (enhances primary), `support` (secondary benefit)
 4. Set `highlightedRegions` to show which body areas the stack targets
 5. Update the referenced peptides' `commonStacks` arrays
+
+## New Types (Added Post-Launch)
+
+These types are defined in `src/types/peptide.ts` and `src/types/` to support features added after the initial launch.
+
+### `KeyStudy` interface
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `pubmedId` | `string` | PubMed article identifier |
+| `authors` | `string` | Author list |
+| `year` | `number` | Publication year |
+| `title` | `string` | Study title |
+| `url` | `string` | Link to PubMed or DOI |
+| `finding` | `string` | One-sentence summary of the key finding |
+
+### `DrugInteraction` interface
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `substance` | `string` | Drug or peptide name |
+| `severity` | `'low' \| 'moderate' \| 'high'` | Interaction severity |
+| `description` | `string` | Description of the interaction |
+
+### `DetailedSideEffect` interface
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `effect` | `string` | Side effect name |
+| `frequency` | `'rare' \| 'uncommon' \| 'common'` | How often it occurs |
+| `severity` | `'mild' \| 'moderate' \| 'severe'` | How serious it is |
+| `management` | `string` (optional) | How to manage or mitigate it |
+
+### Journal / Tracking Types (`src/types/journal.ts`)
+
+| Type | Description |
+|------|-------------|
+| `JournalEntryData` | Shape of a single day's journal entry (peptideDoses, weight, mood, energy, sleep, sideEffects, measurements, notes) |
+| `PeptideDose` | A single dose record within a `JournalEntryData` (peptideId, dose, unit, time, route) |
+| `SideEffect` | A reported side effect within a journal entry (name, severity) |
+| `CalendarDay` | A day entry used by the journal calendar UI (date, hasEntry, hasSideEffect) |
+
+### User / Tier Types (`src/types/user.ts`)
+
+| Type | Description |
+|------|-------------|
+| `Tier` | `'FREE' \| 'PRO' \| 'ELITE'` — subscription tier |
+| `PremiumFeature` | Union of feature keys gated by tier (e.g., `'bloodwork_tracker'`, `'journal_insights'`, `'protocol_chat'`) |
+
+---
 
 ## Data Counts
 
