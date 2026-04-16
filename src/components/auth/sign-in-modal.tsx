@@ -36,7 +36,7 @@ export function SignInModal({ open, onClose }: SignInModalProps) {
       if (result.isSignedIn) {
         resetForm();
         onClose();
-        window.location.reload();
+        window.location.href = '/atlas';
       }
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : 'Sign in failed';
@@ -80,7 +80,7 @@ export function SignInModal({ open, onClose }: SignInModalProps) {
       await signIn({ username: email, password });
       resetForm();
       onClose();
-      window.location.reload();
+      window.location.href = '/atlas';
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Confirmation failed');
     } finally {
