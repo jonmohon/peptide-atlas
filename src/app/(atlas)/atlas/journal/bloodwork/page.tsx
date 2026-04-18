@@ -8,6 +8,9 @@
 import { useState, useEffect } from 'react';
 import { dataClient } from '@/lib/amplify-data';
 import { cn } from '@/lib/utils';
+import { BloodworkUploadParser } from '@/components/bloodwork/upload-parser';
+import type { BloodworkParse } from '@/lib/ai/schemas';
+import { maybeUnlock } from '@/lib/achievements';
 
 interface Marker {
   name: string;
@@ -107,6 +110,21 @@ export default function BloodworkPage() {
     setNewMarkers((prev) => prev.filter((_, i) => i !== index));
   }
 
+  function handleParsed(parsed: BloodworkParse) {
+    const mapped: Marker[] = parsed.markers.map((m) => ({
+      name: m.name,
+      value: m.value,
+      unit: m.unit,
+      referenceRange: m.referenceRange,
+      flag: m.flag,
+    }));
+    setNewMarkers(mapped);
+    if (parsed.labName) setNewLabName(parsed.labName);
+    if (parsed.collectionDate) setNewDate(parsed.collectionDate);
+    if (parsed.warnings?.length) setNewNotes(`Parse warnings: ${parsed.warnings.join(' • ')}`);
+    setShowAdd(true);
+  }
+
   async function handleSave() {
     if (newMarkers.length === 0) return;
     setSaving(true);
@@ -118,6 +136,7 @@ export default function BloodworkPage() {
         notes: newNotes || null,
         parsedByAi: false,
       });
+      await maybeUnlock('FIRST_BLOODWORK');
       setShowAdd(false);
       setNewMarkers([]);
       setNewNotes('');
@@ -197,6 +216,11 @@ export default function BloodworkPage() {
         >
           + Add Panel
         </button>
+      </div>
+
+      {/* AI PDF Upload & Parse */}
+      <div className="mb-6">
+        <BloodworkUploadParser onParsed={handleParsed} />
       </div>
 
       {/* Add Panel Form */}

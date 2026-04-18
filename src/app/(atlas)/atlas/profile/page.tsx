@@ -8,6 +8,7 @@
 import { useState, useEffect } from 'react';
 import { getCurrentUser } from 'aws-amplify/auth';
 import { dataClient } from '@/lib/amplify-data';
+import { AchievementsList } from '@/components/engagement/achievements-list';
 import { cn } from '@/lib/utils';
 
 const GOAL_OPTIONS = [
@@ -314,6 +315,15 @@ export default function ProfilePage() {
             rows={4}
             className="w-full px-3 py-2 rounded-lg bg-white/[0.05] border border-white/[0.1] text-sm text-foreground placeholder:text-text-secondary focus:outline-none focus:border-neon-cyan/50 resize-none"
           />
+        </div>
+
+        {/* Achievements */}
+        <div className="glass rounded-2xl p-6">
+          <h2 className="text-sm font-semibold text-foreground mb-3">Achievements</h2>
+          <p className="text-xs text-text-secondary mb-4">
+            Milestones that matter — tied to real progress, not just clicks.
+          </p>
+          <AchievementsList />
         </div>
 
         {/* AI Context Preview */}

@@ -9,6 +9,8 @@ import { bodyRegions } from '@/data/body-regions';
 import { formatCategoryLabel } from '@/lib/utils';
 import { MechanismExplainer } from '@/components/ai/mechanism-explainer';
 import { WhatToExpect } from '@/components/ai/what-to-expect';
+import { PeptideBenchmarks } from '@/components/community/peptide-benchmarks';
+import { PeptideVendors } from '@/components/vendors/peptide-vendors';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -170,6 +172,12 @@ export default async function PeptideDetailPage({ params }: Props) {
 
       {/* What to Expect */}
       <WhatToExpect peptideIds={[peptide.id]} />
+
+      {/* Community benchmarks */}
+      <PeptideBenchmarks peptideId={peptide.id} />
+
+      {/* Vendor listings */}
+      <PeptideVendors peptideSlug={peptide.slug} peptideId={peptide.id} />
 
       {/* Ratings */}
       <section className="mb-8">

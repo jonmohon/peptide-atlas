@@ -1,7 +1,10 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 import { ChatWidget } from '@/components/ai/chat-widget';
 import { SessionProvider } from '@/components/auth/session-provider';
+import { ServiceWorkerRegistration } from '@/components/pwa/service-worker-registration';
+import { ReminderScheduler } from '@/components/pwa/reminder-scheduler';
+import { AchievementToast } from '@/components/engagement/achievement-toast';
 import './globals.css';
 
 const inter = Inter({
@@ -25,6 +28,23 @@ export const metadata: Metadata = {
     'healing peptides',
     'peptide education',
   ],
+  manifest: '/manifest.json',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'black-translucent',
+    title: 'PeptideAtlas',
+  },
+  icons: {
+    icon: '/icons/icon-192.svg',
+    apple: '/icons/icon-192.svg',
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: '#00d4ff',
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
 };
 
 export default function RootLayout({
@@ -38,6 +58,9 @@ export default function RootLayout({
         <SessionProvider>
           {children}
           <ChatWidget />
+          <ServiceWorkerRegistration />
+          <ReminderScheduler />
+          <AchievementToast />
         </SessionProvider>
       </body>
     </html>

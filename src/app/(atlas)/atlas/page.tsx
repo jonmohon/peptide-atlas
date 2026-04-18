@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useJournalStore } from '@/stores/use-journal-store';
 import { useEffect } from 'react';
+import { UsersLikeYou } from '@/components/community/users-like-you';
 
 function getToday(): string {
   return new Date().toISOString().split('T')[0];
@@ -146,6 +147,9 @@ export default function DashboardPage() {
           ))}
         </div>
       </div>
+
+      {/* Users like you */}
+      <UsersLikeYou />
 
       {/* Disclaimer */}
       <p className="text-[10px] text-text-secondary/50 text-center pt-4">

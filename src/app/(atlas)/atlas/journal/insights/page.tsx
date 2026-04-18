@@ -3,9 +3,10 @@
 /**
  * AI Insights page — fetches journal entries for a selected period (weekly/monthly)
  * and streams an AI-generated analysis report from /api/ai/journal-insight.
+ * Includes email-report + weekly auto-email controls.
  */
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { dataClient } from '@/lib/amplify-data';
 import { cn } from '@/lib/utils';
 
@@ -16,6 +17,76 @@ export default function InsightsPage() {
   const [report, setReport] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [profileId, setProfileId] = useState<string | null>(null);
+  const [weeklyEmailEnabled, setWeeklyEmailEnabled] = useState(false);
+  const [sendingEmail, setSendingEmail] = useState(false);
+  const [emailStatus, setEmailStatus] = useState<string | null>(null);
+
+  useEffect(() => {
+    dataClient.models.UserProfile.list().then(({ data }) => {
+      const p = data?.[0];
+      if (p) {
+        setProfileId(p.id);
+        setWeeklyEmailEnabled(p.weeklyEmailEnabled ?? false);
+      }
+    }).catch(() => undefined);
+  }, []);
+
+  async function toggleWeeklyEmail() {
+    if (!profileId) return;
+    const next = !weeklyEmailEnabled;
+    setWeeklyEmailEnabled(next);
+    try {
+      await dataClient.models.UserProfile.update({
+        id: profileId,
+        weeklyEmailEnabled: next,
+      });
+    } catch {
+      setWeeklyEmailEnabled(!next);
+    }
+  }
+
+  async function emailMeReport() {
+    setSendingEmail(true);
+    setEmailStatus(null);
+    try {
+      const { data: all } = await dataClient.models.JournalEntry.list({ limit: 200 });
+      const entries = (all ?? []).map((e) => ({
+        date: e.date,
+        peptideDoses: e.peptideDoses,
+        mood: e.mood,
+        energy: e.energy,
+        sleepQuality: e.sleepQuality,
+        sleepHours: e.sleepHours,
+        weight: e.weight,
+        bodyFat: e.bodyFat,
+        sideEffects: e.sideEffects,
+        dietNotes: e.dietNotes,
+      }));
+
+      const { data: profiles } = await dataClient.models.UserProfile.list();
+      const name = profiles?.[0]?.name ?? null;
+
+      const res = await fetch('/api/insights/email-report', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ period, entries, name }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setEmailStatus(data.error ?? 'Email failed');
+      } else if (!data.ok) {
+        setEmailStatus(data.error ?? 'Email provider error');
+      } else {
+        setEmailStatus('Emailed ✓');
+      }
+    } catch {
+      setEmailStatus('Network error');
+    } finally {
+      setSendingEmail(false);
+      setTimeout(() => setEmailStatus(null), 5000);
+    }
+  }
 
   const generateReport = async () => {
     setLoading(true);
@@ -112,7 +183,7 @@ export default function InsightsPage() {
 
       {/* Period selector + Generate */}
       <div className="glass rounded-2xl p-5 mb-6">
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 flex-wrap">
           <div className="flex gap-2 bg-white/[0.03] rounded-xl p-0.5 border border-white/[0.06]">
             {(['weekly', 'monthly'] as const).map((p) => (
               <button
@@ -136,7 +207,23 @@ export default function InsightsPage() {
           >
             {loading ? 'Analyzing...' : 'Generate Report'}
           </button>
+          <button
+            onClick={emailMeReport}
+            disabled={sendingEmail}
+            className="px-4 py-2 rounded-xl bg-white/[0.05] text-text-secondary border border-white/[0.08] hover:bg-white/[0.1] transition-all text-sm font-medium disabled:opacity-50"
+          >
+            {sendingEmail ? 'Sending...' : emailStatus ?? 'Email me this report'}
+          </button>
         </div>
+        <label className="flex items-center gap-2 text-xs text-text-secondary mt-4 cursor-pointer">
+          <input
+            type="checkbox"
+            checked={weeklyEmailEnabled}
+            onChange={toggleWeeklyEmail}
+            className="accent-neon-cyan"
+          />
+          Send me a weekly insight email automatically
+        </label>
       </div>
 
       {/* Error */}

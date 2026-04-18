@@ -16,6 +16,14 @@ const schema = a.schema({
     stripeCustomerId: a.string(),
     stripeSubscriptionId: a.string(),
     stripeStatus: a.string(),
+    // Onboarding + engagement
+    onboardingCompleted: a.boolean(),
+    onboardingCompletedAt: a.datetime(),
+    notificationsEnabled: a.boolean(),
+    reminderQuietHoursStart: a.integer(),
+    reminderQuietHoursEnd: a.integer(),
+    weeklyEmailEnabled: a.boolean(),
+    lastWeeklyEmailAt: a.datetime(),
     // AI context fields
     goals: a.string().array(),
     experienceLevel: a.string(),
@@ -123,6 +131,143 @@ const schema = a.schema({
     messageCount: a.integer(),
   })
     .authorization((allow) => [allow.owner()]),
+
+  // ─── Achievements (meaningful milestones) ────────────────────
+  Achievement: a.model({
+    code: a.string().required(),
+    title: a.string().required(),
+    description: a.string(),
+    unlockedAt: a.datetime().required(),
+    iconKey: a.string(),
+    meta: a.json(),
+  })
+    .authorization((allow) => [allow.owner()])
+    .secondaryIndexes((index) => [
+      index('code'),
+    ]),
+
+  // ─── Progress Photos ─────────────────────────────────────────
+  ProgressPhoto: a.model({
+    date: a.date().required(),
+    s3Key: a.string().required(),
+    angle: a.enum(['FRONT', 'BACK', 'SIDE_LEFT', 'SIDE_RIGHT', 'OTHER']),
+    weight: a.float(),
+    bodyFat: a.float(),
+    notes: a.string(),
+    aiObservation: a.string(),
+    aiComparison: a.string(),
+  })
+    .authorization((allow) => [allow.owner()])
+    .secondaryIndexes((index) => [
+      index('date'),
+    ]),
+
+  // ─── Affiliate Click Tracking ─────────────────────────────────
+  AffiliateClick: a.model({
+    vendorId: a.string().required(),
+    peptideId: a.string(),
+    clickedAt: a.datetime().required(),
+    referer: a.string(),
+  })
+    .authorization((allow) => [allow.owner()]),
+
+  // ─── Reminders (dose notifications) ──────────────────────────
+  Reminder: a.model({
+    title: a.string().required(),
+    body: a.string(),
+    time: a.string().required(),
+    daysOfWeek: a.string().array(),
+    peptideId: a.string(),
+    dose: a.string(),
+    unit: a.string(),
+    enabled: a.boolean(),
+  })
+    .authorization((allow) => [allow.owner()]),
+
+  // ─── Community Protocols (published by users, browsable by all) ─
+  CommunityProtocol: a.model({
+    authorId: a.string().required(),
+    authorName: a.string(),
+    name: a.string().required(),
+    slug: a.string().required(),
+    description: a.string(),
+    goals: a.string().array().required(),
+    experience: a.string().required(),
+    peptideIds: a.string().array().required(),
+    content: a.json().required(),
+    journalSummary: a.string(),
+    durationWeeks: a.integer(),
+    upvoteCount: a.integer(),
+    commentCount: a.integer(),
+    published: a.boolean(),
+    flaggedCount: a.integer(),
+    createdAt: a.datetime(),
+  })
+    .authorization((allow) => [
+      allow.authenticated().to(['read']),
+      allow.owner(),
+    ])
+    .secondaryIndexes((index) => [
+      index('slug'),
+      index('createdAt'),
+    ]),
+
+  CommunityProtocolUpvote: a.model({
+    protocolId: a.string().required(),
+    voterId: a.string().required(),
+  })
+    .authorization((allow) => [
+      allow.authenticated().to(['read']),
+      allow.owner(),
+    ])
+    .secondaryIndexes((index) => [
+      index('protocolId'),
+    ]),
+
+  CommunityProtocolComment: a.model({
+    protocolId: a.string().required(),
+    authorId: a.string().required(),
+    authorName: a.string(),
+    content: a.string().required(),
+    createdAt: a.datetime().required(),
+    flagged: a.boolean(),
+  })
+    .authorization((allow) => [
+      allow.authenticated().to(['read']),
+      allow.owner(),
+    ])
+    .secondaryIndexes((index) => [
+      index('protocolId'),
+    ]),
+
+  // ─── Cycles (multi-peptide on/off plans) ─────────────────────
+  Cycle: a.model({
+    name: a.string().required(),
+    startDate: a.date().required(),
+    durationWeeks: a.integer().required(),
+    entries: a.json().required(),
+    notes: a.string(),
+    active: a.boolean(),
+    aiAnalysis: a.json(),
+  })
+    .authorization((allow) => [allow.owner()])
+    .secondaryIndexes((index) => [
+      index('startDate'),
+    ]),
+
+  // ─── Research Digest (PubMed summaries) ──────────────────────
+  ResearchDigest: a.model({
+    generatedAt: a.datetime().required(),
+    peptideIds: a.string().array().required(),
+    experienceLevel: a.string(),
+    summary: a.string().required(),
+    articles: a.json().required(),
+    viewed: a.boolean(),
+  })
+    .authorization((allow) => [allow.owner()])
+    .secondaryIndexes((index) => [
+      index('generatedAt'),
+    ]),
 
   // ─── AI Insight Reports ──────────────────────────────────────
   AiInsightReport: a.model({

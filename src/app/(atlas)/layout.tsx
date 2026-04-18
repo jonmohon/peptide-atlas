@@ -1,5 +1,6 @@
 import { AtlasHeader } from '@/components/layout/atlas-header';
 import { AtlasSidebar } from '@/components/layout/atlas-sidebar';
+import { OnboardingGate } from '@/components/onboarding/onboarding-gate';
 
 export default function AtlasLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -9,6 +10,7 @@ export default function AtlasLayout({ children }: { children: React.ReactNode })
         <AtlasSidebar />
         <main className="flex-1 overflow-auto">{children}</main>
       </div>
+      <OnboardingGate />
     </div>
   );
 }

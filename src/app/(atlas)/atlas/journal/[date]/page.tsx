@@ -12,6 +12,8 @@ import { DoseLog } from '@/components/journal/dose-log';
 import { MetricSliders } from '@/components/journal/metric-sliders';
 import { SideEffectPicker } from '@/components/journal/side-effect-picker';
 import { useJournalStore } from '@/stores/use-journal-store';
+import { dataClient } from '@/lib/amplify-data';
+import { maybeUnlock } from '@/lib/achievements';
 import { cn } from '@/lib/utils';
 
 type Section = 'doses' | 'metrics' | 'diet' | 'effects' | 'notes';
@@ -20,8 +22,10 @@ export default function JournalEntryPage() {
   const params = useParams();
   const router = useRouter();
   const date = params.date as string;
-  const { draft, isDirty, saving, loading, loadEntry, saveEntry, loadPreviousEntry, updateDraft, addDose, updateDose, removeDose, copyDosesFromEntry } = useJournalStore();
+  const { draft, isDirty, saving, loading, loadEntry, saveEntry, loadPreviousEntry, updateDraft, addDose, updateDose, removeDose, copyDosesFromEntry, currentStreak } = useJournalStore();
   const [openSections, setOpenSections] = useState<Set<Section>>(new Set(['doses', 'metrics']));
+  const [microInsight, setMicroInsight] = useState<string | null>(null);
+  const [loadingInsight, setLoadingInsight] = useState(false);
 
   useEffect(() => {
     loadEntry(date);
@@ -37,7 +41,50 @@ export default function JournalEntryPage() {
   };
 
   const handleSave = async () => {
-    await saveEntry();
+    const ok = await saveEntry();
+    if (!ok) return;
+
+    try {
+      await maybeUnlock('FIRST_JOURNAL');
+      const streakAfter = useJournalStore.getState().currentStreak;
+      if (streakAfter >= 7) await maybeUnlock('WEEK_STREAK');
+      if (streakAfter >= 30) await maybeUnlock('MONTH_STREAK');
+    } catch {
+      // Achievement unlock is best-effort.
+    }
+
+    setLoadingInsight(true);
+    setMicroInsight(null);
+    try {
+      const { data: all } = await dataClient.models.JournalEntry.list({ limit: 30 });
+      const recent = (all ?? [])
+        .sort((a, b) => b.date.localeCompare(a.date))
+        .slice(0, 14)
+        .map((e) => ({
+          date: e.date,
+          peptideDoses: e.peptideDoses,
+          mood: e.mood,
+          energy: e.energy,
+          sleepHours: e.sleepHours,
+          sleepQuality: e.sleepQuality,
+          weight: e.weight,
+          sideEffects: e.sideEffects,
+        }));
+
+      const res = await fetch('/api/ai/micro-insight', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ entries: recent }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setMicroInsight(data.insight ?? null);
+      }
+    } catch {
+      // Insight is best-effort.
+    } finally {
+      setLoadingInsight(false);
+    }
   };
 
   const handleCopyYesterday = async () => {
@@ -215,6 +262,29 @@ export default function JournalEntryPage() {
           >
             {saving ? 'Saving...' : 'Save Entry'}
           </button>
+        </div>
+      )}
+
+      {/* Post-save micro-insight */}
+      {(loadingInsight || microInsight) && (
+        <div className="mt-6 glass rounded-xl p-4 border border-purple-400/20 flex items-start gap-3">
+          <div className="w-8 h-8 rounded-full bg-purple-400/15 flex items-center justify-center shrink-0">
+            {loadingInsight ? (
+              <div className="w-3.5 h-3.5 border-2 border-purple-400/30 border-t-purple-400 rounded-full animate-spin" />
+            ) : (
+              <svg className="w-4 h-4 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+              </svg>
+            )}
+          </div>
+          <div>
+            <div className="text-[10px] font-semibold text-purple-400 uppercase tracking-wider">
+              Atlas observation
+            </div>
+            <div className="text-sm text-foreground mt-0.5 leading-relaxed">
+              {loadingInsight ? 'Looking for patterns...' : microInsight}
+            </div>
+          </div>
         </div>
       )}
     </div>

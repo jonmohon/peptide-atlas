@@ -6,6 +6,7 @@ import { Tag } from '@/components/ui/tag';
 import { useStreamingText } from '@/hooks/use-streaming-text';
 import { ProtocolDisplay } from '@/components/ai/protocol-display';
 import { AILoadingSkeleton } from '@/components/ai/ai-loading-skeleton';
+import { SavePublishButtons } from '@/components/community/save-publish-buttons';
 
 const goals = [
   { id: 'healing', label: 'Healing & Recovery', icon: '🩹' },
@@ -212,6 +213,17 @@ export default function ProtocolGeneratorPage() {
               Start Over
             </Button>
           </div>
+
+          {/* Save / publish */}
+          {text && !isStreaming && (
+            <div className="mt-6">
+              <SavePublishButtons
+                goals={selectedGoals}
+                experience={experience}
+                protocolText={text}
+              />
+            </div>
+          )}
         </div>
       )}
     </div>
