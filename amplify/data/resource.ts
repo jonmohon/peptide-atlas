@@ -162,6 +162,44 @@ const schema = a.schema({
       index('date'),
     ]),
 
+  // ─── Inventory (user's on-hand peptide vials) ────────────────
+  Inventory: a.model({
+    peptideId: a.string().required(),
+    vialSizeMg: a.float().required(),
+    quantity: a.integer().required(),
+    reconstituted: a.boolean(),
+    reconstitutedWaterMl: a.float(),
+    reconstitutedAt: a.datetime(),
+    expiresAt: a.datetime(),
+    storageLocation: a.string(),
+    vendorId: a.string(),
+    costUsd: a.float(),
+    notes: a.string(),
+    executionPlanId: a.string(),
+  })
+    .authorization((allow) => [allow.owner()])
+    .secondaryIndexes((index) => [
+      index('peptideId'),
+      index('expiresAt'),
+    ]),
+
+  // ─── Execution Plans (stack → cycle + reminders + inventory) ─
+  ExecutionPlan: a.model({
+    name: a.string().required(),
+    stackSlug: a.string(),
+    peptideIds: a.string().array().required(),
+    wizardState: a.json().required(),
+    cycleId: a.string(),
+    reminderIds: a.string().array(),
+    inventoryIds: a.string().array(),
+    status: a.enum(['DRAFT', 'ACTIVE', 'ARCHIVED']),
+    activatedAt: a.datetime(),
+  })
+    .authorization((allow) => [allow.owner()])
+    .secondaryIndexes((index) => [
+      index('status'),
+    ]),
+
   // ─── Affiliate Click Tracking ─────────────────────────────────
   AffiliateClick: a.model({
     vendorId: a.string().required(),

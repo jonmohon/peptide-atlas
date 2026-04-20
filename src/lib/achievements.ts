@@ -16,7 +16,8 @@ export type AchievementCode =
   | 'FIRST_BLOODWORK_IMPROVEMENT'
   | 'FIRST_UPVOTE_RECEIVED'
   | 'CYCLE_COMPLETER'
-  | 'FIRST_PHOTO';
+  | 'FIRST_PHOTO'
+  | 'FIRST_EXECUTION_PLAN';
 
 interface AchievementDef {
   code: AchievementCode;
@@ -85,6 +86,12 @@ export const ACHIEVEMENTS: Record<AchievementCode, AchievementDef> = {
     title: 'Visual Baseline',
     description: 'Uploaded your first progress photo.',
     iconKey: '📸',
+  },
+  FIRST_EXECUTION_PLAN: {
+    code: 'FIRST_EXECUTION_PLAN',
+    title: 'Protocol Active',
+    description: 'Turned a stack into a live execution plan.',
+    iconKey: '🚀',
   },
 };
 
