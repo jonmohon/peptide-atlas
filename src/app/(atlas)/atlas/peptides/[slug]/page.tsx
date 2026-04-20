@@ -55,18 +55,29 @@ export default async function PeptideDetailPage({ params }: Props) {
       </nav>
 
       {/* Header */}
-      <div className="flex items-start gap-4 mb-8">
-        <CategoryIcon category={peptide.category} size="lg" />
-        <div>
-          <h1 className="text-3xl font-bold">{peptide.name}</h1>
-          <p className="text-text-secondary">{peptide.fullName}</p>
-          <div className="flex items-center gap-3 mt-2">
-            <EvidenceBadge level={peptide.evidenceLevel} />
-            <Tag variant="medical" size="md">
-              {formatCategoryLabel(peptide.category)}
-            </Tag>
+      <div className="flex items-start justify-between gap-4 mb-8 flex-wrap">
+        <div className="flex items-start gap-4">
+          <CategoryIcon category={peptide.category} size="lg" />
+          <div>
+            <h1 className="text-3xl font-bold text-foreground">{peptide.name}</h1>
+            <p className="text-text-secondary">{peptide.fullName}</p>
+            <div className="flex items-center gap-3 mt-2">
+              <EvidenceBadge level={peptide.evidenceLevel} />
+              <Tag variant="medical" size="md">
+                {formatCategoryLabel(peptide.category)}
+              </Tag>
+            </div>
           </div>
         </div>
+        <a
+          href={`/atlas/stacks/execute?peptides=${peptide.id}`}
+          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold bg-neon-cyan/20 text-neon-cyan border border-neon-cyan/30 hover:bg-neon-cyan/30 shadow-[0_0_15px_rgba(0,212,255,0.12)] shrink-0"
+        >
+          🚀 Execute with {peptide.abbreviation}
+          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
       </div>
 
       {/* Description */}

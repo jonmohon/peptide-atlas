@@ -9,6 +9,7 @@ import { useState, useEffect } from 'react';
 import { getCurrentUser } from 'aws-amplify/auth';
 import { dataClient } from '@/lib/amplify-data';
 import { AchievementsList } from '@/components/engagement/achievements-list';
+import { LivingProfile } from '@/components/profile/living-profile';
 import { cn } from '@/lib/utils';
 
 const GOAL_OPTIONS = [
@@ -163,6 +164,9 @@ export default function ProfilePage() {
       </div>
 
       <div className="space-y-6">
+        {/* Living profile — aggregated snapshot of what the AI sees */}
+        <LivingProfile />
+
         {/* Goals */}
         <div className="glass rounded-2xl p-6">
           <h2 className="text-sm font-semibold text-foreground mb-3">Your Goals</h2>

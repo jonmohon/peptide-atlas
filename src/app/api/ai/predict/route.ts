@@ -8,7 +8,11 @@ import { buildUserContext } from '@/lib/ai/user-context';
 export const maxDuration = 15;
 
 export async function POST(req: Request) {
-  const { peptideIds, level = 'intermediate' } = await req.json();
+  const {
+    peptideIds,
+    level = 'intermediate',
+    userContext: clientContext,
+  } = await req.json();
 
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
@@ -40,7 +44,8 @@ Include:
 Keep it under 200 words. End with a brief medical disclaimer.`;
 
   const session = await auth();
-  const userContext = session?.user?.id ? await buildUserContext(session.user.id) : '';
+  const serverContext = session?.user?.id ? await buildUserContext(session.user.id) : '';
+  const userContext = `${serverContext}${typeof clientContext === 'string' ? clientContext : ''}`;
 
   const result = streamText({
     model: anthropic('claude-haiku-4-5-20251001'),

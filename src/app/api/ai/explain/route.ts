@@ -8,7 +8,11 @@ import { buildUserContext } from '@/lib/ai/user-context';
 export const maxDuration = 20;
 
 export async function POST(req: Request) {
-  const { peptideId, level = 'intermediate' } = await req.json();
+  const {
+    peptideId,
+    level = 'intermediate',
+    userContext: clientContext,
+  } = await req.json();
 
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
@@ -33,7 +37,8 @@ Effects: ${peptide.effects.join(', ')}
 Affected regions: ${peptide.affectedRegions.map((r) => r.regionId).join(', ')}`;
 
   const session = await auth();
-  const userContext = session?.user?.id ? await buildUserContext(session.user.id) : '';
+  const serverContext = session?.user?.id ? await buildUserContext(session.user.id) : '';
+  const userContext = `${serverContext}${typeof clientContext === 'string' ? clientContext : ''}`;
 
   const result = streamText({
     model: anthropic('claude-sonnet-4-6'),

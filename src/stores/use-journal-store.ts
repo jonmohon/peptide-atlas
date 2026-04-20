@@ -160,6 +160,32 @@ export const useJournalStore = create<JournalStore>((set, get) => ({
           }));
         }
       }
+
+      // Sync latest body stats back to UserProfile so AI + other features see them.
+      // Only runs when the entry is today's (never overwrite with stale backfill data).
+      const today = new Date().toISOString().split('T')[0];
+      if (draft.date === today && (draft.weight != null || draft.bodyFat != null)) {
+        try {
+          const { data: profiles } = await dataClient.models.UserProfile.list();
+          const profile = profiles?.[0];
+          if (profile) {
+            const patch: Record<string, number | null> = {};
+            if (draft.weight != null && draft.weight !== profile.weight) {
+              patch.weight = draft.weight;
+            }
+            if (Object.keys(patch).length > 0) {
+              await dataClient.models.UserProfile.update({ id: profile.id, ...patch });
+              if (typeof window !== 'undefined') {
+                window.dispatchEvent(new Event('atlas-profile-changed'));
+              }
+            }
+          }
+        } catch (err) {
+          // Profile sync is best-effort; journal save still succeeded.
+          console.warn('Journal → profile sync failed:', err);
+        }
+      }
+
       set({ isDirty: false, saving: false });
       return true;
     } catch (err) {
