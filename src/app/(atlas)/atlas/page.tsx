@@ -10,6 +10,7 @@ import Link from 'next/link';
 import { useJournalStore } from '@/stores/use-journal-store';
 import { useEffect } from 'react';
 import { UsersLikeYou } from '@/components/community/users-like-you';
+import { TodaysOps } from '@/components/dashboard/todays-ops';
 
 function getToday(): string {
   return new Date().toISOString().split('T')[0];
@@ -83,6 +84,9 @@ export default function DashboardPage() {
           </div>
         )}
       </div>
+
+      {/* Today's Ops — live glance across doses, vials, streak, bloodwork, community */}
+      <TodaysOps />
 
       {/* Today's status card */}
       <div className={`glass-bright rounded-2xl p-6 border ${todayLogged ? 'border-neon-green/20' : 'border-neon-cyan/20'}`}>
