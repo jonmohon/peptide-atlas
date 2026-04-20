@@ -20,9 +20,10 @@ interface CycleContext {
 }
 
 export async function POST(req: Request) {
-  const { peptideIds, cycleContext } = (await req.json()) as {
+  const { peptideIds, cycleContext, userContext: clientContext } = (await req.json()) as {
     peptideIds: string[];
     cycleContext?: CycleContext;
+    userContext?: string;
   };
 
   const apiKey = process.env.ANTHROPIC_API_KEY;
@@ -42,7 +43,8 @@ export async function POST(req: Request) {
     .join('\n');
 
   const session = await auth();
-  const userContext = session?.user?.id ? await buildUserContext(session.user.id) : '';
+  const serverContext = session?.user?.id ? await buildUserContext(session.user.id) : '';
+  const userContext = `${serverContext}${typeof clientContext === 'string' ? clientContext : ''}`;
 
   const cyclePrompt = cycleContext
     ? `\n\nCycle plan (${cycleContext.durationWeeks} weeks total):\n` +

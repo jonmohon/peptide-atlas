@@ -7,7 +7,7 @@ import { buildUserContext } from '@/lib/ai/user-context';
 export const maxDuration = 30;
 
 export async function POST(req: Request) {
-  const { messages } = await req.json();
+  const { messages, userContext: clientContext } = await req.json();
 
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
@@ -17,13 +17,11 @@ export async function POST(req: Request) {
     );
   }
 
-  // Build personalized context for authenticated users
   const session = await auth();
-  const userContext = session?.user?.id
-    ? await buildUserContext(session.user.id)
-    : '';
+  const serverContext = session?.user?.id ? await buildUserContext(session.user.id) : '';
+  const fullContext = `${serverContext}${typeof clientContext === 'string' ? clientContext : ''}`;
 
-  const system = `${CHAT_SYSTEM_PROMPT}${userContext}`;
+  const system = `${CHAT_SYSTEM_PROMPT}${fullContext}`;
 
   const result = streamText({
     model: anthropic('claude-sonnet-4-6'),
