@@ -1,6 +1,12 @@
 # Architecture Overview
 
-PeptideAtlas is a Next.js 16 interactive peptide education platform. Users explore how peptides affect the body through a visual atlas, build stacks, compare peptides, read blog articles, and get AI-powered recommendations. The app is deployed on AWS Amplify with a dark-themed UI.
+PeptideAtlas is a peptide education platform served at **`https://peptideatlas.ai`**. The web client is Next.js 16 deployed on AWS Amplify; a parallel React Native (Expo) mobile app at `mobile/` shares the same Cognito User Pool, AppSync schema, and AI route handlers. Users explore how peptides affect the body through a visual atlas, build stacks, compare peptides, log a daily journal, track bloodwork, and get AI-powered recommendations through a multi-stage Opus 4.7 pipeline (see [`AI-FEATURES.md`](./AI-FEATURES.md)).
+
+**Two clients, one backend:**
+- **Web** (`src/`) — Next.js 16 SSR on Amplify Hosting; cookie-based Cognito auth via the Amplify adapter.
+- **Mobile** (`mobile/`) — Expo SDK 54, expo-router 6, NativeWind 4. Bearer-token auth against the same Cognito User Pool. See [`mobile.md`](./mobile.md).
+
+Both clients hit the same `https://peptideatlas.ai/api/ai/*` endpoints; `auth(req)` accepts cookies (web) or `Authorization: Bearer <ID token>` (mobile).
 
 ## System Diagram
 

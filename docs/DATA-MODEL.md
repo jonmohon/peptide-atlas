@@ -19,7 +19,8 @@ All interfaces are in `src/types/` and re-exported from `src/types/index.ts`.
 ## Peptide
 
 **File:** `src/types/peptide.ts`
-**Data file:** `src/data/peptides.ts` (31 entries)
+**Data file:** `src/data/peptides.ts` (33 entries)
+**Mobile mirror:** `mobile/data/peptides.ts` (kept in lockstep via `cp`)
 
 ### `Peptide` interface
 
@@ -45,6 +46,10 @@ All interfaces are in `src/types/` and re-exported from `src/types/index.ts`.
 | `halfLifeHours` | `number` (optional) | Plasma half-life in hours (used by reconstitution calculator and protocol planner) |
 | `contraindications` | `string[]` (optional) | Conditions where this peptide should not be used |
 | `sideEffects` | `string[]` (optional) | Known side effects (legacy; `detailedSideEffects` is preferred) |
+| `lastReviewedAt` | `string` (optional) | ISO date when this entry was last reviewed against literature |
+| `confidence` | `DataConfidence` (optional) | `verified` (PMIDs cross-checked + recently reviewed), `likely` (machine-audited + manually spot-fixed), `preliminary` (defaults; needs review). UI surfaces this as a colored badge. |
+
+**Audit tooling:** `scripts/audit-peptides.ts`, `scripts/verify-pmids.ts`, and friends produce reports under `scripts/*.json` that feed the confidence scoring. See [`data-accuracy.md`](./data-accuracy.md) for the full workflow.
 
 ### `PeptideCategory` enum
 

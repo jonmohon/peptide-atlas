@@ -170,13 +170,53 @@ The project lives on a T9 external drive which can cause slow npm operations:
 
 ## Domain Setup
 
-Domain configuration is managed in the Amplify Console under **App settings > Domain management**.
+**Production domain: `peptideatlas.ai`** (apex + www, both serve the same Amplify app).
 
-To add a custom domain:
-1. Go to Amplify Console > Domain management > Add domain
-2. Enter your domain (e.g., `peptideatlas.com`)
-3. Configure subdomains (e.g., `www` redirect to apex)
-4. Amplify provisions an SSL certificate via ACM
-5. Update your domain's DNS records as instructed by Amplify
+The custom domain is wired to the Amplify Hosting app `d3p5rtdaradk56` (us-east-2). Route 53 hosted zone `Z03442552Q6PKQDXRWV6G` holds the records:
 
-The sitemap and robots.txt currently reference `https://peptideatlas.com` as the base URL (configured in `src/app/sitemap.ts` and `src/app/robots.ts`).
+```
+peptideatlas.ai          A ALIAS  →  d3kgz27guvj49v.cloudfront.net
+www.peptideatlas.ai      CNAME    →  d3kgz27guvj49v.cloudfront.net
+_fa52...peptideatlas.ai  CNAME    →  ACM validation target
+```
+
+To re-create from scratch (this is what was done):
+
+```bash
+# 1. Register the domain with Amplify
+aws amplify create-domain-association \
+  --app-id d3p5rtdaradk56 \
+  --domain-name peptideatlas.ai \
+  --sub-domain-settings prefix=,branchName=main prefix=www,branchName=main \
+  --enable-auto-sub-domain --profile nexvato --region us-east-2
+
+# 2. Get the records Amplify needs
+aws amplify get-domain-association \
+  --app-id d3p5rtdaradk56 --domain-name peptideatlas.ai \
+  --profile nexvato --region us-east-2
+
+# 3. Apply the CNAME + ALIAS in Route 53 (apex needs ALIAS, not CNAME)
+aws route53 change-resource-record-sets --hosted-zone-id Z03442552Q6PKQDXRWV6G \
+  --change-batch file://r53-changes.json --profile nexvato
+
+# 4. Wait ~10-30 min for ACM cert validation + CloudFront propagation
+# Status flow: PENDING_VERIFICATION → PENDING_DEPLOYMENT → AVAILABLE
+```
+
+The mobile app's `mobile/lib/config.ts` references `https://peptideatlas.ai` as `API_BASE_URL`. The sitemap, robots, and all in-app legal links use the same domain.
+
+## Mobile App Deployment (Expo)
+
+The mobile app at `mobile/` is currently developed against Expo Go. For TestFlight / App Store delivery a dev-client build is required (Expo Go can't link arbitrary native modules):
+
+```bash
+cd mobile
+npm install -g eas-cli
+npx expo install expo-dev-client
+eas login
+eas build --profile preview --platform ios
+```
+
+Once on a dev client, switch `lib/auth-context.tsx` from `USER_PASSWORD_AUTH` back to SRP — the dev client can link `@aws-amplify/react-native`'s native crypto module that Expo Go cannot. SRP is preferred for production.
+
+See [`mobile.md`](./mobile.md) for the full mobile architecture.
