@@ -7,12 +7,19 @@ import { CTAButton } from '@/components/marketing/cta-button';
 export function CTASection() {
   return (
     <section className="relative py-28 overflow-hidden">
+      {/* Lab backdrop image */}
+      <div
+        className="pointer-events-none absolute inset-0 bg-cover bg-center opacity-25"
+        style={{ backgroundImage: 'url(/about/lab-aesthetic.webp)' }}
+      />
+      {/* Dark overlay for legibility */}
+      <div className="pointer-events-none absolute inset-0 bg-background/70" />
       {/* Radial glow background */}
       <div
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            'radial-gradient(ellipse 50% 60% at 50% 50%, rgba(0,212,255,0.07) 0%, transparent 70%)',
+            'radial-gradient(ellipse 50% 60% at 50% 50%, rgba(0,212,255,0.10) 0%, transparent 70%)',
         }}
       />
 

@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { HeroSection } from '@/components/marketing/hero-section';
 import { StatsBar } from '@/components/marketing/stats-bar';
 import { FeatureShowcase } from '@/components/marketing/feature-showcase';
+import { VisualTour } from '@/components/marketing/visual-tour';
 import { HowItWorks } from '@/components/marketing/how-it-works';
 import { AtlasPreview } from '@/components/marketing/atlas-preview';
 import { MobileAppSection } from '@/components/marketing/mobile-app-section';
@@ -19,6 +20,7 @@ export default function LandingPage() {
       <HeroSection />
       <StatsBar />
       <FeatureShowcase />
+      <VisualTour />
       <HowItWorks />
       <AtlasPreview />
       <MobileAppSection />

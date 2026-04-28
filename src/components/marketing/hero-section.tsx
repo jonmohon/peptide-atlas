@@ -18,12 +18,19 @@ const fadeUp = {
 export function HeroSection() {
   return (
     <section className="relative min-h-[90vh] flex items-center justify-center grid-bg overflow-hidden">
-      {/* Radial glow behind content */}
+      {/* Hero background image */}
+      <div
+        className="pointer-events-none absolute inset-0 bg-cover bg-center opacity-40"
+        style={{ backgroundImage: 'url(/hero/hero-bg.webp)' }}
+      />
+      {/* Dark overlay to keep text readable */}
+      <div className="pointer-events-none absolute inset-0 bg-background/60" />
+      {/* Radial glow accents on top */}
       <div
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            'radial-gradient(ellipse 60% 50% at 50% 45%, rgba(0,212,255,0.10) 0%, transparent 70%), radial-gradient(ellipse 40% 30% at 80% 30%, rgba(168,85,247,0.08) 0%, transparent 60%)',
+            'radial-gradient(ellipse 60% 50% at 50% 45%, rgba(0,212,255,0.12) 0%, transparent 70%), radial-gradient(ellipse 40% 30% at 80% 30%, rgba(168,85,247,0.10) 0%, transparent 60%)',
         }}
       />
 

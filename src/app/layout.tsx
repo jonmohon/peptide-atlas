@@ -36,7 +36,30 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: '/icons/icon-192.svg',
-    apple: '/icons/icon-192.svg',
+    apple: '/icons/app-icon-1024.webp',
+  },
+  openGraph: {
+    title: 'PeptideAtlas — The peptide reference, personalized to you.',
+    description:
+      'Track your protocol, log doses, run AI safety checks on your stack, and interpret bloodwork — grounded in 33 peptides with verified citations.',
+    url: 'https://peptideatlas.ai',
+    siteName: 'PeptideAtlas',
+    images: [
+      {
+        url: '/og/og-default.webp',
+        width: 2048,
+        height: 2048,
+        alt: 'PeptideAtlas — The peptide reference, personalized to you.',
+      },
+    ],
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'PeptideAtlas — The peptide reference, personalized to you.',
+    description:
+      'AI protocol generator, bloodwork interpretation, daily journal, body map. 33 peptides with verified citations.',
+    images: ['/og/og-default.webp'],
   },
 };
 
