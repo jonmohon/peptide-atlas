@@ -33,18 +33,21 @@ export async function POST(req: Request) {
   const fullContext = `${serverContext}${typeof clientContext === 'string' ? clientContext : ''}`;
 
   const goalsList = Array.isArray(goals) ? goals.join(', ') : (goals ?? '');
-  const prompt = `Generate a personalized peptide protocol for someone with the following profile:
+  const userTurn = `Generate a personalized peptide protocol for someone with the following profile:
 Goals: ${goalsList}
 Experience Level: ${experience}
 ${preferences ? `Preferences: ${preferences}` : ''}
 
 Use the USER PROFILE block above (if present) to personalize — do not re-ask information already known. Provide a detailed, structured protocol recommendation that accounts for their conditions, allergies, active protocol, and recent journal data.`;
 
+  // Use messages instead of prompt because Amplify's compute Lambda streams the
+  // messages-based codepath reliably; the prompt-based shortcut was hanging until
+  // the 30s hard timeout hit.
   const result = streamText({
     model: anthropic('claude-sonnet-4-6'),
     system: `${PROTOCOL_SYSTEM_PROMPT}${fullContext}`,
-    prompt,
-    maxOutputTokens: 2048,
+    messages: [{ role: 'user', content: userTurn }],
+    maxOutputTokens: 1500,
   });
 
   return result.toTextStreamResponse({ headers: CORS_HEADERS });
