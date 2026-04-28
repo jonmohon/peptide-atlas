@@ -7,15 +7,19 @@
  */
 
 import { Ionicons } from '@expo/vector-icons';
+import { fetch as expoFetch } from 'expo/fetch';
 import { useFocusEffect } from '@react-navigation/native';
 import { Link } from 'expo-router';
 import { useCallback, useMemo, useState } from 'react';
 import { ActivityIndicator, Pressable, RefreshControl, ScrollView, Text, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import Markdown from 'react-native-markdown-display';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { GlassCard } from '@/components/glass-card';
 import { fetchJournalEntries, type JournalEntryRow } from '@/lib/amplify-data';
+import { getIdToken } from '@/lib/amplify';
+import { API_BASE_URL } from '@/lib/config';
 
 type DoseShape = {
   peptideId?: string;
@@ -29,6 +33,40 @@ export default function JournalScreen() {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [aiInsight, setAiInsight] = useState('');
+  const [aiStreaming, setAiStreaming] = useState(false);
+  const [aiError, setAiError] = useState<string | null>(null);
+
+  const generateInsight = useCallback(async () => {
+    setAiInsight('');
+    setAiError(null);
+    setAiStreaming(true);
+    try {
+      const token = await getIdToken();
+      if (!token) throw new Error('Sign in required');
+      const recent = entries.slice(0, 14);
+      const res = await expoFetch(`${API_BASE_URL}/api/ai/journal-insight`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ entries: recent, period: 'weekly' }),
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      if (!res.body) throw new Error('Empty response');
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let acc = '';
+      for (;;) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        acc += decoder.decode(value, { stream: true });
+        setAiInsight(acc);
+      }
+    } catch (e) {
+      setAiError(e instanceof Error ? e.message : 'Failed');
+    } finally {
+      setAiStreaming(false);
+    }
+  }, [entries]);
 
   const load = useCallback(async () => {
     try {
@@ -130,11 +168,79 @@ export default function JournalScreen() {
             </Text>
           </GlassCard>
         ) : (
-          <View className="gap-3">
-            {entries.map((entry) => (
-              <EntryCard key={entry.id} entry={entry} />
-            ))}
-          </View>
+          <>
+            {entries.length >= 3 && (
+              <View className="mb-5">
+                {!aiInsight && !aiStreaming ? (
+                  <Pressable onPress={generateInsight} className="active:opacity-70">
+                    <GlassCard className="p-4">
+                      <View className="flex-row items-center gap-3">
+                        <View className="h-9 w-9 items-center justify-center rounded-lg bg-neon-purple/15">
+                          <Ionicons name="sparkles" size={16} color="#a855f7" />
+                        </View>
+                        <View className="flex-1">
+                          <Text className="text-sm font-semibold text-foreground">
+                            Weekly insights
+                          </Text>
+                          <Text className="mt-0.5 text-[11px] text-text-secondary">
+                            AI summary of your last {Math.min(14, entries.length)} entries.
+                          </Text>
+                        </View>
+                        <Ionicons name="arrow-forward" size={14} color="#a855f7" />
+                      </View>
+                    </GlassCard>
+                  </Pressable>
+                ) : (
+                  <View>
+                    <View className="mb-2 flex-row items-center justify-between">
+                      <View className="flex-row items-center gap-2">
+                        <View className="h-6 w-6 items-center justify-center rounded-md bg-neon-purple/20">
+                          <Ionicons name="sparkles" size={12} color="#c084fc" />
+                        </View>
+                        <Text className="text-xs font-semibold text-foreground">
+                          Insights · Atlas AI
+                        </Text>
+                      </View>
+                      <Pressable
+                        onPress={() => setAiInsight('')}
+                        disabled={aiStreaming}
+                        className="active:opacity-60"
+                      >
+                        <Text className="text-[11px] text-text-secondary">Reset</Text>
+                      </Pressable>
+                    </View>
+                    <View
+                      className="rounded-2xl border px-4 py-3"
+                      style={{
+                        backgroundColor: 'rgba(168,85,247,0.10)',
+                        borderColor: 'rgba(168,85,247,0.28)',
+                      }}
+                    >
+                      {aiInsight ? (
+                        <Markdown style={INSIGHT_MD}>{aiInsight}</Markdown>
+                      ) : (
+                        <View className="py-2 flex-row items-center gap-2">
+                          <ActivityIndicator size="small" color="#a855f7" />
+                          <Text className="text-xs text-text-secondary">Analyzing…</Text>
+                        </View>
+                      )}
+                    </View>
+                    {aiError && (
+                      <View className="mt-2 rounded-xl border border-red-500/25 bg-red-500/10 p-2.5">
+                        <Text className="text-[11px] text-red-400">{aiError}</Text>
+                      </View>
+                    )}
+                  </View>
+                )}
+              </View>
+            )}
+
+            <View className="gap-3">
+              {entries.map((entry) => (
+                <EntryCard key={entry.id} entry={entry} />
+              ))}
+            </View>
+          </>
         )}
       </ScrollView>
     </SafeAreaView>
@@ -178,6 +284,17 @@ function EntryCard({ entry }: { entry: JournalEntryRow }) {
     </GlassCard>
   );
 }
+
+const INSIGHT_MD = {
+  body: { color: '#fafafa', fontSize: 13, lineHeight: 20 },
+  paragraph: { color: '#fafafa', fontSize: 13, lineHeight: 20, marginTop: 0, marginBottom: 8 },
+  strong: { color: '#ffffff', fontWeight: '700' as const },
+  em: { color: '#fafafa', fontStyle: 'italic' as const },
+  heading2: { color: '#ffffff', fontSize: 14, fontWeight: '700' as const, marginTop: 6, marginBottom: 4 },
+  heading3: { color: '#ffffff', fontSize: 13, fontWeight: '700' as const, marginTop: 4, marginBottom: 2 },
+  list_item: { marginBottom: 3 },
+  bullet_list_icon: { color: '#06b6d4', marginRight: 6 },
+};
 
 function Heatmap({ entries }: { entries: JournalEntryRow[] }) {
   const dates = new Set(entries.map((e) => e.date));
