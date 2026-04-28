@@ -44,8 +44,8 @@ export const auth = defineAuth({
             // @ts-expect-error - domainPrefix supported by underlying construct
             domainPrefix: 'peptide-atlas-auth',
             callbackUrls: [
-              'http://localhost:3000/atlas',
-              'https://peptideatlas.ai/atlas',
+              'http://localhost:3000/auth/callback',
+              'https://peptideatlas.ai/auth/callback',
             ],
             logoutUrls: [
               'http://localhost:3000/',
