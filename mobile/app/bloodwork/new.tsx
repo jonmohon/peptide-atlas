@@ -6,6 +6,8 @@
  */
 
 import { Ionicons } from '@expo/vector-icons';
+import { fetch as expoFetch } from 'expo/fetch';
+import * as ImagePicker from 'expo-image-picker';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import {
@@ -25,6 +27,8 @@ import {
   createBloodworkPanel,
   type BloodworkMarker,
 } from '@/lib/amplify-data';
+import { getIdToken } from '@/lib/amplify';
+import { API_BASE_URL } from '@/lib/config';
 
 type DraftMarker = {
   name: string;
@@ -61,6 +65,8 @@ export default function NewBloodworkScreen() {
   ]);
   const [picking, setPicking] = useState<number | null>(null);
   const [saving, setSaving] = useState(false);
+  const [parsing, setParsing] = useState(false);
+  const [parseWarning, setParseWarning] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const addRow = () =>
@@ -75,6 +81,92 @@ export default function NewBloodworkScreen() {
   const applyTemplate = (i: number, t: (typeof COMMON_MARKERS)[number]) => {
     updateRow(i, { name: t.name, unit: t.unit, refLow: t.refLow, refHigh: t.refHigh });
     setPicking(null);
+  };
+
+  const pickPhoto = async () => {
+    setError(null);
+    setParseWarning(null);
+    const perm = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (!perm.granted) {
+      setError('Photo library access denied');
+      return;
+    }
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ['images'],
+      allowsEditing: false,
+      base64: true,
+      quality: 0.7,
+    });
+    if (result.canceled || !result.assets?.[0]?.base64) return;
+    await parseImage(result.assets[0].base64, result.assets[0].mimeType ?? 'image/jpeg');
+  };
+
+  const takePhoto = async () => {
+    setError(null);
+    setParseWarning(null);
+    const perm = await ImagePicker.requestCameraPermissionsAsync();
+    if (!perm.granted) {
+      setError('Camera access denied');
+      return;
+    }
+    const result = await ImagePicker.launchCameraAsync({
+      mediaTypes: ['images'],
+      allowsEditing: false,
+      base64: true,
+      quality: 0.7,
+    });
+    if (result.canceled || !result.assets?.[0]?.base64) return;
+    await parseImage(result.assets[0].base64, result.assets[0].mimeType ?? 'image/jpeg');
+  };
+
+  const parseImage = async (base64: string, mediaType: string) => {
+    setParsing(true);
+    setError(null);
+    try {
+      const token = await getIdToken();
+      if (!token) throw new Error('Sign in required');
+      const res = await expoFetch(`${API_BASE_URL}/api/ai/parse-bloodwork`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ fileBase64: base64, mediaType }),
+      });
+      if (!res.ok) {
+        const t = await res.text();
+        throw new Error(`HTTP ${res.status}: ${t.slice(0, 200)}`);
+      }
+      const json = (await res.json()) as {
+        markers?: Array<{
+          name: string;
+          value: number;
+          unit?: string;
+          referenceRange?: string;
+        }>;
+        collectionDate?: string | null;
+        warnings?: string[];
+      };
+
+      if (json.collectionDate) setDate(json.collectionDate);
+      if (json.markers && json.markers.length > 0) {
+        const draft = json.markers.map((m) => {
+          const [lo, hi] = parseRange(m.referenceRange);
+          return {
+            name: m.name,
+            value: String(m.value),
+            unit: m.unit ?? '',
+            refLow: lo ?? '',
+            refHigh: hi ?? '',
+          };
+        });
+        setMarkers(draft);
+      }
+      if (json.warnings && json.warnings.length > 0) {
+        setParseWarning(json.warnings.join(' · '));
+      }
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Parse failed');
+    } finally {
+      setParsing(false);
+    }
   };
 
   const handleSave = async () => {
@@ -136,6 +228,48 @@ export default function NewBloodworkScreen() {
           {error && (
             <View className="mb-4 rounded-xl border border-red-500/25 bg-red-500/10 p-3">
               <Text className="text-xs text-red-400">{error}</Text>
+            </View>
+          )}
+
+          <Text className="mb-2 text-xs font-semibold uppercase tracking-widest text-text-secondary">
+            Quick add (Pro+)
+          </Text>
+          <View className="mb-5 flex-row gap-3">
+            <Pressable onPress={takePhoto} disabled={parsing} className="flex-1 active:opacity-70">
+              <GlassCard className="items-center p-4">
+                <View className="h-9 w-9 items-center justify-center rounded-lg bg-neon-purple/15">
+                  <Ionicons name="camera-outline" size={18} color="#a855f7" />
+                </View>
+                <Text className="mt-2 text-xs font-semibold text-foreground">Take photo</Text>
+                <Text className="mt-0.5 text-[10px] text-text-secondary">Lab report</Text>
+              </GlassCard>
+            </Pressable>
+            <Pressable onPress={pickPhoto} disabled={parsing} className="flex-1 active:opacity-70">
+              <GlassCard className="items-center p-4">
+                <View className="h-9 w-9 items-center justify-center rounded-lg bg-neon-cyan/15">
+                  <Ionicons name="image-outline" size={18} color="#06b6d4" />
+                </View>
+                <Text className="mt-2 text-xs font-semibold text-foreground">Pick from library</Text>
+                <Text className="mt-0.5 text-[10px] text-text-secondary">Photo or PDF</Text>
+              </GlassCard>
+            </Pressable>
+          </View>
+          {parsing && (
+            <View className="mb-5 flex-row items-center gap-2 rounded-xl border border-neon-purple/30 bg-neon-purple/10 p-3">
+              <ActivityIndicator size="small" color="#a855f7" />
+              <Text className="flex-1 text-xs text-text-secondary">
+                Reading the lab report with Atlas AI…
+              </Text>
+            </View>
+          )}
+          {parseWarning && (
+            <View className="mb-5 rounded-xl border border-amber-500/30 bg-amber-500/10 p-3">
+              <View className="flex-row items-start gap-2">
+                <Ionicons name="warning-outline" size={14} color="#f59e0b" />
+                <Text className="flex-1 text-[11px] leading-relaxed text-amber-200">
+                  {parseWarning}
+                </Text>
+              </View>
             </View>
           )}
 
@@ -286,4 +420,22 @@ export default function NewBloodworkScreen() {
       )}
     </SafeAreaView>
   );
+}
+
+/**
+ * Parse a "low-high" or "<high" or ">low" reference range string into [low, high].
+ */
+function parseRange(s?: string): [string | undefined, string | undefined] {
+  if (!s) return [undefined, undefined];
+  const cleaned = s.replace(/[^\d.\-<>]/g, '').trim();
+  // "lo-hi"
+  const dash = cleaned.match(/^(\d+(?:\.\d+)?)-(\d+(?:\.\d+)?)$/);
+  if (dash) return [dash[1], dash[2]];
+  // "<hi"
+  const lt = cleaned.match(/^<(\d+(?:\.\d+)?)$/);
+  if (lt) return ['0', lt[1]];
+  // ">lo"
+  const gt = cleaned.match(/^>(\d+(?:\.\d+)?)$/);
+  if (gt) return [gt[1], undefined];
+  return [undefined, undefined];
 }
