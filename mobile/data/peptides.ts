@@ -47,10 +47,6 @@ export const peptides: Peptide[] = [
     contraindications: ['Active cancer (theoretical concern with growth factors)', 'Pregnancy and breastfeeding'],
     halfLifeHours: 4,
     keyStudies: [
-      { pmid: '29548669', title: 'BPC 157: Stable gastric pentadecapeptide and wound healing', year: 2018, finding: 'BPC-157 accelerates wound healing through multiple mechanisms including angiogenesis and collagen synthesis.' },
-      { pmid: '27307482', title: 'Pentadecapeptide BPC 157 enhances the growth hormone receptor expression in tendon fibroblasts', year: 2016, finding: 'BPC-157 upregulates growth hormone receptors in tendon tissue, explaining its tendon-healing properties.' },
-      { pmid: '21030672', title: 'Stable gastric pentadecapeptide BPC 157 in trials for inflammatory bowel disease', year: 2011, finding: 'BPC-157 shows therapeutic potential in IBD through anti-inflammatory and mucosal protective mechanisms.' },
-      { pmid: '32209079', title: 'BPC 157, as a therapy for ligament healing', year: 2020, finding: 'Systematic review confirms BPC-157 promotes ligament healing in animal models with consistent dose-dependent effects.' },
     ],
     interactions: [
       { substance: 'Blood thinners (Warfarin, Heparin)', type: 'medication', severity: 'moderate', description: 'BPC-157 promotes angiogenesis and tissue repair which may interact with anticoagulant mechanisms.' },
@@ -109,9 +105,6 @@ export const peptides: Peptide[] = [
     contraindications: ['Active cancer', 'Pregnancy'],
     halfLifeHours: 6,
     keyStudies: [
-      { pmid: '22023096', title: 'Thymosin beta4 accelerates wound healing', year: 2012, finding: 'TB-500 significantly accelerated wound healing through actin regulation and cell migration in preclinical models.' },
-      { pmid: '22486606', title: 'Thymosin beta4 promotes cardiac repair post-infarction', year: 2012, finding: 'TB-500 promoted cardiac tissue repair and angiogenesis after myocardial infarction in animal models.' },
-      { pmid: '28944952', title: 'Thymosin beta4 enhances muscle regeneration', year: 2017, finding: 'TB-500 accelerated skeletal muscle regeneration by promoting satellite cell activation and reducing fibrosis.' },
     ],
     interactions: [
       { substance: 'Blood thinners (Warfarin, Heparin)', type: 'medication', severity: 'moderate', description: 'TB-500 promotes angiogenesis which may interact with anticoagulant therapy; monitor closely.' },
@@ -168,9 +161,6 @@ export const peptides: Peptide[] = [
     contraindications: ['Copper sensitivity or Wilson disease'],
     halfLifeHours: 1,
     keyStudies: [
-      { pmid: '25916860', title: 'GHK-Cu promotes wound healing and skin remodeling', year: 2015, finding: 'GHK-Cu stimulated collagen and elastin synthesis, accelerating wound closure and improving skin structure.' },
-      { pmid: '24508075', title: 'GHK-Cu modulates gene expression in aging skin', year: 2014, finding: 'GHK-Cu reset gene expression patterns of aging skin fibroblasts toward a more youthful profile across 130+ genes.' },
-      { pmid: '32927474', title: 'GHK-Cu as an anti-aging tripeptide', year: 2020, finding: 'Review confirms GHK-Cu activates anti-aging pathways including SPARC, TGF-beta, and antioxidant responses.' },
     ],
     interactions: [
       { substance: 'Copper supplements', type: 'supplement', severity: 'mild', description: 'Concurrent copper supplementation may lead to excess copper accumulation; avoid combining high-dose copper with GHK-Cu.' },
@@ -227,9 +217,6 @@ export const peptides: Peptide[] = [
     contraindications: ['Active cancer', 'Diabetes (may affect glucose metabolism)', 'Pregnancy'],
     halfLifeHours: 168,
     keyStudies: [
-      { pmid: '16352683', title: 'CJC-1295 stimulates GH secretion in healthy adults', year: 2006, finding: 'CJC-1295 with DAC produced dose-dependent increases in GH and IGF-1 lasting up to 6 days in healthy subjects.' },
-      { pmid: '17018659', title: 'CJC-1295 effects on body composition', year: 2006, finding: 'Sustained GH elevation from CJC-1295 improved lean body mass and reduced fat mass over 12 weeks.' },
-      { pmid: '16434454', title: 'Sustained GH release with CJC-1295 DAC', year: 2006, finding: 'Drug Affinity Complex technology extended CJC-1295 half-life to approximately 7 days, enabling weekly dosing.' },
     ],
     interactions: [
       { substance: 'Insulin', type: 'medication', severity: 'moderate', description: 'CJC-1295 elevates GH which can impair insulin sensitivity and affect glucose regulation; monitor blood sugar.' },
@@ -282,15 +269,13 @@ export const peptides: Peptide[] = [
       { label: 'GH Benefits', weekStart: 3, weekEnd: 8, description: 'Progressive fat loss, improved muscle tone, enhanced skin quality' },
       { label: 'Peak Effects', weekStart: 9, weekEnd: 12, description: 'Optimized body composition and sustained anti-aging benefits' },
     ],
-    evidenceLevel: 'moderate',
-    ratings: { efficacy: 8, evidence: 7, easeOfUse: 7, cost: 7, safety: 9, popularity: 10 },
-    sideEffects: ['Mild headache', 'Lightheadedness post-injection', 'Transient hunger'],
-    contraindications: ['Active cancer', 'Pregnancy'],
+    evidenceLevel: 'preclinical',
+    ratings: { efficacy: 6, evidence: 5, easeOfUse: 7, cost: 7, safety: 7, popularity: 9 },
+    sideEffects: ['Mild headache', 'Lightheadedness post-injection', 'Transient hunger', 'Water retention / edema', 'Paresthesia (numbness/tingling)'],
+    contraindications: ['Active cancer', 'Diabetic retinopathy', 'Uncontrolled diabetes / severe insulin resistance', 'Pediatric use without endocrinologist supervision', 'Pregnancy and breastfeeding'],
     halfLifeHours: 2,
     keyStudies: [
       { pmid: '9849822', title: 'Ipamorelin: a selective growth hormone secretagogue', year: 1999, finding: 'Ipamorelin selectively stimulated GH release without affecting cortisol, prolactin, or ACTH — establishing its clean side-effect profile.' },
-      { pmid: '10604470', title: 'Ipamorelin effects on body composition in rats', year: 1999, finding: 'Ipamorelin treatment increased lean body mass and bone density without significant adipose tissue changes at standard doses.' },
-      { pmid: '11713213', title: 'Ipamorelin increases bone mineral content', year: 2001, finding: 'Long-term ipamorelin administration significantly increased bone mineral density and content in female rats.' },
     ],
     interactions: [
       { substance: 'CJC-1295', type: 'peptide', severity: 'mild', description: 'Synergistic — commonly stacked to maximize GH pulse amplitude and duration.' },
@@ -347,9 +332,6 @@ export const peptides: Peptide[] = [
     contraindications: ['Active malignancy', 'Disruption of hypothalamic-pituitary axis', 'Pregnancy', 'Hypersensitivity to tesamorelin or mannitol'],
     halfLifeHours: 0.43,
     keyStudies: [
-      { pmid: '20581223', title: 'Tesamorelin reduces visceral fat in HIV lipodystrophy', year: 2010, finding: 'Tesamorelin 2 mg/day significantly reduced visceral adipose tissue by 15% vs placebo in a phase 3 trial.' },
-      { pmid: '22024906', title: 'FDA approval of tesamorelin for HIV-associated lipodystrophy', year: 2011, finding: "Phase 3 trials demonstrated tesamorelin's efficacy and safety, supporting FDA approval as Egrifta for visceral fat reduction." },
-      { pmid: '28535505', title: 'Tesamorelin improves cognitive function in older adults', year: 2017, finding: 'Tesamorelin improved executive function and verbal memory in older adults with mild cognitive impairment over 20 weeks.' },
     ],
     interactions: [
       { substance: 'Insulin / diabetes medications', type: 'medication', severity: 'moderate', description: 'Tesamorelin elevates GH and can impair glucose tolerance; requires monitoring in diabetic patients.' },
@@ -573,9 +555,6 @@ export const peptides: Peptide[] = [
     contraindications: ['Uncontrolled hypertension', 'Cardiovascular disease', 'Pregnancy'],
     halfLifeHours: 2,
     keyStudies: [
-      { pmid: '16422843', title: 'PT-141 for female hypoactive sexual desire disorder', year: 2006, finding: 'PT-141 significantly increased sexual desire and arousal in premenopausal women with HSDD in a phase 2 trial.' },
-      { pmid: '15661110', title: 'Bremelanotide for male erectile dysfunction', year: 2005, finding: 'PT-141 (bremelanotide) produced clinically meaningful erectile responses in men with erectile dysfunction via central MC4R activation.' },
-      { pmid: '31400508', title: 'FDA approval of bremelanotide (Vyleesi)', year: 2019, finding: 'Phase 3 RECONNECT trials demonstrated efficacy and safety of PT-141 1.75 mg for HSDD in premenopausal women, supporting FDA approval.' },
     ],
     interactions: [
       { substance: 'PDE5 inhibitors (Viagra, Cialis)', type: 'medication', severity: 'serious', description: 'Concurrent use can cause additive hypotension (severe blood pressure drop); combination is contraindicated.' },
@@ -624,10 +603,26 @@ export const peptides: Peptide[] = [
       { label: 'Loading Phase', weekStart: 1, weekEnd: 3, description: 'Nausea subsides, skin begins to darken, libido increases' },
       { label: 'Maintenance', weekStart: 4, weekEnd: 8, description: 'Desired tan level maintained with infrequent dosing; sustained libido' },
     ],
-    evidenceLevel: 'moderate',
-    ratings: { efficacy: 8, evidence: 6, easeOfUse: 6, cost: 7, safety: 5, popularity: 7 },
-    sideEffects: ['Nausea (especially initially)', 'Facial flushing', 'Mole darkening', 'Spontaneous erections', 'Appetite suppression'],
-    contraindications: ['History of melanoma or atypical moles', 'Cardiovascular disease', 'Pregnancy'],
+    evidenceLevel: 'preclinical',
+    ratings: { efficacy: 7, evidence: 4, easeOfUse: 6, cost: 7, safety: 4, popularity: 7 },
+    sideEffects: [
+      'Nausea (especially initially)',
+      'Facial flushing',
+      'Mole darkening / new moles',
+      'Spontaneous erections',
+      'Appetite suppression',
+      'Increased blood pressure',
+      'Yawning',
+      'Hyperpigmentation of skin',
+    ],
+    contraindications: [
+      'Personal or family history of melanoma',
+      'Dysplastic nevus syndrome / atypical-mole syndrome',
+      'Fair skin with many moles',
+      'Cardiovascular disease',
+      'Pregnancy and breastfeeding',
+      'Not FDA-approved; obtained only from unregulated sources',
+    ],
   },
 
   // ─── 13. Selank ─────────────────────────────────────────────
@@ -671,9 +666,6 @@ export const peptides: Peptide[] = [
     contraindications: ['Pregnancy', 'Autoimmune disorders (consult physician)'],
     halfLifeHours: 0.5,
     keyStudies: [
-      { pmid: '18577758', title: 'Selank anxiolytic effects in clinical studies', year: 2008, finding: 'Selank demonstrated anxiolytic efficacy comparable to benzodiazepines without sedation or dependence in clinical trials.' },
-      { pmid: '21315463', title: 'Selank modulates immune function', year: 2011, finding: 'Selank normalized cytokine expression and enhanced immune response in subjects under stress conditions.' },
-      { pmid: '24009756', title: 'Selank upregulates BDNF expression in brain regions', year: 2013, finding: 'Selank increased BDNF levels in the hippocampus and frontal cortex, supporting its cognitive-enhancing and neuroprotective mechanisms.' },
     ],
     interactions: [
       { substance: 'Benzodiazepines', type: 'medication', severity: 'mild', description: 'Additive anxiolytic effects; concurrent use may produce excessive sedation; reduce benzodiazepine dose if combining.' },
@@ -725,9 +717,6 @@ export const peptides: Peptide[] = [
     contraindications: ['Pregnancy', 'Acute psychotic episodes', 'Seizure disorders (caution)'],
     halfLifeHours: 0.5,
     keyStudies: [
-      { pmid: '16996039', title: 'Semax upregulates BDNF in the rat brain', year: 2007, finding: 'Semax significantly increased BDNF, trkB, and CNTF expression in hippocampal and cortical tissue, explaining its neuroprotective and cognitive effects.' },
-      { pmid: '17321596', title: 'Semax in acute ischemic stroke recovery', year: 2007, finding: 'Semax administration improved neurological outcomes and reduced infarct size in patients with ischemic stroke when given within 6 hours of onset.' },
-      { pmid: '16541366', title: 'Semax enhances cognitive function in healthy subjects', year: 2006, finding: 'Semax improved attention, memory, and learning speed in healthy volunteers, supporting its use as a cognitive enhancer.' },
     ],
     interactions: [
       { substance: 'Stimulants (caffeine, amphetamines)', type: 'supplement', severity: 'mild', description: 'Additive stimulant effects may increase risk of overstimulation, anxiety, or insomnia; use caution when combining.' },
@@ -1287,10 +1276,25 @@ export const peptides: Peptide[] = [
       { label: 'Acute Effects', weekStart: 0, weekEnd: 0, description: 'Rapid mood elevation, reduced anxiety, enhanced feelings of connection' },
       { label: 'Sustained Use', weekStart: 1, weekEnd: 4, description: 'Improved emotional regulation, deeper social bonding, and enhanced sexual satisfaction' },
     ],
-    evidenceLevel: 'strong',
-    ratings: { efficacy: 7, evidence: 8, easeOfUse: 8, cost: 7, safety: 8, popularity: 6 },
-    sideEffects: ['Nasal irritation', 'Headache', 'Nausea (rare)', 'Excessive water retention at high doses'],
-    contraindications: ['Pregnancy (unless medically supervised)', 'Hypersensitivity to oxytocin'],
+    evidenceLevel: 'preclinical',
+    ratings: { efficacy: 5, evidence: 5, easeOfUse: 8, cost: 7, safety: 6, popularity: 6 },
+    sideEffects: [
+      'Nasal irritation',
+      'Headache',
+      'Nausea (rare)',
+      'Hyponatremia / water intoxication (clinically significant at high doses or chronic use)',
+      'Uterine contractions',
+      'Fatigue',
+      'Decreased trust toward outgroups (in some studies)',
+    ],
+    contraindications: [
+      'Pregnancy (unless medically supervised — risk of inducing labor)',
+      'Breastfeeding (without supervision)',
+      'Hypersensitivity to oxytocin',
+      'Cardiovascular disease (hemodynamic effects)',
+      'History of seizure disorder',
+      'Hyponatremia or conditions predisposing to water retention',
+    ],
   },
 
   // ─── 29. Kisspeptin-10 ──────────────────────────────────────
@@ -1379,9 +1383,6 @@ export const peptides: Peptide[] = [
     contraindications: ['Diabetes or insulin resistance', 'Active cancer', 'Pregnancy', 'Edema-prone conditions'],
     halfLifeHours: 24,
     keyStudies: [
-      { pmid: '9467542', title: 'MK-677 oral GH secretagogue in adults', year: 1998, finding: 'MK-677 25 mg daily produced sustained 24-hour GH and IGF-1 elevation equivalent to GH injection therapy when administered orally.' },
-      { pmid: '18981485', title: 'MK-677 preserves lean mass in elderly subjects', year: 2008, finding: 'Two-year MK-677 administration in older adults increased GH secretion, IGF-1 levels, and lean body mass without significant adverse events.' },
-      { pmid: '9349662', title: 'MK-677 improves sleep quality', year: 1997, finding: 'MK-677 significantly increased REM sleep duration and sleep quality in both young and elderly subjects, suggesting a role in sleep architecture regulation.' },
     ],
     interactions: [
       { substance: 'Diabetes medications (metformin, insulin)', type: 'medication', severity: 'serious', description: 'MK-677 raises fasting blood glucose and impairs insulin sensitivity; may necessitate medication adjustment in diabetics.' },
