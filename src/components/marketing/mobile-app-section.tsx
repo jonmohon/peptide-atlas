@@ -93,18 +93,13 @@ export function MobileAppSection() {
               className="relative aspect-[9/19] w-full max-w-[320px] rounded-[3rem] border border-white/10 bg-gradient-to-br from-neon-cyan/10 via-neon-purple/10 to-neon-pink/5 p-1.5 shadow-[0_30px_80px_-20px_rgba(168,85,247,0.45)]"
             >
               <div className="h-full w-full rounded-[2.5rem] overflow-hidden bg-background">
-                {/* Image placeholder — replace src with /mobile/hero-dashboard.png once generated */}
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="/mobile/hero-dashboard.png"
-                  alt="Peptide Atlas mobile dashboard"
+                  src="/mobile/hero-dashboard.webp"
+                  alt="Peptide Atlas mobile app dashboard — streak, quick actions, and the Atlas explore menu"
                   className="w-full h-full object-cover"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).style.display = 'none';
-                  }}
+                  loading="lazy"
                 />
-                {/* Fallback gradient if image not yet present */}
-                <div className="pointer-events-none absolute inset-1.5 rounded-[2.5rem] bg-gradient-to-br from-neon-cyan/5 via-transparent to-neon-purple/10" />
               </div>
             </div>
           </motion.div>
