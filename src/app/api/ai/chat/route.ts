@@ -1,5 +1,5 @@
 import { anthropic } from '@ai-sdk/anthropic';
-import { streamText } from 'ai';
+import { streamText, convertToModelMessages, type UIMessage } from 'ai';
 import { CHAT_SYSTEM_PROMPT } from '@/lib/ai/prompts';
 import { auth } from '@/lib/auth';
 import { buildUserContext } from '@/lib/ai/user-context';
@@ -34,10 +34,19 @@ export async function POST(req: Request) {
 
   const system = `${CHAT_SYSTEM_PROMPT}${fullContext}`;
 
+  // Accept both UI shape (web's useChat — { id, role, parts }) and the simpler
+  // ModelMessage shape (mobile sends — { role, content }). If the first item has
+  // `parts`, treat the array as UIMessage[] and convert; otherwise pass through.
+  const first = Array.isArray(messages) ? messages[0] : null;
+  const looksLikeUI = first && typeof first === 'object' && 'parts' in first;
+  const modelMessages = looksLikeUI
+    ? convertToModelMessages(messages as UIMessage[])
+    : messages;
+
   const result = streamText({
     model: anthropic('claude-sonnet-4-6'),
     system,
-    messages,
+    messages: modelMessages,
     maxOutputTokens: 1024,
   });
 
