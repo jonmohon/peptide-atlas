@@ -15,7 +15,7 @@ import { fetchJournalEntries } from '@/lib/amplify-data';
 import { useAuth } from '@/lib/auth-context';
 
 const QUICK_ACTIONS = [
-  { label: 'Log dose', icon: 'add-circle-outline' as const, href: '/(tabs)/journal' as const, accent: 'text-neon-cyan' },
+  { label: 'Log dose', icon: 'add-circle-outline' as const, href: '/log-entry' as const, accent: 'text-neon-cyan' },
   { label: 'Ask AI', icon: 'sparkles-outline' as const, href: '/(tabs)/ai' as const, accent: 'text-neon-purple' },
   { label: 'Browse', icon: 'flask-outline' as const, href: '/(tabs)/peptides' as const, accent: 'text-neon-green' },
 ] as const;

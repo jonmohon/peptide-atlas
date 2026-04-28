@@ -6,20 +6,27 @@
 
 import { Ionicons } from '@expo/vector-icons';
 import { Link } from 'expo-router';
-import { Pressable, Text, View } from 'react-native';
+import { Linking, Pressable, Text, View } from 'react-native';
 
 import { AtlasButton } from '@/components/atlas-button';
 import { GlassCard } from '@/components/glass-card';
 import { Screen } from '@/components/screen';
 import { useAuth } from '@/lib/auth-context';
 
-const SETTINGS_ROWS = [
-  { label: 'Goals & experience', icon: 'flag-outline' as const },
-  { label: 'Body metrics', icon: 'fitness-outline' as const },
-  { label: 'Health conditions', icon: 'medkit-outline' as const },
-  { label: 'Notifications', icon: 'notifications-outline' as const },
-  { label: 'Privacy & data', icon: 'lock-closed-outline' as const },
-  { label: 'Help & feedback', icon: 'help-circle-outline' as const },
+type SettingsRow = {
+  label: string;
+  icon: keyof typeof Ionicons.glyphMap;
+  href?: string;
+  url?: string;
+};
+
+const SETTINGS_ROWS: SettingsRow[] = [
+  { label: 'Goals & experience', icon: 'flag-outline', href: '/profile-edit' },
+  { label: 'Body metrics', icon: 'fitness-outline', href: '/profile-edit' },
+  { label: 'Health conditions', icon: 'medkit-outline', href: '/profile-edit' },
+  { label: 'Notifications', icon: 'notifications-outline', href: '/reminders' },
+  { label: 'Privacy & data', icon: 'lock-closed-outline', url: 'https://peptide-atlas.com/privacy' },
+  { label: 'Help & feedback', icon: 'help-circle-outline', url: 'mailto:support@peptide-atlas.com?subject=Peptide%20Atlas%20mobile%20feedback' },
 ];
 
 const TIER_LABEL: Record<string, { label: string; color: string }> = {
@@ -139,18 +146,42 @@ export default function ProfileScreen() {
       </Link>
 
       <View className="mb-5 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03]">
-        {SETTINGS_ROWS.map((row, i) => (
-          <Pressable
-            key={row.label}
-            className={`flex-row items-center gap-3 px-4 py-3.5 active:bg-white/[0.04] ${
-              i < SETTINGS_ROWS.length - 1 ? 'border-b border-white/5' : ''
-            }`}
-          >
-            <Ionicons name={row.icon} size={18} color="#a3a3a3" />
-            <Text className="flex-1 text-sm text-foreground">{row.label}</Text>
-            <Ionicons name="chevron-forward" size={16} color="#737373" />
-          </Pressable>
-        ))}
+        {SETTINGS_ROWS.map((row, i) => {
+          const inner = (
+            <View
+              className={`flex-row items-center gap-3 px-4 py-3.5 ${
+                i < SETTINGS_ROWS.length - 1 ? 'border-b border-white/5' : ''
+              }`}
+            >
+              <Ionicons name={row.icon} size={18} color="#a3a3a3" />
+              <Text className="flex-1 text-sm text-foreground">{row.label}</Text>
+              {row.url ? (
+                <Ionicons name="open-outline" size={14} color="#737373" />
+              ) : (
+                <Ionicons name="chevron-forward" size={16} color="#737373" />
+              )}
+            </View>
+          );
+          if (row.href) {
+            return (
+              <Link key={row.label} href={row.href as never} asChild>
+                <Pressable className="active:bg-white/[0.04]">{inner}</Pressable>
+              </Link>
+            );
+          }
+          if (row.url) {
+            return (
+              <Pressable
+                key={row.label}
+                onPress={() => Linking.openURL(row.url!)}
+                className="active:bg-white/[0.04]"
+              >
+                {inner}
+              </Pressable>
+            );
+          }
+          return null;
+        })}
       </View>
 
       <AtlasButton label="Sign out" variant="secondary" onPress={signOut} />

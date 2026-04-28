@@ -96,6 +96,10 @@ export async function fetchJournalEntries(): Promise<JournalEntryRow[]> {
   return rows.sort((a, b) => (a.date < b.date ? 1 : -1));
 }
 
+export async function deleteJournalEntry(id: string): Promise<void> {
+  await client().models.JournalEntry.delete({ id });
+}
+
 export type DoseInput = {
   peptideId: string;
   peptideName: string;

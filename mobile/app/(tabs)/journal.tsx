@@ -16,8 +16,10 @@ import { LinearGradient } from 'expo-linear-gradient';
 import Markdown from 'react-native-markdown-display';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { Alert } from 'react-native';
+
 import { GlassCard } from '@/components/glass-card';
-import { fetchJournalEntries, type JournalEntryRow } from '@/lib/amplify-data';
+import { deleteJournalEntry, fetchJournalEntries, type JournalEntryRow } from '@/lib/amplify-data';
 import { getIdToken } from '@/lib/amplify';
 import { API_BASE_URL } from '@/lib/config';
 
@@ -237,7 +239,27 @@ export default function JournalScreen() {
 
             <View className="gap-3">
               {entries.map((entry) => (
-                <EntryCard key={entry.id} entry={entry} />
+                <EntryCard
+                  key={entry.id}
+                  entry={entry}
+                  onDelete={() => {
+                    Alert.alert('Delete entry?', formatDay(entry.date), [
+                      { text: 'Cancel', style: 'cancel' },
+                      {
+                        text: 'Delete',
+                        style: 'destructive',
+                        onPress: async () => {
+                          setEntries((prev) => prev.filter((e) => e.id !== entry.id));
+                          try {
+                            await deleteJournalEntry(entry.id);
+                          } catch {
+                            await load();
+                          }
+                        },
+                      },
+                    ]);
+                  }}
+                />
               ))}
             </View>
           </>
@@ -247,41 +269,44 @@ export default function JournalScreen() {
   );
 }
 
-function EntryCard({ entry }: { entry: JournalEntryRow }) {
+function EntryCard({ entry, onDelete }: { entry: JournalEntryRow; onDelete: () => void }) {
   const doses = (entry.peptideDoses as DoseShape[] | null) ?? [];
   return (
-    <GlassCard className="p-4">
-      <View className="mb-3 flex-row items-center justify-between">
-        <Text className="text-sm font-semibold text-foreground">{formatDay(entry.date)}</Text>
-      </View>
-
-      {doses.length > 0 && (
-        <View className="mb-3 gap-1.5">
-          {doses.map((d, i) => (
-            <View key={i} className="flex-row items-center gap-2">
-              <View className="h-1.5 w-1.5 rounded-full bg-neon-cyan" />
-              <Text className="text-xs text-foreground/90">
-                {d.peptideName ?? d.peptideId ?? 'Peptide'}
-                {d.amount ? `  ·  ${d.amount}` : ''}
-                {d.route ? `  ${d.route}` : ''}
-              </Text>
-            </View>
-          ))}
+    <Pressable onLongPress={onDelete} delayLongPress={350}>
+      <GlassCard className="p-4">
+        <View className="mb-3 flex-row items-center justify-between">
+          <Text className="text-sm font-semibold text-foreground">{formatDay(entry.date)}</Text>
+          <Text className="text-[10px] text-text-muted">long-press to delete</Text>
         </View>
-      )}
 
-      <View className="flex-row gap-4 border-t border-white/5 pt-3">
-        {entry.energy != null && <Metric icon="battery-charging-outline" label="Energy" value={`${entry.energy}/10`} />}
-        {entry.mood != null && <Metric icon="happy-outline" label="Mood" value={`${entry.mood}/10`} />}
-        {entry.sleepHours != null && <Metric icon="moon-outline" label="Sleep" value={`${entry.sleepHours}h`} />}
-      </View>
+        {doses.length > 0 && (
+          <View className="mb-3 gap-1.5">
+            {doses.map((d, i) => (
+              <View key={i} className="flex-row items-center gap-2">
+                <View className="h-1.5 w-1.5 rounded-full bg-neon-cyan" />
+                <Text className="text-xs text-foreground/90">
+                  {d.peptideName ?? d.peptideId ?? 'Peptide'}
+                  {d.amount ? `  ·  ${d.amount}` : ''}
+                  {d.route ? `  ${d.route}` : ''}
+                </Text>
+              </View>
+            ))}
+          </View>
+        )}
 
-      {entry.subjectiveNotes && (
-        <Text className="mt-3 text-xs italic leading-relaxed text-text-secondary">
-          {entry.subjectiveNotes}
-        </Text>
-      )}
-    </GlassCard>
+        <View className="flex-row gap-4 border-t border-white/5 pt-3">
+          {entry.energy != null && <Metric icon="battery-charging-outline" label="Energy" value={`${entry.energy}/10`} />}
+          {entry.mood != null && <Metric icon="happy-outline" label="Mood" value={`${entry.mood}/10`} />}
+          {entry.sleepHours != null && <Metric icon="moon-outline" label="Sleep" value={`${entry.sleepHours}h`} />}
+        </View>
+
+        {entry.subjectiveNotes && (
+          <Text className="mt-3 text-xs italic leading-relaxed text-text-secondary">
+            {entry.subjectiveNotes}
+          </Text>
+        )}
+      </GlassCard>
+    </Pressable>
   );
 }
 
