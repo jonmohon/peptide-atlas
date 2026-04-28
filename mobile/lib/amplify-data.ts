@@ -185,6 +185,58 @@ export async function deleteSavedStack(id: string): Promise<void> {
   await client().models.SavedStack.delete({ id });
 }
 
+export type BloodworkMarker = {
+  name: string;
+  value: number;
+  unit: string;
+  refLow?: number;
+  refHigh?: number;
+};
+
+export type BloodworkPanelRow = {
+  id: string;
+  date: string;
+  labName?: string | null;
+  markers: BloodworkMarker[];
+  aiInterpretation?: string | null;
+  notes?: string | null;
+  createdAt?: string;
+  updatedAt?: string;
+};
+
+export async function fetchBloodworkPanels(): Promise<BloodworkPanelRow[]> {
+  const result = await client().models.BloodworkPanel.list();
+  const rows = result.data as BloodworkPanelRow[];
+  return rows.sort((a, b) => (a.date < b.date ? 1 : -1));
+}
+
+export async function createBloodworkPanel(input: {
+  date: string;
+  labName?: string;
+  markers: BloodworkMarker[];
+  notes?: string;
+}): Promise<BloodworkPanelRow> {
+  const result = await client().models.BloodworkPanel.create({
+    date: input.date,
+    labName: input.labName ?? null,
+    markers: input.markers,
+    notes: input.notes ?? null,
+    parsedByAi: false,
+  });
+  return result.data as BloodworkPanelRow;
+}
+
+export async function updateBloodworkInterpretation(
+  id: string,
+  aiInterpretation: string
+): Promise<void> {
+  await client().models.BloodworkPanel.update({ id, aiInterpretation, parsedByAi: true });
+}
+
+export async function deleteBloodworkPanel(id: string): Promise<void> {
+  await client().models.BloodworkPanel.delete({ id });
+}
+
 export async function createJournalEntry(input: {
   date: string;
   peptideDoses: DoseInput[];

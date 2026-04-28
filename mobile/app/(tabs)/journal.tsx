@@ -93,6 +93,16 @@ export default function JournalScreen() {
             <Stat label="Streak" value={stats.streak === 0 ? '0' : `${stats.streak}d`} accent="#06b6d4" />
             <Stat label="Avg sleep" value={stats.avgSleep ? `${stats.avgSleep}h` : '—'} accent="#a855f7" />
           </View>
+
+          {entries.length > 0 && (
+            <>
+              <View className="my-4 h-px bg-white/5" />
+              <Text className="mb-2.5 text-[10px] font-semibold uppercase tracking-widest text-text-secondary">
+                Last 30 days
+              </Text>
+              <Heatmap entries={entries} />
+            </>
+          )}
         </GlassCard>
 
         {error && (
@@ -166,6 +176,39 @@ function EntryCard({ entry }: { entry: JournalEntryRow }) {
         </Text>
       )}
     </GlassCard>
+  );
+}
+
+function Heatmap({ entries }: { entries: JournalEntryRow[] }) {
+  const dates = new Set(entries.map((e) => e.date));
+  const today = new Date();
+  const days: { date: string; logged: boolean; isToday: boolean }[] = [];
+  for (let i = 29; i >= 0; i--) {
+    const d = new Date(today);
+    d.setDate(today.getDate() - i);
+    const iso = d.toISOString().slice(0, 10);
+    days.push({
+      date: iso,
+      logged: dates.has(iso),
+      isToday: i === 0,
+    });
+  }
+  return (
+    <View className="flex-row flex-wrap" style={{ gap: 4 }}>
+      {days.map((d) => (
+        <View
+          key={d.date}
+          style={{
+            width: 24,
+            height: 24,
+            borderRadius: 5,
+            backgroundColor: d.logged ? 'rgba(16,185,129,0.55)' : 'rgba(255,255,255,0.05)',
+            borderWidth: d.isToday ? 1.5 : 0,
+            borderColor: '#06b6d4',
+          }}
+        />
+      ))}
+    </View>
   );
 }
 

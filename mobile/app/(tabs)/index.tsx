@@ -27,12 +27,15 @@ const EXPLORE_CARDS = [
   { title: 'Compare', description: 'Side-by-side breakdown of any two peptides.', icon: 'git-compare-outline' as const, accent: '#a855f7', href: '/compare' as const },
   { title: 'Reconstitution', description: 'Mix a vial — concentration and units to draw.', icon: 'beaker-outline' as const, accent: '#ec4899', href: '/reconstitution' as const },
   { title: 'Notes', description: 'Personal research notes — observations, dosing tweaks.', icon: 'document-text-outline' as const, accent: '#22d3ee', href: '/notes' as const },
+  { title: 'Bloodwork', description: 'Track lab markers — testosterone, IGF-1, A1c, lipids.', icon: 'pulse-outline' as const, accent: '#ef4444', href: '/bloodwork' as const },
   { title: 'Protocol generator', description: 'AI-built protocol from your goals + journal data.', icon: 'construct-outline' as const, accent: '#fbbf24', href: '/protocol' as const },
 ];
 
 export default function DashboardScreen() {
-  const { user } = useAuth();
+  const { user, profile } = useAuth();
   const firstName = user?.email.split('@')[0] ?? 'there';
+  const profileEmpty =
+    !profile?.goals?.length && !profile?.experienceLevel;
   const [streak, setStreak] = useState<number | null>(null);
   const [loggedToday, setLoggedToday] = useState(false);
 
@@ -89,6 +92,27 @@ export default function DashboardScreen() {
               : "Keep going — log today to extend it."}
         </Text>
       </GlassCard>
+
+      {profileEmpty && (
+        <Link href="/profile-edit" asChild>
+          <Pressable className="active:opacity-70">
+            <GlassCard className="mb-5 p-4" bright>
+              <View className="flex-row items-center gap-3">
+                <View className="h-10 w-10 items-center justify-center rounded-xl bg-neon-purple/20">
+                  <Ionicons name="sparkles" size={18} color="#a855f7" />
+                </View>
+                <View className="flex-1">
+                  <Text className="text-sm font-semibold text-foreground">Personalize Atlas AI</Text>
+                  <Text className="mt-0.5 text-[11px] leading-relaxed text-text-secondary">
+                    Set your goals + experience so AI replies match you.
+                  </Text>
+                </View>
+                <Ionicons name="chevron-forward" size={16} color="#a855f7" />
+              </View>
+            </GlassCard>
+          </Pressable>
+        </Link>
+      )}
 
       <Text className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-secondary">
         Quick actions
