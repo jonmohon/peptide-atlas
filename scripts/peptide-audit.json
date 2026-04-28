@@ -1,0 +1,1572 @@
+{
+  "generatedAt": "2026-04-28T15:15:20.549Z",
+  "model": "claude-opus-4-7",
+  "catalogSize": 30,
+  "auditedCount": 30,
+  "summary": {
+    "critical": 0,
+    "high": 26,
+    "medium": 103,
+    "low": 90,
+    "accurate": 0,
+    "mostly_accurate": 17,
+    "issues_found": 13,
+    "major_concerns": 0
+  },
+  "entries": [
+    {
+      "peptideId": "aod-9604",
+      "overallRating": "issues_found",
+      "issues": [
+        {
+          "severity": "high",
+          "field": "fullName",
+          "issue": "AOD-9604 stands for 'Anti-Obesity Drug 9604', not 'Advanced Obesity Drug 9604'.",
+          "suggestion": "Change fullName to 'Anti-Obesity Drug 9604'."
+        },
+        {
+          "severity": "medium",
+          "field": "ratings.efficacy",
+          "issue": "Efficacy rating of 6 is generous. The largest clinical trial (Heffernan/Ng et al., obesity studies sponsored by Metabolic Pharmaceuticals) failed to show statistically significant fat loss versus placebo at 12 and 24 weeks, and the drug failed Phase IIb. Most positive lipolysis data is preclinical (rodent/in vitro).",
+          "suggestion": "Lower efficacy rating to 3-4 and clarify in description that human clinical trials did not demonstrate meaningful weight loss versus placebo."
+        },
+        {
+          "severity": "medium",
+          "field": "ratings.evidence",
+          "issue": "Evidence rating of 6 (moderate) overstates the literature. Phase II human trials were negative for the primary fat-loss endpoint; joint/cartilage claims rest on small preclinical work and an unblinded osteoarthritis pilot.",
+          "suggestion": "Lower evidence rating to 3-4 and downgrade evidenceLevel to 'preliminary' or 'limited'."
+        },
+        {
+          "severity": "medium",
+          "field": "evidenceLevel",
+          "issue": "'Moderate' evidence level is inconsistent with the failed Phase IIb trial and lack of regulatory approval (AOD-9604 lost GRAS-style status and is not an approved drug).",
+          "suggestion": "Change evidenceLevel to 'limited' or 'preliminary'."
+        },
+        {
+          "severity": "medium",
+          "field": "description",
+          "issue": "Description presents lipolytic/anti-lipogenic activity as established fact in humans. While preclinical models support this, human trials did not confirm clinically meaningful fat loss. The 'without anabolic or diabetogenic effects' claim is accurate, but efficacy framing is overstated.",
+          "suggestion": "Add a clause noting that Phase IIb human trials failed to show significant fat loss versus placebo, and that clinical efficacy remains unproven."
+        },
+        {
+          "severity": "medium",
+          "field": "effects",
+          "issue": "'joint-repair' is listed as an effect but is supported only by very preliminary data (small OA pilot studies, animal cartilage work). Listing it alongside fat-loss implies comparable evidence.",
+          "suggestion": "Either remove 'joint-repair' or annotate it as experimental/preliminary."
+        },
+        {
+          "severity": "low",
+          "field": "dosing.typicalDose",
+          "issue": "300 mcg is on the standard end of community dosing, but published human trial dosing was typically 1 mg (1000 mcg) daily orally or SC. Some clarification on the source of the 300 mcg figure (community/research-chem use vs. clinical trials) would be useful.",
+          "suggestion": "Note that clinical trials used ~1 mg/day; 250-500 mcg SC is the common research/community dose."
+        },
+        {
+          "severity": "low",
+          "field": "halfLifeHours",
+          "issue": "Half-life field is not present in the entry but would be informative (reported plasma half-life is short, roughly 30 minutes after SC administration).",
+          "suggestion": "Add halfLifeHours ≈ 0.5 with a note on short plasma half-life."
+        },
+        {
+          "severity": "low",
+          "field": "affectedRegions",
+          "issue": "'liver' as the primary affected region is questionable; AOD-9604 acts on adipocytes (adipose tissue) primarily, not the liver. The lipolytic effect occurs in fat cells via beta-3 adrenergic-like signaling.",
+          "suggestion": "Replace 'liver' with 'adipose-tissue' (or equivalent regionId) as the primary region."
+        },
+        {
+          "severity": "low",
+          "field": "sideEffects",
+          "issue": "Side effect list is reasonable but missing commonly reported items from trials such as injection-site reactions described more specifically, and rare reports of nausea/fatigue.",
+          "suggestion": "Consider adding 'nausea' and 'fatigue' as occasional side effects."
+        }
+      ],
+      "auditedAt": "2026-04-28T15:12:04.878Z",
+      "model": "claude-opus-4-7"
+    },
+    {
+      "peptideId": "bpc-157",
+      "overallRating": "mostly_accurate",
+      "issues": [
+        {
+          "severity": "medium",
+          "field": "keyStudies[1].pmid",
+          "issue": "PMID 27307482 does not clearly correspond to the cited Chang et al. paper on BPC-157 upregulating growth hormone receptor expression in tendon fibroblasts. The actual paper by Chang et al. (2011) on this topic is PMID 21030672, and a related 2014 follow-up is PMID 24622398. PMID 27307482 should be verified.",
+          "suggestion": "Verify the PMID; the Chang et al. tendon fibroblast GHR study is typically PMID 21030672 (2011) or PMID 24622398 (2014)."
+        },
+        {
+          "severity": "high",
+          "field": "keyStudies[2].pmid",
+          "issue": "PMID 21030672 is being used here for an IBD claim, but that PMID actually corresponds to Chang et al.'s paper on BPC-157 enhancing growth hormone receptor expression in tendon fibroblasts (2011), not an IBD trial paper. This appears to be a PMID/title mismatch.",
+          "suggestion": "Re-check the citation. The Sikiric group has multiple BPC-157 IBD review papers (e.g., PMID 21443487, PMID 24799364); pick the correct PMID for the IBD claim and reassign 21030672 to the tendon GHR finding."
+        },
+        {
+          "severity": "medium",
+          "field": "keyStudies[3].title",
+          "issue": "PMID 32209079 corresponds to a narrative review on BPC-157 and ligament/tendon healing, not a formal systematic review with quantitative dose-response analysis as the finding implies.",
+          "suggestion": "Soften 'Systematic review confirms... consistent dose-dependent effects' to 'Review summarizes preclinical evidence that BPC-157 promotes ligament healing in animal models.'"
+        },
+        {
+          "severity": "medium",
+          "field": "evidenceLevel",
+          "issue": "Evidence in humans for BPC-157 is essentially absent; nearly all data are rodent studies. Labeling evidence as 'moderate' with a rating of 7/10 overstates the human clinical evidence base.",
+          "suggestion": "Consider downgrading evidenceLevel to 'limited' or 'preclinical' and ratings.evidence to 4–5, noting the lack of human RCTs."
+        },
+        {
+          "severity": "medium",
+          "field": "ratings.efficacy",
+          "issue": "An efficacy rating of 9/10 is not supportable given that efficacy data come almost exclusively from animal models without controlled human trials.",
+          "suggestion": "Lower efficacy rating (e.g., 6–7) and clarify it reflects preclinical/anecdotal human reports."
+        },
+        {
+          "severity": "medium",
+          "field": "ratings.safety",
+          "issue": "Safety rating of 9/10 is presented with confidence, but human safety data are extremely limited; long-term safety, immunogenicity, and tumor-promotion risk via angiogenesis/growth factor pathways are not well characterized.",
+          "suggestion": "Either lower the safety rating slightly or add a note that the high rating is based on preclinical data and anecdotal human use rather than controlled trials."
+        },
+        {
+          "severity": "medium",
+          "field": "halfLifeHours",
+          "issue": "Plasma half-life of BPC-157 in rodent studies is reported to be quite short (often <30 minutes for the intact peptide); a value of 4 hours overstates the systemic half-life. Its effects may persist longer due to downstream signaling, but that is distinct from half-life.",
+          "suggestion": "Reduce halfLifeHours to a sub-1-hour value (e.g., 0.5) or annotate that pharmacodynamic effects outlast the short plasma half-life."
+        },
+        {
+          "severity": "medium",
+          "field": "contraindications",
+          "issue": "Missing the regulatory status caveat: BPC-157 is not FDA-approved, was placed on the FDA's Section 503A 'Category 2' list (2023) restricting compounding, and is banned by WADA for athletes. These are practically important contraindications/cautions.",
+          "suggestion": "Add notes about lack of FDA approval, FDA compounding restriction, and WADA prohibition for competitive athletes."
+        },
+        {
+          "severity": "low",
+          "field": "interactions",
+          "issue": "The 'Blood thinners' interaction rationale is speculative — angiogenesis and anticoagulation operate via different mechanisms, and there is no documented clinical interaction.",
+          "suggestion": "Either remove or clearly label as 'theoretical, no clinical data'."
+        },
+        {
+          "severity": "low",
+          "field": "description",
+          "issue": "Calling BPC-157 'derived from human gastric juice' is a common simplification; it is a synthetic 15-aa fragment of a sequence identified in gastric juice protein BPC, not isolated/derived in practice.",
+          "suggestion": "Reword to 'a synthetic pentadecapeptide based on a partial sequence of a protein found in human gastric juice.'"
+        }
+      ],
+      "auditedAt": "2026-04-28T15:06:22.308Z",
+      "model": "claude-opus-4-7"
+    },
+    {
+      "peptideId": "cerebrolysin",
+      "overallRating": "mostly_accurate",
+      "issues": [
+        {
+          "severity": "medium",
+          "field": "dosing.route",
+          "issue": "Route is listed as 'intramuscular' only, but Cerebrolysin is commonly administered via slow IV infusion (especially the higher 30 mL doses, which exceed practical IM volumes). The notes acknowledge IV but the route field does not.",
+          "suggestion": "Change route to 'intramuscular or intravenous infusion' to reflect actual clinical use. Doses above ~5 mL are typically given IV."
+        },
+        {
+          "severity": "medium",
+          "field": "dosing.typicalDose",
+          "issue": "The 5–30 mL range conflates IM and IV dosing without distinguishing them. IM is typically limited to ≤5 mL/day; 10–30 mL doses are given IV in stroke/dementia trials (e.g., CASTA, CARS).",
+          "suggestion": "Clarify: IM dosing 1–5 mL/day; IV infusion 10–30 mL/day diluted in saline over 15–60 min."
+        },
+        {
+          "severity": "medium",
+          "field": "description",
+          "issue": "Statement that Cerebrolysin 'mimics BDNF and NGF activity' is an oversimplification. It contains low-molecular-weight peptides (<10 kDa) and free amino acids; while it shows BDNF/NGF/CNTF/GDNF-like neurotrophic effects in preclinical models, it does not contain or directly mimic those proteins.",
+          "suggestion": "Reword to: 'contains low-molecular-weight neuropeptides that exhibit neurotrophic activity similar to endogenous factors such as BDNF, NGF, CNTF, and GDNF in preclinical models.'"
+        },
+        {
+          "severity": "low",
+          "field": "keyStudies[N].pmid",
+          "issue": "No keyStudies array is provided despite the 'strong' evidence level and rating of 8. Major trials (CASTA, CARS-1/2, Heiss et al. stroke trials, Alvarez et al. for AD) should be cited.",
+          "suggestion": "Add key studies, e.g., PMID 22786866 (CARS, Muresanu 2016), PMID 22198575 (CASTA, Heiss 2012), and Alvarez et al. AD trials."
+        },
+        {
+          "severity": "low",
+          "field": "contraindications",
+          "issue": "'Pregnancy' is listed as an absolute contraindication, but the manufacturer label classifies it as a relative contraindication (use only if clearly needed, due to lack of data) rather than absolute. Status epilepticus / grand mal seizures is the more specific epilepsy-related contraindication per label.",
+          "suggestion": "Specify 'status epilepticus / grand mal epilepsy' instead of 'epilepsy' generally, and note pregnancy as 'use with caution / insufficient data' rather than absolute."
+        }
+      ],
+      "auditedAt": "2026-04-28T15:11:41.827Z",
+      "model": "claude-opus-4-7"
+    },
+    {
+      "peptideId": "cjc-1295",
+      "overallRating": "issues_found",
+      "issues": [
+        {
+          "severity": "high",
+          "field": "dosing.typicalDose",
+          "issue": "The 2 mg per dose for CJC-1295 with DAC is at the high end and exceeds typical clinical/community dosing. Published Phase 1 trials (Teichman et al. 2006) used 30–250 mcg/kg, but real-world bodybuilding/anti-aging dosing for CJC-1295 DAC is typically 1–2 mg per week, often split, not 2 mg per dose twice weekly (which would be 4 mg/week and is associated with higher risk of GH desensitization and side effects).",
+          "suggestion": "Revise to '1–2 mg per week (with DAC), often split into 1–2 doses' to reflect standard practice."
+        },
+        {
+          "severity": "high",
+          "field": "keyStudies[1].pmid",
+          "issue": "PMID 17018659 does not correspond to a CJC-1295 body composition study. No published 12-week body composition trial of CJC-1295 in humans exists; the title and finding appear fabricated or misattributed.",
+          "suggestion": "Remove this study or replace with a verifiable citation. Body composition claims for CJC-1295 are largely extrapolated from GH/IGF-1 elevation data, not direct trials."
+        },
+        {
+          "severity": "high",
+          "field": "keyStudies[2].pmid",
+          "issue": "PMID 16434454 does not match a CJC-1295 DAC half-life paper. The DAC half-life data is reported in Teichman et al. 2006 (PMID 16352683), the same paper cited in keyStudies[0]. This appears to be a fabricated or incorrect PMID.",
+          "suggestion": "Verify and correct the PMID, or consolidate with the Teichman 2006 reference which already covers the DAC pharmacokinetics finding."
+        },
+        {
+          "severity": "medium",
+          "field": "ratings.evidence",
+          "issue": "Evidence rating of 7 is too high. Human clinical data for CJC-1295 is limited to a few Phase 1 PK/PD studies (notably Teichman 2006) demonstrating GH/IGF-1 elevation. There are no published RCTs on body composition, anti-aging, or long-term safety endpoints.",
+          "suggestion": "Lower evidence rating to 4–5 to reflect limited human outcome data."
+        },
+        {
+          "severity": "medium",
+          "field": "ratings.safety",
+          "issue": "Safety rating of 8 may be optimistic. CJC-1295 DAC was associated with an unexplained death in a clinical trial (reported in industry/press; development was discontinued by ConjuChem), and long-term safety data is absent.",
+          "suggestion": "Consider lowering safety rating to 6–7 and noting that long-term human safety is not established; clinical development was halted."
+        },
+        {
+          "severity": "medium",
+          "field": "sideEffects",
+          "issue": "Missing notable side effects: insulin resistance / impaired glucose tolerance and potential carpal tunnel-like symptoms from sustained GH/IGF-1 elevation, both well-documented with chronic GH elevation.",
+          "suggestion": "Add 'Impaired insulin sensitivity / elevated fasting glucose' and 'Joint pain / carpal tunnel-like symptoms' to side effects."
+        },
+        {
+          "severity": "medium",
+          "field": "contraindications",
+          "issue": "Missing important contraindications: acute critical illness, proliferative diabetic retinopathy, and severe sleep apnea — all standard contraindications for GH/GHRH-axis stimulation.",
+          "suggestion": "Add active proliferative retinopathy, severe sleep apnea, and acute critical illness."
+        },
+        {
+          "severity": "low",
+          "field": "halfLifeHours",
+          "issue": "168 hours (7 days) reflects only the DAC variant. CJC-1295 without DAC (often called Mod GRF 1-29) has a half-life of ~30 minutes. The single value is misleading without distinguishing the two forms.",
+          "suggestion": "Specify '~7 days (with DAC); ~30 minutes (without DAC / Mod GRF 1-29)'."
+        },
+        {
+          "severity": "low",
+          "field": "dosing.frequency",
+          "issue": "'2x weekly' for CJC-1295 with DAC is more aggressive than typical; once weekly is the more common protocol given the ~7-day half-life.",
+          "suggestion": "Change to 'Once weekly (with DAC), sometimes split twice weekly'."
+        }
+      ],
+      "auditedAt": "2026-04-28T15:07:34.627Z",
+      "model": "claude-opus-4-7"
+    },
+    {
+      "peptideId": "dihexa",
+      "overallRating": "mostly_accurate",
+      "issues": [
+        {
+          "severity": "medium",
+          "field": "ratings.efficacy",
+          "issue": "Efficacy rated 8/10 but evidence is preclinical-only with no human efficacy data. An efficacy rating this high is not supported by current evidence.",
+          "suggestion": "Lower efficacy rating to 5-6 to reflect that efficacy is only demonstrated in rodent models, or add a note that efficacy rating reflects preclinical findings only."
+        },
+        {
+          "severity": "medium",
+          "field": "dosing.typicalDose",
+          "issue": "The 10-20 mg oral dose is commonly cited in biohacker/anecdotal sources but has no validated human pharmacokinetic or safety basis. Original McCoy/Wright/Harding rodent work used much lower mg/kg doses, and no published human dosing guidelines exist.",
+          "suggestion": "Add explicit caveat that this dose range is anecdotal/community-derived and has not been established in human studies. Consider flagging as 'no validated human dose'."
+        },
+        {
+          "severity": "medium",
+          "field": "keyStudies",
+          "issue": "Entry contains no keyStudies array despite making a specific quantitative claim ('10 million times more potent than BDNF') that originates from McCoy et al. 2013 (PMID 23218701, J Pharmacol Exp Ther).",
+          "suggestion": "Add at least one key study reference, e.g., McCoy AT et al. 2013, 'Evaluation of metabolically stabilized angiotensin IV analogs as procognitive/antidementia agents' (PMID 23218701)."
+        },
+        {
+          "severity": "low",
+          "field": "fullName",
+          "issue": "Chemical name formatting is slightly nonstandard. Dihexa is typically written as N-hexanoic-Tyr-Ile-(6)-aminohexanoic amide or Hexanoyl-Tyr-Ile-(6)-aminohexanoic acid amide.",
+          "suggestion": "Standardize to 'N-hexanoyl-Tyr-Ile-(6)-aminohexanoic amide' for accuracy."
+        },
+        {
+          "severity": "low",
+          "field": "sideEffects",
+          "issue": "Side effect list is reasonable but omits commonly reported anecdotal effects such as headaches and irritability/anxiety reported in user reports.",
+          "suggestion": "Consider adding 'headache' and 'irritability/anxiety (anecdotal)' to side effects."
+        },
+        {
+          "severity": "low",
+          "field": "timeline",
+          "issue": "Timeline presents cognitive benefits with high specificity (weeks 1-2, 3-4) despite no human trial data supporting any defined onset timeline.",
+          "suggestion": "Reframe timeline as anecdotal/extrapolated from preclinical data, or broaden the windows."
+        }
+      ],
+      "auditedAt": "2026-04-28T15:10:48.710Z",
+      "model": "claude-opus-4-7"
+    },
+    {
+      "peptideId": "dsip",
+      "overallRating": "issues_found",
+      "issues": [
+        {
+          "severity": "medium",
+          "field": "description",
+          "issue": "The claim that DSIP 'promotes delta-wave (deep) sleep' is the historical hypothesis based on early Monnier studies in rabbits, but subsequent human EEG studies have largely failed to confirm a consistent delta-wave-promoting effect. Modern reviews describe DSIP's sleep-promoting role as inconsistent and poorly characterized.",
+          "suggestion": "Soften to something like: 'A naturally occurring nonapeptide originally isolated from rabbit cerebral venous blood during induced sleep. Early studies suggested it promotes delta-wave sleep, though subsequent human evidence is mixed. It may modulate neuroendocrine function and stress responses.'"
+        },
+        {
+          "severity": "medium",
+          "field": "evidenceLevel",
+          "issue": "'Emerging' overstates the trajectory of DSIP research. Most clinical work was done in the 1980s–1990s with mixed results, and the field has not meaningfully advanced. 'Preclinical' or 'limited/inconsistent' would be more accurate.",
+          "suggestion": "Consider downgrading to 'preclinical' or labeling as 'limited evidence' rather than 'emerging.'"
+        },
+        {
+          "severity": "medium",
+          "field": "ratings.efficacy",
+          "issue": "An efficacy rating of 7/10 is not supported by the published human literature, which has produced inconsistent and largely negative findings for objective sleep parameters.",
+          "suggestion": "Lower efficacy rating to 4–5 to reflect the inconsistent clinical evidence."
+        },
+        {
+          "severity": "low",
+          "field": "ratings.evidence",
+          "issue": "Evidence rating of 4 may still be slightly high given the lack of modern controlled trials and reproducibility issues.",
+          "suggestion": "Consider 2–3 to reflect dated and inconsistent evidence base."
+        },
+        {
+          "severity": "medium",
+          "field": "affectedRegions",
+          "issue": "Pituitary intensity of 3 with effects on 'LH, GH, and cortisol' is based on limited and inconsistent older studies; presenting this as established neuroendocrine modulation overstates the data.",
+          "suggestion": "Reduce intensity to 1–2 and note that neuroendocrine effects are reported in early studies but not well-replicated."
+        },
+        {
+          "severity": "medium",
+          "field": "sideEffects",
+          "issue": "The side effect profile is presented as if well-characterized, but DSIP has essentially no modern safety data in humans. Listing specific side effects with this confidence is misleading.",
+          "suggestion": "Add a note that the human safety profile is not well-characterized due to limited modern clinical data; listed effects are anecdotal."
+        },
+        {
+          "severity": "low",
+          "field": "contraindications",
+          "issue": "'Low blood pressure' is not a well-established contraindication for DSIP in the literature; this appears to be speculative.",
+          "suggestion": "Either provide a citation or remove. Consider adding 'insufficient safety data — avoid in pregnancy, breastfeeding, and pediatric populations' as the more defensible stance."
+        },
+        {
+          "severity": "low",
+          "field": "dosing.typicalDose",
+          "issue": "The 100–300 mcg subcutaneous dose range is the common community/anecdotal range but is not directly supported by published clinical pharmacology; original studies used IV administration at varying doses.",
+          "suggestion": "Note that this dose range derives from community practice rather than validated clinical trials."
+        }
+      ],
+      "auditedAt": "2026-04-28T15:14:19.553Z",
+      "model": "claude-opus-4-7"
+    },
+    {
+      "peptideId": "epithalon",
+      "overallRating": "mostly_accurate",
+      "issues": [
+        {
+          "severity": "medium",
+          "field": "fullName",
+          "issue": "The full name 'Epitalon (Epithalamion)' is incorrect. The peptide is properly called Epitalon or Epithalon, derived from 'Epithalamin' (the pineal extract), not 'Epithalamion'.",
+          "suggestion": "Change to 'Epitalon / Epithalon (Ala-Glu-Asp-Gly / AEDG)' which references the actual sequence and parent extract Epithalamin."
+        },
+        {
+          "severity": "medium",
+          "field": "dosing.typicalDose",
+          "issue": "The 5–10 mg daily dose is at the high end of typical practical use and exceeds the doses used in the Khavinson clinical literature, which typically employed 5–10 mg per course total or ~1.5–10 mg/day in research settings. Common community/clinical protocols are ~5–10 mg per injection but Khavinson's original studies used much lower parenteral doses.",
+          "suggestion": "Clarify that Khavinson's published trials used substantially lower doses (often 5–10 mg total per course, intramuscular) and that 5–10 mg/day reflects contemporary off-label community dosing, not the original trial protocol."
+        },
+        {
+          "severity": "medium",
+          "field": "dosing.route",
+          "issue": "Most published Russian clinical research administered Epitalon intramuscularly, not subcutaneously. SC is the common community route but is not what the source literature used.",
+          "suggestion": "List route as 'intramuscular or subcutaneous' and note IM is the route used in Khavinson's published studies."
+        },
+        {
+          "severity": "medium",
+          "field": "ratings.evidence",
+          "issue": "An evidence rating of 5/10 may be slightly generous given that virtually all human data come from a single research group (Khavinson/St. Petersburg Institute of Bioregulation and Gerontology) with limited independent replication, and telomerase activation in humans has not been robustly demonstrated outside in vitro work.",
+          "suggestion": "Consider lowering evidence rating to 3–4 and explicitly note the lack of independent replication and absence of large RCTs."
+        },
+        {
+          "severity": "medium",
+          "field": "sideEffects",
+          "issue": "The side effect profile is essentially based on absence of reported adverse events in small Russian trials; safety in long-term use, especially regarding theoretical oncogenic risk from telomerase activation, is not well characterized.",
+          "suggestion": "Add a note that long-term safety data are limited and that the apparent benign side effect profile reflects small, short-duration studies."
+        },
+        {
+          "severity": "low",
+          "field": "halfLifeHours",
+          "issue": "Half-life is not reported in the entry. Epitalon has a very short plasma half-life (estimated minutes), which is relevant context for its short-course intensive dosing rationale.",
+          "suggestion": "Add an approximate half-life (~minutes in plasma) with a note that biological effects are thought to outlast pharmacokinetic presence due to gene-regulatory mechanisms."
+        },
+        {
+          "severity": "low",
+          "field": "description",
+          "issue": "Telomerase activation by Epitalon has been demonstrated primarily in vitro (e.g., in human somatic cell cultures by Khavinson et al.); describing it as established without that qualifier overstates the human evidence.",
+          "suggestion": "Add 'in vitro' qualifier to the telomerase activation claim and note that telomere lengthening in humans has not been directly demonstrated."
+        },
+        {
+          "severity": "low",
+          "field": "contraindications",
+          "issue": "Missing common-sense contraindications such as lactation, pediatric use, and a stronger note on history of cancer (not just active cancer) given theoretical telomerase concerns.",
+          "suggestion": "Expand contraindications to include lactation, pediatric use, and history of malignancy."
+        }
+      ],
+      "auditedAt": "2026-04-28T15:12:55.043Z",
+      "model": "claude-opus-4-7"
+    },
+    {
+      "peptideId": "ghk-cu",
+      "overallRating": "issues_found",
+      "issues": [
+        {
+          "severity": "medium",
+          "field": "keyStudies[0].pmid",
+          "issue": "PMID 25916860 corresponds to a paper on GHK-Cu and skin/wound topics but the exact title given ('GHK-Cu promotes wound healing and skin remodeling') appears paraphrased rather than the actual title. The actual PMID 25916860 is 'Use of the Tripeptide GHK in Therapy and Cosmetology' or similar Pickart work; title should be verified and matched to the real publication.",
+          "suggestion": "Verify and use the exact published title for PMID 25916860, or replace with a study whose title is precisely matched."
+        },
+        {
+          "severity": "medium",
+          "field": "keyStudies[1].pmid",
+          "issue": "PMID 24508075 - the cited finding about resetting gene expression in aging fibroblasts toward youthful profile is consistent with Pickart et al. work, but the title 'GHK-Cu modulates gene expression in aging skin' appears paraphrased. The actual referenced gene-reset study is typically Pickart 2012 ('GHK Peptide as a Natural Modulator of Multiple Cellular Pathways in Skin Regeneration', PMID 26236532) or the 2017 BioMed Research International paper. Verify the PMID matches the described finding.",
+          "suggestion": "Confirm PMID 24508075 actually reports the 130+ gene reset finding, or substitute the correct PMID (e.g., the Pickart Hessel 2017/2012 review)."
+        },
+        {
+          "severity": "medium",
+          "field": "keyStudies[2].pmid",
+          "issue": "PMID 32927474 should be verified for the title and 2020 publication year on GHK-Cu anti-aging review. The PMID format is plausible but the exact match needs confirmation.",
+          "suggestion": "Verify PMID 32927474 corresponds to the cited 2020 GHK-Cu anti-aging review."
+        },
+        {
+          "severity": "medium",
+          "field": "dosing.typicalDose",
+          "issue": "Subcutaneous systemic dosing of GHK-Cu at 1-2 mg daily is reported anecdotally but not well-established in clinical literature; most human evidence supports topical use, with limited controlled data on injectable systemic dosing.",
+          "suggestion": "Add a note that systemic injection dosing is based on anecdotal/community protocols rather than controlled clinical trials, and that topical application has the strongest evidence base."
+        },
+        {
+          "severity": "medium",
+          "field": "ratings.evidence",
+          "issue": "Evidence rating of 7 may be slightly elevated given that high-quality human evidence is largely limited to topical cosmetic applications; systemic injectable use has mostly preclinical/in vitro support.",
+          "suggestion": "Consider lowering evidence rating to 5-6 to reflect that strong evidence applies primarily to topical use, not systemic injection."
+        },
+        {
+          "severity": "low",
+          "field": "sideEffects",
+          "issue": "Missing potential side effects such as transient hypotension reports (anecdotal) and possible interference with copper homeostasis with prolonged high-dose use.",
+          "suggestion": "Add note regarding theoretical risk of altered copper balance with prolonged systemic use."
+        },
+        {
+          "severity": "low",
+          "field": "halfLifeHours",
+          "issue": "Half-life of ~1 hour is approximate; plasma half-life of GHK is reported around 30 minutes in some sources, with the copper-bound complex potentially behaving differently.",
+          "suggestion": "Clarify that ~1 hour is an approximation and reference the source, or list as 0.5-1 hour."
+        }
+      ],
+      "auditedAt": "2026-04-28T15:07:11.884Z",
+      "model": "claude-opus-4-7"
+    },
+    {
+      "peptideId": "ghrp-2",
+      "overallRating": "mostly_accurate",
+      "issues": [
+        {
+          "severity": "medium",
+          "field": "abbreviation",
+          "issue": "Abbreviation 'GH2' is non-standard. The compound is universally abbreviated as 'GHRP-2' in literature.",
+          "suggestion": "Change abbreviation to 'GHRP-2'."
+        },
+        {
+          "severity": "medium",
+          "field": "description",
+          "issue": "Claim that GHRP-2 produces 'stronger GH pulses than Ipamorelin' is supported by some data, but the implication that side effects only differ 'slightly' understates the difference. GHRP-2 notably elevates prolactin and cortisol while Ipamorelin does not, which is a key clinical distinction.",
+          "suggestion": "Mention prolactin elevation alongside cortisol, and note Ipamorelin's selectivity advantage more explicitly."
+        },
+        {
+          "severity": "medium",
+          "field": "sideEffects",
+          "issue": "Missing well-documented side effects: prolactin elevation and transient flushing/tingling. Also blood glucose elevation/insulin resistance with chronic ghrelin agonism is omitted.",
+          "suggestion": "Add 'Elevated prolactin', 'Flushing/tingling at injection', and 'Possible insulin sensitivity reduction' to side effects."
+        },
+        {
+          "severity": "medium",
+          "field": "timeline",
+          "issue": "Timeline labels acute GH boost as weeks 1–2; GH release from GHRP-2 is acute (minutes after injection), not requiring 1–2 weeks. Subjective effects like sleep/appetite may appear within days, not weeks.",
+          "suggestion": "Reframe early window as 'Days 1–7' or note that GH pulses are immediate post-injection."
+        },
+        {
+          "severity": "low",
+          "field": "keyStudies[0].pmid",
+          "issue": "Entry contains no keyStudies array despite evidence rating of 7 ('moderate' evidence level). Foundational references (e.g., Bowers et al., Laferrère et al.) should be cited to justify the rating.",
+          "suggestion": "Add at least 1–2 key references (e.g., PMID 9329327 - Bowers, or PMID 15797954 - Laferrère et al. on GHRP-2 and GH/appetite)."
+        },
+        {
+          "severity": "low",
+          "field": "contraindications",
+          "issue": "Missing active diabetes / poorly controlled hyperglycemia as a relevant precaution given GH's effect on insulin sensitivity.",
+          "suggestion": "Add diabetes/insulin resistance as a precaution."
+        },
+        {
+          "severity": "low",
+          "field": "interactions",
+          "issue": "Interactions field is absent. Synergy with GHRH analogs (CJC-1295, sermorelin) and antagonism by somatostatin/recent meals are clinically relevant.",
+          "suggestion": "Populate interactions field with GHRH synergy and food/somatostatin attenuation notes."
+        }
+      ],
+      "auditedAt": "2026-04-28T15:08:39.157Z",
+      "model": "claude-opus-4-7"
+    },
+    {
+      "peptideId": "ghrp-6",
+      "overallRating": "mostly_accurate",
+      "issues": [
+        {
+          "severity": "medium",
+          "field": "sideEffects",
+          "issue": "GHRP-6 has minimal effect on cortisol and prolactin compared to GHRP-2 or hexarelin. Studies show GHRP-6 raises these only modestly at supraphysiologic doses.",
+          "suggestion": "Either remove cortisol/prolactin elevation or qualify it as 'mild and dose-dependent, less pronounced than with GHRP-2/hexarelin'."
+        },
+        {
+          "severity": "medium",
+          "field": "ratings.evidence",
+          "issue": "Evidence rating of 7 may be slightly high. While GHRP-6 has been studied since the 1980s-90s with solid mechanistic and short-term human pharmacology data, there are limited long-term clinical outcome trials for body composition or anti-aging endpoints.",
+          "suggestion": "Consider lowering to 6, or clarify that evidence is strong for GH-releasing pharmacology but limited for long-term clinical outcomes."
+        },
+        {
+          "severity": "medium",
+          "field": "effects",
+          "issue": "Listing 'fat-loss' as an effect is inconsistent with the strong appetite stimulation and the entry's own framing as useful for 'mass gain' in underweight individuals. GHRP-6 typically causes weight/fat gain due to hyperphagia.",
+          "suggestion": "Remove 'fat-loss' from effects, or replace with a different secretagogue (e.g., ipamorelin, tesamorelin) when fat loss is the goal."
+        },
+        {
+          "severity": "low",
+          "field": "keyStudies",
+          "issue": "No keyStudies array is provided despite GHRP-6 having well-known foundational papers (e.g., Bowers et al. 1984; Ghigo et al. studies on GH response).",
+          "suggestion": "Add 1-2 key references such as Bowers CY et al. on GHRP discovery and the human GH response studies."
+        },
+        {
+          "severity": "low",
+          "field": "halfLifeHours",
+          "issue": "Half-life field is missing. GHRP-6 has a plasma half-life of approximately 15–60 minutes (commonly cited ~30 min).",
+          "suggestion": "Add halfLifeHours: ~0.5 (with note on range)."
+        },
+        {
+          "severity": "low",
+          "field": "affectedRegions",
+          "issue": "Hypothalamus is not listed despite GHRP-6 acting on hypothalamic GHS-R1a neurons (mediating both GH release via GHRH neurons and appetite via NPY/AgRP).",
+          "suggestion": "Add hypothalamus as an affected region with appropriate intensity."
+        }
+      ],
+      "auditedAt": "2026-04-28T15:08:54.500Z",
+      "model": "claude-opus-4-7"
+    },
+    {
+      "peptideId": "hexarelin",
+      "overallRating": "mostly_accurate",
+      "issues": [
+        {
+          "severity": "medium",
+          "field": "description",
+          "issue": "Hexarelin is one of the most potent GHRPs but the claim that it produces 'the largest GH pulses of any peptide in this class' is overstated; head-to-head data show hexarelin and GHRP-6 produce comparable peak GH, and ipamorelin/GHRP-2 can produce similar peaks at higher doses. Potency on a per-mcg basis is high, but absolute peak GH is not unequivocally the highest.",
+          "suggestion": "Reword to 'one of the most potent GHRPs on a per-dose basis' rather than implying it produces the largest GH pulses of all GHRPs."
+        },
+        {
+          "severity": "medium",
+          "field": "affectedRegions",
+          "issue": "The pituitary description repeats the overstated 'strongest GH pulse of all GHRPs' claim.",
+          "suggestion": "Soften to 'Among the most potent GHRPs at the ghrelin/GHS-R1a receptor.'"
+        },
+        {
+          "severity": "medium",
+          "field": "sideEffects",
+          "issue": "Missing well-documented side effects: transient blunting of the GH/IGF-1 axis after prolonged use, and (more importantly) cardiac concerns at supraphysiologic/chronic doses—case reports and animal data suggest possible LV hypertrophy with chronic high-dose use, which is notable given the peptide is otherwise marketed as cardioprotective.",
+          "suggestion": "Add HPA axis effects (cortisol/prolactin already listed but expand), suppression of endogenous GH pulsatility with chronic use, and a note about potential cardiac hypertrophy at chronic high doses."
+        },
+        {
+          "severity": "low",
+          "field": "dosing.cycleLength",
+          "issue": "Most clinical and practical sources recommend even shorter exposure (≤2–4 weeks continuous) before tachyphylaxis becomes significant; 4–8 weeks is on the long end and the notes contradict this by saying desensitization occurs 'within 4–8 weeks' (it often appears earlier, by ~2 weeks of continuous dosing per Rahim et al. 1998).",
+          "suggestion": "Shorten typical cycle to 2–4 weeks or clearly state desensitization can begin as early as ~2 weeks."
+        },
+        {
+          "severity": "low",
+          "field": "timeline",
+          "issue": "Timeline implies sustained anabolic benefit through week 6, which conflicts with the known rapid tachyphylaxis of hexarelin (GH response markedly attenuated after ~2 weeks of continuous use).",
+          "suggestion": "Compress timeline: peak response week 1, attenuation by weeks 2–3, cycle off by week 4."
+        },
+        {
+          "severity": "low",
+          "field": "contraindications",
+          "issue": "Given cortisol/prolactin elevation and potential cardiac hypertrophy concerns, consider adding pre-existing cardiac hypertrophy/cardiomyopathy and uncontrolled hyperprolactinemia.",
+          "suggestion": "Add cardiac hypertrophy/cardiomyopathy and hyperprolactinemia to contraindications/cautions."
+        }
+      ],
+      "auditedAt": "2026-04-28T15:09:11.466Z",
+      "model": "claude-opus-4-7"
+    },
+    {
+      "peptideId": "ipamorelin",
+      "overallRating": "issues_found",
+      "issues": [
+        {
+          "severity": "high",
+          "field": "keyStudies[0].pmid",
+          "issue": "PMID 9849822 does not correspond to the foundational Ipamorelin paper by Raun et al. The actual seminal paper 'Ipamorelin, the first selective growth hormone secretagogue' (Raun K et al., Eur J Endocrinol 1998) is PMID 9849822 — actually this PMID may match, but the year listed (1999) is off; the Raun et al. paper was published in 1998.",
+          "suggestion": "Verify PMID and correct year to 1998 if citing Raun et al. Eur J Endocrinol 1998;139(5):552-61."
+        },
+        {
+          "severity": "medium",
+          "field": "keyStudies[1].title",
+          "issue": "The title 'Ipamorelin effects on body composition in rats' appears generic/possibly fabricated. PMID 10604470 should be verified — it does not clearly map to a well-known ipamorelin body composition paper.",
+          "suggestion": "Verify PMID and replace with the actual title of the cited study, or substitute Johansen et al. 1999 or similar verified reference."
+        },
+        {
+          "severity": "medium",
+          "field": "keyStudies[2].title",
+          "issue": "PMID 11713213 and the title 'Ipamorelin increases bone mineral content' should be verified. The known bone density ipamorelin paper is Svensson et al. (J Endocrinol 2000) on ovariectomized rats; the citation as written may not match.",
+          "suggestion": "Cross-check PMID against Svensson J et al., or correct the title/year to match the actual indexed paper."
+        },
+        {
+          "severity": "medium",
+          "field": "ratings.popularity",
+          "issue": "Popularity rating of 10 (maximum) is plausible but a perfect score is rarely justified; ipamorelin is popular in research/anti-aging communities but likely not the single most popular peptide.",
+          "suggestion": "Consider lowering to 8–9 to leave headroom and reflect relative popularity vs. BPC-157, semaglutide, etc."
+        },
+        {
+          "severity": "low",
+          "field": "sideEffects",
+          "issue": "Top-level sideEffects array lists 'Transient hunger' but detailedSideEffects describes hunger as 'uncommon' and 'less pronounced than other GHRPs'. Slight inconsistency in framing.",
+          "suggestion": "Align wording — ipamorelin is notable for minimal hunger compared to GHRP-2/6; downgrade to 'mild/occasional hunger'."
+        },
+        {
+          "severity": "low",
+          "field": "sideEffects",
+          "issue": "Water retention is listed in detailedSideEffects as 'common' but missing from the top-level sideEffects list.",
+          "suggestion": "Add 'Mild water retention' to top-level sideEffects for consistency."
+        },
+        {
+          "severity": "low",
+          "field": "contraindications",
+          "issue": "Missing notable contraindications: active malignancy is listed but pediatric use without endocrinologist supervision, severe cardiovascular disease, and critical illness (per GH literature) are typically also flagged.",
+          "suggestion": "Consider adding 'critical illness', 'severe cardiovascular disease', and noting caution in diabetes/insulin resistance."
+        },
+        {
+          "severity": "low",
+          "field": "halfLifeHours",
+          "issue": "Half-life of ipamorelin is generally reported as approximately 2 hours, which matches; however, plasma half-life in humans is closer to 2 hours while functional GH-stimulating effect is shorter (~1 hr).",
+          "suggestion": "Acceptable as-is; could clarify in notes that biological/secretagogue activity is shorter than plasma half-life."
+        }
+      ],
+      "auditedAt": "2026-04-28T15:07:54.465Z",
+      "model": "claude-opus-4-7"
+    },
+    {
+      "peptideId": "kisspeptin-10",
+      "overallRating": "mostly_accurate",
+      "issues": [
+        {
+          "severity": "medium",
+          "field": "dosing.typicalDose",
+          "issue": "The dose range '1–10 nmol/kg' is broad and not aligned with most published human studies. Clinical research (e.g., Dhillo, Jayasena groups) commonly uses bolus doses of 0.3 nmol/kg or continuous infusions of 0.1–1 nmol/kg/min IV. Subcutaneous bolus dosing in humans is less established and 10 nmol/kg approaches supraphysiologic territory where receptor desensitization becomes a concern.",
+          "suggestion": "Clarify that human IV studies use ~0.1–1 nmol/kg/min infusion or 0.3 nmol/kg boluses; SC research dosing is less standardized. Consider narrowing the range and noting the desensitization risk at higher/sustained doses."
+        },
+        {
+          "severity": "medium",
+          "field": "dosing.route",
+          "issue": "Subcutaneous is listed as the sole route, but the bulk of human kisspeptin-10 literature uses intravenous bolus or infusion. SC administration is used in some research but is not the predominant clinical route.",
+          "suggestion": "Note that IV is the most studied route in humans; SC is used in research/practical settings but with less published data."
+        },
+        {
+          "severity": "medium",
+          "field": "dosing.frequency",
+          "issue": "Kisspeptin-10 has a very short plasma half-life (~4 minutes in humans). 'Daily or pulsed dosing' understates this; sustained or repeated dosing leads to KISS1R desensitization and paradoxically reduced LH response, which is an important mechanistic caveat.",
+          "suggestion": "Add explicit note that continuous/high-frequency dosing causes receptor desensitization and blunts the LH response; pulsatile administration is preferred."
+        },
+        {
+          "severity": "medium",
+          "field": "timeline",
+          "issue": "Timeline frames LH/FSH response as occurring over weeks 1–2, but kisspeptin-10 raises LH within minutes of administration, not over weeks. The 'functional benefits' timeline of 3–4 weeks for libido/mood is also speculative given limited chronic-dosing human data.",
+          "suggestion": "Reframe acute hormonal effects as occurring within minutes to hours post-injection; note that chronic functional benefits (libido, mood) are not well-established and based on limited trials (e.g., Comninos 2017 fMRI/limbic activation study)."
+        },
+        {
+          "severity": "low",
+          "field": "description",
+          "issue": "Metastin 45–54 nomenclature is correct, but 'natural approach to boost testosterone' overstates current evidence; sustained T elevation from KP-10 in humans has not been robustly demonstrated outside acute LH responses.",
+          "suggestion": "Soften phrasing to 'acutely stimulates LH/FSH and downstream sex steroid release' and note long-term testosterone effects remain under investigation."
+        },
+        {
+          "severity": "low",
+          "field": "halfLifeHours",
+          "issue": "Half-life is not provided. Kisspeptin-10 has a very short half-life (~4 min in humans), which is clinically important context.",
+          "suggestion": "Add halfLifeHours ≈ 0.07 (≈4 minutes) with note that this drives the need for pulsatile/infusion dosing."
+        }
+      ],
+      "auditedAt": "2026-04-28T15:15:01.682Z",
+      "model": "claude-opus-4-7"
+    },
+    {
+      "peptideId": "kpv",
+      "overallRating": "mostly_accurate",
+      "issues": [
+        {
+          "severity": "medium",
+          "field": "dosing.typicalDose",
+          "issue": "The typical dose for KPV is generally cited in the 250 mcg to 1 mg range (oral) or 200-500 mcg subcutaneously. The 200-500 mcg range is on the low end and not differentiated by route despite the notes mentioning multiple routes.",
+          "suggestion": "Consider specifying dose ranges by route, e.g., 250 mcg-1 mg oral, 200-500 mcg SC, or topical formulations."
+        },
+        {
+          "severity": "medium",
+          "field": "dosing.route",
+          "issue": "Route is listed as 'oral' but the notes describe oral, subcutaneous, and topical use. The primary route field should reflect the most common/studied route or indicate multiple routes.",
+          "suggestion": "Change route to reflect that KPV is commonly used via multiple routes, or specify the primary route as oral with clear notes about alternatives."
+        },
+        {
+          "severity": "low",
+          "field": "description",
+          "issue": "KPV is the C-terminal tripeptide of alpha-MSH (residues 11-13), but it could be more accurately noted that it lacks the melanocortin receptor binding activity of full alpha-MSH while retaining anti-inflammatory effects through intracellular mechanisms.",
+          "suggestion": "Add brief note that KPV's anti-inflammatory action is largely receptor-independent and intracellular, distinguishing it from alpha-MSH."
+        },
+        {
+          "severity": "low",
+          "field": "keyStudies[0].pmid",
+          "issue": "The entry contains no keyStudies array despite citing specific mechanisms (NF-kB inhibition). Major published evidence exists (e.g., Dalmasso et al. 2008, Kannengiesser et al. 2008 on KPV in colitis) and should be cited.",
+          "suggestion": "Add keyStudies entries with verified PMIDs supporting the IBD and anti-inflammatory claims."
+        },
+        {
+          "severity": "low",
+          "field": "halfLifeHours",
+          "issue": "Half-life is not provided. KPV has a relatively short plasma half-life but extended local tissue effects, which is relevant for dosing frequency.",
+          "suggestion": "Add halfLifeHours field with available pharmacokinetic data or note that local/tissue effects outlast plasma half-life."
+        }
+      ],
+      "auditedAt": "2026-04-28T15:13:24.271Z",
+      "model": "claude-opus-4-7"
+    },
+    {
+      "peptideId": "ll-37",
+      "overallRating": "mostly_accurate",
+      "issues": [
+        {
+          "severity": "medium",
+          "field": "dosing.typicalDose",
+          "issue": "Dosing for LL-37 in human use is not well established in peer-reviewed literature; common community/clinical guidance is typically in the range of 100-1000 mcg subcutaneously (often 100-500 mcg). Listing 50-100 mcg as 'typical' may be sub-therapeutic and lacks a strong evidence base.",
+          "suggestion": "Broaden range (e.g., 100-500 mcg) and explicitly note that human dosing is not formally established and is based on anecdotal/clinical practice."
+        },
+        {
+          "severity": "medium",
+          "field": "contraindications",
+          "issue": "Rosacea contraindication is appropriate (LL-37 is mechanistically implicated in rosacea pathogenesis per Yamasaki et al. Nat Med 2007), but the entry does not cite this. Psoriasis should also be listed since LL-37-DNA/RNA complexes are a known driver of psoriatic inflammation (Lande et al., Nature 2007).",
+          "suggestion": "Add psoriasis to contraindications and reference the rosacea/psoriasis mechanistic literature."
+        },
+        {
+          "severity": "low",
+          "field": "contraindications",
+          "issue": "Autoimmune conditions broadly listed, but LL-37 is specifically implicated as an autoantigen in lupus and has roles in atherosclerosis and IBD flares — worth being more specific.",
+          "suggestion": "Specify SLE/lupus and psoriasis rather than generic 'autoimmune conditions'."
+        },
+        {
+          "severity": "low",
+          "field": "sideEffects",
+          "issue": "Missing potential histamine-release/mast cell degranulation reactions, which LL-37 is known to cause (Niyonsaba et al.). Some users report flushing/itching from this mechanism.",
+          "suggestion": "Add 'flushing or histamine-like reactions (mast cell degranulation)' to side effects."
+        },
+        {
+          "severity": "low",
+          "field": "evidenceLevel",
+          "issue": "'Emerging' is reasonable for therapeutic use, but it should be clarified that while the basic biology of LL-37 is extensively studied, clinical use of exogenous LL-37 peptide therapy is largely experimental/off-label with minimal RCT data.",
+          "suggestion": "Add a note in description distinguishing strong basic science evidence from limited clinical-use evidence."
+        },
+        {
+          "severity": "low",
+          "field": "description",
+          "issue": "Entry contains no keyStudies array despite a well-developed literature (e.g., Dürr et al. 2006 review; Vandamme et al. 2012; Yamasaki 2007 rosacea).",
+          "suggestion": "Add 2-3 key references to support antimicrobial, immunomodulatory, and wound-healing claims."
+        }
+      ],
+      "auditedAt": "2026-04-28T15:13:40.206Z",
+      "model": "claude-opus-4-7"
+    },
+    {
+      "peptideId": "melanotan-ii",
+      "overallRating": "issues_found",
+      "issues": [
+        {
+          "severity": "high",
+          "field": "sideEffects",
+          "issue": "Missing several well-documented and clinically important side effects of MT-II, including new/changing nevi (dysplastic-appearing moles), reports of melanoma developing in users, rhabdomyolysis (case reports), priapism, hypertension/blood pressure changes, and yawning/stretching syndrome.",
+          "suggestion": "Add: new or darkening/atypical nevi (with case reports of melanoma), priapism, rhabdomyolysis, blood pressure elevation, yawning/stretching, and risk of contamination from unregulated sources."
+        },
+        {
+          "severity": "high",
+          "field": "contraindications",
+          "issue": "Missing several important contraindications and warnings: any personal/family history of dysplastic nevus syndrome, fair skin with many moles (Fitzpatrick I), uncontrolled hypertension, and concurrent use with other vasoactive/serotonergic agents. Also omits that MT-II is not approved by any regulatory agency and is sold as a research chemical.",
+          "suggestion": "Add dysplastic nevus syndrome, uncontrolled hypertension, breastfeeding, and a clear note that MT-II is unapproved and unregulated."
+        },
+        {
+          "severity": "medium",
+          "field": "ratings.evidence",
+          "issue": "Evidence rating of 6 is too high. There are no large RCTs of Melanotan II itself; most clinical data comes from small studies of related analogs (e.g., bremelanotide/PT-141 for sexual dysfunction, afamelanotide for EPP). MT-II clinical evidence is limited to small studies (Wessells et al., late 1990s/early 2000s) and case reports.",
+          "suggestion": "Lower evidence rating to 3–4 and clarify that much supporting evidence is from related analogs, not MT-II itself."
+        },
+        {
+          "severity": "medium",
+          "field": "ratings.safety",
+          "issue": "Safety rating of 5 may be optimistic given documented case reports of melanoma, rhabdomyolysis, posterior reversible encephalopathy syndrome, and renal infarction in MT-II users, plus the unregulated nature of supply.",
+          "suggestion": "Consider lowering safety rating to 3–4 and noting unregulated source quality as a major safety concern."
+        },
+        {
+          "severity": "medium",
+          "field": "description",
+          "issue": "Description states MT-II was 'originally developed for skin tanning,' which is somewhat misleading. It was developed at the University of Arizona as a synthetic α-MSH analog to study photoprotection/melanogenesis; the tanning application emerged from that research, but development of the molecule itself preceded the cosmetic framing.",
+          "suggestion": "Rephrase to: 'Originally developed at the University of Arizona as a synthetic α-MSH analog to induce melanogenesis as a photoprotective strategy.'"
+        },
+        {
+          "severity": "low",
+          "field": "halfLifeHours",
+          "issue": "Half-life is not provided. MT-II has a reported plasma half-life of approximately 30 minutes to 1 hour, though biological/pigmentary effects last much longer.",
+          "suggestion": "Add halfLifeHours ≈ 0.5–1 with a note that pharmacodynamic effects outlast plasma levels."
+        },
+        {
+          "severity": "low",
+          "field": "keyStudies[N].pmid",
+          "issue": "No keyStudies array is provided despite the existence of relevant literature (e.g., Wessells et al. studies on MT-II and erectile response; Dorr et al. on tanning).",
+          "suggestion": "Add keyStudies referencing Wessells H et al., J Urol 1998 (PMID 9554344) and Dorr RT et al., Life Sci 1996 (PMID 8614390)."
+        },
+        {
+          "severity": "low",
+          "field": "dosing.notes",
+          "issue": "Recommending UV exposure to enhance tanning effect understates the risk. Combining a melanocortin agonist with UV exposure has been associated with eruptive nevi and melanoma case reports.",
+          "suggestion": "Replace with a cautionary note that UV exposure increases pigmentation but compounds dermatologic risk; recommend full-body skin checks before and during use."
+        }
+      ],
+      "auditedAt": "2026-04-28T15:09:52.214Z",
+      "model": "claude-opus-4-7"
+    },
+    {
+      "peptideId": "mk-677",
+      "overallRating": "mostly_accurate",
+      "issues": [
+        {
+          "severity": "high",
+          "field": "keyStudies[0].finding",
+          "issue": "The claim that MK-677 oral dosing produces GH/IGF-1 elevation 'equivalent to GH injection therapy' overstates the literature. Chapman et al. demonstrated sustained pulsatile GH elevation and IGF-1 increases, but did not establish equivalence to exogenous GH injection therapy.",
+          "suggestion": "Reword to: 'MK-677 25 mg daily orally produced sustained increases in GH pulsatility and IGF-1 levels comparable to those seen in healthy young adults.'"
+        },
+        {
+          "severity": "medium",
+          "field": "keyStudies[1].finding",
+          "issue": "The Nass et al. 2008 trial (PMID 18981485) was approximately 1 year (and 2-year for some subgroups), and notably did report adverse signals including increased fasting glucose, reduced insulin sensitivity, and CHF in two subjects. Stating 'without significant adverse events' is inaccurate.",
+          "suggestion": "Revise finding to acknowledge increased lean mass but also note observed increases in fasting glucose and reduced insulin sensitivity."
+        },
+        {
+          "severity": "medium",
+          "field": "keyStudies[2].pmid",
+          "issue": "PMID 9349662 should be verified — the commonly cited MK-677/sleep paper is Copinschi et al. 1997 (Neuroendocrinology), and the title given is generic. The PMID may not match the actual sleep architecture paper.",
+          "suggestion": "Verify PMID and update title to match the actual published paper (e.g., Copinschi et al., 'Effects of a 7-day treatment with a novel orally active nonpeptide GH secretagogue, MK-677, on 24-hour GH profiles, IGF-I, and adrenocortical function in normal young men')."
+        },
+        {
+          "severity": "medium",
+          "field": "sideEffects",
+          "issue": "Elevated blood glucose / decreased insulin sensitivity is one of the most consistently reported and clinically significant adverse effects of MK-677, but it is listed as 'uncommon' in detailedSideEffects. Literature (Nass 2008, Murphy studies) shows it occurs frequently.",
+          "suggestion": "Reclassify elevated blood glucose / reduced insulin sensitivity as 'common' rather than 'uncommon'."
+        },
+        {
+          "severity": "medium",
+          "field": "contraindications",
+          "issue": "Missing congestive heart failure / cardiac conditions as a contraindication. The Nass 2008 trial reported CHF cases, and edema/fluid retention from MK-677 poses risk in patients with cardiac dysfunction.",
+          "suggestion": "Add 'Congestive heart failure or significant cardiac disease' to contraindications."
+        },
+        {
+          "severity": "low",
+          "field": "halfLifeHours",
+          "issue": "MK-677's plasma half-life is approximately 4–6 hours; the 24-hour figure refers to duration of GH/IGF-1 effect, not pharmacokinetic half-life.",
+          "suggestion": "Set halfLifeHours to ~4–6 and clarify in description that the pharmacodynamic effect lasts ~24 hours."
+        },
+        {
+          "severity": "low",
+          "field": "ratings.evidence",
+          "issue": "Evidence rating of 7 is somewhat high given that long-term safety data remain limited and no MK-677 product is approved for any indication (development was halted).",
+          "suggestion": "Consider lowering evidence rating to 6."
+        }
+      ],
+      "auditedAt": "2026-04-28T15:15:20.476Z",
+      "model": "claude-opus-4-7"
+    },
+    {
+      "peptideId": "mots-c",
+      "overallRating": "issues_found",
+      "issues": [
+        {
+          "severity": "high",
+          "field": "dosing.typicalDose",
+          "issue": "5-10 mg per dose is significantly higher than the typical reported MOTS-c dosing range. Published animal studies use ~0.5 mg/kg, which translates to roughly 5-10 mg per dose for a human, but actual community/clinical protocols typically use 5-10 mg per WEEK divided across doses, or 2-10 mg per dose at most. 5-10 mg given 3-5x/week (i.e., 15-50 mg/week) is excessive relative to any published protocol and would be cost-prohibitive and unstudied.",
+          "suggestion": "Revise to something like '5-10 mg per week, often split into 2-3 doses' or '2-5 mg per injection, 2-3x/week'."
+        },
+        {
+          "severity": "medium",
+          "field": "description",
+          "issue": "Description states MOTS-c is 'mitochondrial-encoded' which is correct, but omits that it is a 16-amino-acid peptide encoded within the 12S rRNA region of mtDNA. Minor but the 'exercise mimetic' framing is stronger than evidence supports in humans (most data are murine).",
+          "suggestion": "Clarify that exercise-mimetic effects are demonstrated primarily in rodent models; human data are very limited."
+        },
+        {
+          "severity": "medium",
+          "field": "effects",
+          "issue": "Listing 'muscle-growth' as an effect is not well supported. MOTS-c improves metabolic function and exercise capacity but is not established as anabolic/hypertrophic.",
+          "suggestion": "Remove 'muscle-growth' or replace with 'exercise-capacity'."
+        },
+        {
+          "severity": "medium",
+          "field": "keyStudies[N].pmid",
+          "issue": "Entry contains no keyStudies array at all. For a peptide with foundational literature (e.g., Lee et al. 2015, Cell Metabolism, PMID 25738459 - 'The mitochondrial-derived peptide MOTS-c promotes metabolic homeostasis...'; Reynolds et al. 2021, Nature Communications on MOTS-c and exercise), key studies should be cited.",
+          "suggestion": "Add keyStudies entries with verified PMIDs for the seminal Lee 2015 Cell Metabolism paper and Reynolds 2021 Nat Commun paper."
+        },
+        {
+          "severity": "low",
+          "field": "abbreviation",
+          "issue": "Abbreviation listed as 'MOTS' but the peptide is universally referred to as 'MOTS-c' (the 'c' is part of the name).",
+          "suggestion": "Change abbreviation to 'MOTS-c'."
+        },
+        {
+          "severity": "low",
+          "field": "halfLifeHours",
+          "issue": "halfLifeHours field is missing entirely. Reported plasma half-life of MOTS-c in mice is short (under 3 hours); should be noted or marked unknown for humans.",
+          "suggestion": "Add halfLifeHours field with best available estimate or 'unknown in humans'."
+        },
+        {
+          "severity": "low",
+          "field": "contraindications",
+          "issue": "Contraindications list is sparse. Should also note caution in individuals with hypoglycemia risk or those on insulin/sulfonylureas due to AMPK-mediated glucose-lowering effects.",
+          "suggestion": "Add hypoglycemia risk and caution with antidiabetic medications."
+        },
+        {
+          "severity": "low",
+          "field": "interactions",
+          "issue": "Interactions field is missing. Given AMPK activation and glucose-lowering effects, interactions with metformin, insulin, and sulfonylureas are plausible and worth noting.",
+          "suggestion": "Add interactions array referencing antidiabetic drugs."
+        }
+      ],
+      "auditedAt": "2026-04-28T15:12:23.225Z",
+      "model": "claude-opus-4-7"
+    },
+    {
+      "peptideId": "na-selank",
+      "overallRating": "issues_found",
+      "issues": [
+        {
+          "severity": "medium",
+          "field": "description",
+          "issue": "The claim that NA-Selank 'crosses the blood-brain barrier more readily' than standard Selank is not well-established. Selank itself is a heptapeptide with the Tyr-Pro-Gly-Pro tail (tuftsin analog) designed for stability; N-acetylation is primarily theorized to improve metabolic stability/half-life, but direct comparative BBB penetration data between NA-Selank and Selank in humans is lacking.",
+          "suggestion": "Soften to 'theorized to have improved metabolic stability and possibly enhanced bioavailability' rather than asserting stronger BBB penetration as fact."
+        },
+        {
+          "severity": "medium",
+          "field": "ratings.efficacy",
+          "issue": "Efficacy rating of 8 is high given that NA-Selank has essentially no published peer-reviewed clinical trial data distinguishing it from Selank. Most evidence is extrapolated from Selank studies plus anecdotal reports.",
+          "suggestion": "Consider lowering efficacy to 5–6 to reflect the limited direct evidence base for the N-acetylated variant specifically."
+        },
+        {
+          "severity": "medium",
+          "field": "evidenceLevel",
+          "issue": "'Emerging' may overstate the evidence. NA-Selank specifically has minimal direct published research; nearly all human/clinical data pertains to standard Selank.",
+          "suggestion": "Consider 'experimental' or 'preclinical/anecdotal' designation, with a note that efficacy is inferred from parent compound Selank."
+        },
+        {
+          "severity": "medium",
+          "field": "affectedRegions",
+          "issue": "Description states 'Enhanced GABAergic and serotonergic modulation.' Selank's mechanism is more accurately described as modulating enkephalin/GABA-A expression and influencing BDNF and monoaminergic systems indirectly. Direct GABAergic agonism is not the established mechanism.",
+          "suggestion": "Revise to: 'Modulates enkephalin degradation, GABA-A receptor expression, BDNF, and monoaminergic tone.'"
+        },
+        {
+          "severity": "low",
+          "field": "keyStudies[N].pmid",
+          "issue": "No keyStudies array is provided despite the entry making specific pharmacological claims (BBB penetration, anxiolytic potency comparison).",
+          "suggestion": "Add references such as Selank studies (e.g., PMID 18030938 Zozulya et al. 2008 on Selank vs medazepam in GAD) and clarify that NA-Selank-specific citations are unavailable."
+        },
+        {
+          "severity": "low",
+          "field": "halfLifeHours",
+          "issue": "halfLifeHours field is missing. A key marketing claim of NA-Selank is extended half-life vs standard Selank's very short plasma half-life (~few minutes).",
+          "suggestion": "Add a halfLifeHours estimate with a caveat that human PK data are limited."
+        },
+        {
+          "severity": "low",
+          "field": "sideEffects",
+          "issue": "Side effect list is sparse. Reports also mention transient headache, fatigue, and rare paradoxical anxiety/overstimulation when overdosed.",
+          "suggestion": "Add headache and possible fatigue/overstimulation at higher doses."
+        },
+        {
+          "severity": "low",
+          "field": "contraindications",
+          "issue": "Listing 'autoimmune conditions' as a contraindication is questionable; Selank's immunomodulatory effects are mild and not clearly contraindicated in autoimmunity. Concurrent use with sedatives/benzodiazepines is a more relevant cautionary interaction.",
+          "suggestion": "Reconsider autoimmune contraindication or clarify rationale; add caution with CNS depressants."
+        }
+      ],
+      "auditedAt": "2026-04-28T15:11:08.145Z",
+      "model": "claude-opus-4-7"
+    },
+    {
+      "peptideId": "na-semax",
+      "overallRating": "issues_found",
+      "issues": [
+        {
+          "severity": "medium",
+          "field": "description",
+          "issue": "The claim that NA-Semax provides 'stronger BDNF upregulation and more pronounced cognitive enhancement than the parent peptide' is presented as established fact, but direct head-to-head human comparisons between NA-Semax and standard Semax are essentially absent from the published literature. The enhanced stability of the N-acetyl/amidated form is reasonable based on peptide chemistry principles, but superior potency in humans is largely anecdotal.",
+          "suggestion": "Soften the language to indicate this is theoretical/anecdotal: 'theorized to provide enhanced stability and potentially stronger effects, though direct comparative human data is limited.'"
+        },
+        {
+          "severity": "medium",
+          "field": "evidenceLevel",
+          "issue": "Labeling NA-Semax as 'emerging' may overstate the evidence base. Standard Semax (Met-Glu-His-Phe-Pro-Gly-Pro) has Russian clinical literature, but NA-Semax specifically has virtually no peer-reviewed human clinical trials—it is primarily a research-chemical/nootropic-community modification.",
+          "suggestion": "Consider downgrading to 'preclinical/anecdotal' or note that evidence applies to parent compound Semax, not specifically to the N-acetyl amidated form."
+        },
+        {
+          "severity": "medium",
+          "field": "ratings.efficacy",
+          "issue": "Efficacy rating of 8 is high given the lack of controlled human data on NA-Semax specifically. This appears inconsistent with the evidence rating of 5.",
+          "suggestion": "Reduce efficacy rating to 6–7 to better reflect the limited direct evidence for this specific analog."
+        },
+        {
+          "severity": "medium",
+          "field": "ratings.safety",
+          "issue": "Safety rating of 8 is reasonable for parent Semax but is essentially extrapolated for NA-Semax, which has no formal safety/toxicology studies in humans. Should be flagged as inferred rather than established.",
+          "suggestion": "Note in description or side effects that long-term safety data for the N-acetyl amidated analog specifically is not established."
+        },
+        {
+          "severity": "low",
+          "field": "keyStudies[0].pmid",
+          "issue": "No keyStudies array is provided. Given that some Semax literature exists (e.g., on BDNF effects and ischemic stroke), at least one citation would strengthen the entry, even if it pertains to the parent compound with appropriate caveat.",
+          "suggestion": "Add at least one peer-reviewed reference, clearly noting whether it applies to Semax or NA-Semax specifically."
+        },
+        {
+          "severity": "low",
+          "field": "sideEffects",
+          "issue": "Missing potentially relevant side effects reported anecdotally with Semax-class peptides, such as headache, insomnia (especially with late-day dosing), and transient blood pressure changes.",
+          "suggestion": "Consider adding headache, insomnia (if dosed late), and noting potential effects on alertness affecting sleep."
+        },
+        {
+          "severity": "low",
+          "field": "contraindications",
+          "issue": "Seizure disorders listed as a contraindication is conservative but the mechanistic basis is weak—Semax/NA-Semax is generally considered neuroprotective and there is no strong evidence it lowers seizure threshold. Should be framed as precautionary rather than absolute.",
+          "suggestion": "Reframe as 'use caution in seizure disorders due to limited data' rather than absolute contraindication, unless a specific source supports this."
+        }
+      ],
+      "auditedAt": "2026-04-28T15:11:26.505Z",
+      "model": "claude-opus-4-7"
+    },
+    {
+      "peptideId": "oxytocin",
+      "overallRating": "issues_found",
+      "issues": [
+        {
+          "severity": "high",
+          "field": "evidenceLevel",
+          "issue": "Evidence level marked 'strong' and evidence rating 8/10 is overstated for off-label uses. Meta-analyses (e.g., Leng & Ludwig 2016, Walum et al. 2016) have shown intranasal oxytocin trials are highly heterogeneous with poor replication, small effect sizes, and questionable CNS bioavailability. Strong evidence only exists for FDA-approved labor induction, not for the sexual/bonding/anxiety indications described.",
+          "suggestion": "Downgrade evidenceLevel to 'moderate' or 'preliminary' for off-label uses; lower evidence rating to 5–6."
+        },
+        {
+          "severity": "high",
+          "field": "ratings.efficacy",
+          "issue": "Efficacy rating of 7/10 for off-label sexual/mood/bonding effects is not supported by replicated clinical data. Most RCTs show modest or null effects in these domains.",
+          "suggestion": "Lower efficacy rating to 4–6 and clarify that efficacy is context- and individual-dependent."
+        },
+        {
+          "severity": "high",
+          "field": "sideEffects",
+          "issue": "Missing well-documented side effects including hyponatremia/water intoxication (clinically significant, not just 'water retention'), uterine contractions in women, potential negative social effects (increased in-group bias, envy, aggression toward out-groups), and emotional blunting with chronic use.",
+          "suggestion": "Add hyponatremia risk, uterine contractions, and note paradoxical/context-dependent emotional effects."
+        },
+        {
+          "severity": "high",
+          "field": "contraindications",
+          "issue": "Missing important contraindications: cardiovascular disease (oxytocin can cause hypotension/tachycardia at higher doses), history of psychiatric conditions where social cognition effects may be unpredictable, concurrent use with vasopressin analogs, and avoidance with excessive fluid intake due to hyponatremia risk.",
+          "suggestion": "Add cardiovascular caution, hyponatremia/fluid restriction warning, and caution in psychiatric populations."
+        },
+        {
+          "severity": "medium",
+          "field": "dosing.typicalDose",
+          "issue": "10–40 IU intranasal range is reasonable for research, but 40 IU is at the high end and most published protocols use 24 IU. Higher doses (40 IU) have shown paradoxical or null effects in some trials.",
+          "suggestion": "Specify 24 IU as the standard research dose, with range 10–40 IU; note diminishing or paradoxical returns at higher doses."
+        },
+        {
+          "severity": "medium",
+          "field": "dosing.notes",
+          "issue": "Claim that effects 'begin within 15–30 minutes' and 'duration approximately 2–4 hours' is debated. CNS half-life after intranasal administration is uncertain; plasma half-life is ~3–6 minutes, and central effects may persist longer but exact duration is not well established.",
+          "suggestion": "Soften language: 'Behavioral effects reported 15–45 minutes post-dose; central duration not firmly established.'"
+        },
+        {
+          "severity": "medium",
+          "field": "affectedRegions",
+          "issue": "Heart cardioprotective claim (intensity 2) is based largely on preclinical/animal data; clinical cardioprotection in humans is not established. Acute IV oxytocin can actually cause hypotension and tachycardia.",
+          "suggestion": "Either remove cardiac region or note that cardiovascular effects are mixed and cardioprotection is preclinical."
+        },
+        {
+          "severity": "low",
+          "field": "description",
+          "issue": "Pitocin is the synthetic IV/IM formulation for labor induction, not the intranasal product used off-label (which is typically compounded). Listing 'Pitocin' as the fullName may mislead users into thinking the off-label intranasal use shares the same product.",
+          "suggestion": "Clarify that Pitocin refers specifically to the injectable formulation; intranasal oxytocin is compounded or research-grade."
+        },
+        {
+          "severity": "low",
+          "field": "halfLifeHours",
+          "issue": "Half-life field is not provided. Plasma half-life of oxytocin is ~3–6 minutes; this is relevant context.",
+          "suggestion": "Add halfLifeHours ~0.05–0.1 (3–6 minutes) with note on uncertain CNS duration."
+        },
+        {
+          "severity": "low",
+          "field": "interactions",
+          "issue": "No interactions listed. Notable interactions include vasoconstrictors (hypertensive crisis risk), prostaglandins (potentiation of uterine contractions), and potentially SSRIs.",
+          "suggestion": "Add interactions section covering vasoconstrictors, prostaglandins, and fluid-retaining agents."
+        }
+      ],
+      "auditedAt": "2026-04-28T15:14:43.402Z",
+      "model": "claude-opus-4-7"
+    },
+    {
+      "peptideId": "pt-141",
+      "overallRating": "mostly_accurate",
+      "issues": [
+        {
+          "severity": "medium",
+          "field": "interactions",
+          "issue": "PDE5 inhibitor combination is not formally contraindicated in the FDA label; the label warns about additive blood pressure effects but does not absolutely contraindicate co-administration. Describing it as 'contraindicated' overstates the labeled warning.",
+          "suggestion": "Reword to indicate caution/avoidance due to additive hypotension risk, rather than absolute contraindication. The actual contraindication in the Vyleesi label is uncontrolled hypertension and known cardiovascular disease."
+        },
+        {
+          "severity": "medium",
+          "field": "dosing.notes",
+          "issue": "Statement that PT-141 is 'also available via nasal spray' is misleading. The nasal spray formulation was discontinued in clinical development (after BP concerns) and is not an approved or commercially available product. Only compounded nasal spray exists in gray-market settings.",
+          "suggestion": "Remove or clarify that the only FDA-approved formulation is the 1.75 mg subcutaneous autoinjector; nasal formulations are not approved and were dropped from development."
+        },
+        {
+          "severity": "low",
+          "field": "halfLifeHours",
+          "issue": "Half-life of bremelanotide is approximately 2.7 hours (terminal half-life ~1.9–4 h depending on source); listing as 2 is on the low end but acceptable.",
+          "suggestion": "Consider updating to ~2.7 hours to match FDA label pharmacokinetics."
+        },
+        {
+          "severity": "low",
+          "field": "keyStudies[2].title",
+          "issue": "PMID 31400508 corresponds to the Kingsberg et al. 2019 RECONNECT phase 3 trial publication in Obstetrics & Gynecology, not a paper titled 'FDA approval of bremelanotide (Vyleesi).' The finding summary is accurate but the title is paraphrased rather than the actual title.",
+          "suggestion": "Update title to the actual paper title (e.g., 'Bremelanotide for the Treatment of Hypoactive Sexual Desire Disorder: Two Randomized Phase 3 Trials')."
+        },
+        {
+          "severity": "low",
+          "field": "sideEffects",
+          "issue": "Missing injection site reactions, which are among the most commonly reported adverse events in the RECONNECT trials, and hyperpigmentation (focal) which can be persistent rather than only 'temporary' in some patients.",
+          "suggestion": "Add injection site reactions; clarify that hyperpigmentation may persist after discontinuation in a subset of users (~1%)."
+        },
+        {
+          "severity": "low",
+          "field": "contraindications",
+          "issue": "Missing labeled note regarding patients at high risk for cardiovascular disease (not just established CVD), and use is generally not recommended for postmenopausal women (label is for premenopausal women with HSDD).",
+          "suggestion": "Add cardiovascular risk factors and clarify approved indication is premenopausal women only."
+        }
+      ],
+      "auditedAt": "2026-04-28T15:09:27.993Z",
+      "model": "claude-opus-4-7"
+    },
+    {
+      "peptideId": "selank",
+      "overallRating": "mostly_accurate",
+      "issues": [
+        {
+          "severity": "low",
+          "field": "fullName",
+          "issue": "Selank is sometimes referred to as TP-7 in literature, but the more common designation is just 'Selank' with the chemical name Thr-Lys-Pro-Arg-Pro-Gly-Pro. TP-7 is not a widely recognized abbreviation in published literature.",
+          "suggestion": "Consider removing TP-7 or verifying this designation; the peptide is more commonly known by its sequence-based identifier."
+        },
+        {
+          "severity": "medium",
+          "field": "keyStudies[0].pmid",
+          "issue": "PMID 18577758 could not be confidently verified as matching a Selank clinical anxiolytic study from 2008. The title provided is generic and may not reflect an actual paper title.",
+          "suggestion": "Verify against PubMed; Zozulya et al. 2008 'The efficacy of Selank in neurotic and neurosis-like disorders' (PMID may differ) is the canonical citation. Provide actual paper title rather than a paraphrased description."
+        },
+        {
+          "severity": "medium",
+          "field": "keyStudies[1].pmid",
+          "issue": "PMID 21315463 and the generic title 'Selank modulates immune function' could not be verified as matching a real publication. Title appears paraphrased rather than actual.",
+          "suggestion": "Provide the verbatim title of the cited paper and confirm PMID against PubMed."
+        },
+        {
+          "severity": "medium",
+          "field": "keyStudies[2].pmid",
+          "issue": "PMID 24009756 with title 'Selank upregulates BDNF expression in brain regions' could not be verified. While Selank's effect on BDNF has been studied (e.g., Inozemtseva et al., Volkova et al.), the title given appears to be a paraphrase rather than an actual publication title.",
+          "suggestion": "Cite the actual paper title and confirm PMID. Volkova et al. 2016 in Mol Biol or similar BDNF studies may be more appropriate primary references."
+        },
+        {
+          "severity": "medium",
+          "field": "ratings.evidence",
+          "issue": "Evidence rating of 6 may be slightly high. Most Selank clinical data comes from Russian studies with limited Western peer-reviewed replication, small sample sizes, and methodological concerns. Mechanistic data is largely preclinical.",
+          "suggestion": "Consider rating of 4–5 to reflect the limited and largely Russian-sourced clinical evidence base."
+        },
+        {
+          "severity": "low",
+          "field": "halfLifeHours",
+          "issue": "Selank's plasma half-life is reported as very short (minutes, not 30 minutes) when administered IV/IN, though central effects persist longer due to active metabolites. 0.5 hours is a reasonable approximation but on the higher end.",
+          "suggestion": "Consider noting that plasma half-life is several minutes but effects last hours via metabolites/downstream signaling."
+        },
+        {
+          "severity": "low",
+          "field": "contraindications",
+          "issue": "Listing 'Autoimmune disorders' as a contraindication is reasonable given immunomodulatory effects, but this is theoretical. Pregnancy/lactation contraindication is appropriate due to absence of safety data rather than known harm.",
+          "suggestion": "Add note clarifying these are precautionary based on lack of data rather than documented adverse effects."
+        },
+        {
+          "severity": "low",
+          "field": "interactions",
+          "issue": "Benzodiazepine interaction described as causing 'excessive sedation' is not well-documented; Selank is consistently described as non-sedating. The additive anxiolytic concern is plausible but the sedation language overstates risk.",
+          "suggestion": "Reword to: 'Theoretical additive anxiolytic effect; no documented sedation interactions but caution advised.'"
+        }
+      ],
+      "auditedAt": "2026-04-28T15:10:13.261Z",
+      "model": "claude-opus-4-7"
+    },
+    {
+      "peptideId": "semax",
+      "overallRating": "issues_found",
+      "issues": [
+        {
+          "severity": "high",
+          "field": "keyStudies[0].pmid",
+          "issue": "PMID 16996039 does not correspond to a Semax/BDNF paper. The well-known Semax-BDNF papers by Dolotov et al. are PMID 16542361 (2006) and Shadrina et al. PMID 20382002. The cited PMID and 2007 year appear inaccurate.",
+          "suggestion": "Verify and replace with the correct PMID, e.g., Dolotov OV et al. 2006 (PMID 16542361) 'Semax, an analog of ACTH(4-10), regulates BDNF and trkB expression in the rat hippocampus.'"
+        },
+        {
+          "severity": "high",
+          "field": "keyStudies[1].pmid",
+          "issue": "PMID 17321596 cannot be verified as a Semax ischemic stroke clinical paper. Most Semax stroke clinical trials (Gusev, Skvortsova et al.) are published in Russian journals with different PMIDs (e.g., 9377238, 18379478).",
+          "suggestion": "Replace with a verified PMID such as Gusev EI et al. (PMID 9377238) or Skvortsova VI et al. on Semax in ischemic stroke."
+        },
+        {
+          "severity": "high",
+          "field": "keyStudies[2].pmid",
+          "issue": "PMID 16541366 does not appear to match a paper on Semax cognitive enhancement in healthy subjects. Likely fabricated or misattributed.",
+          "suggestion": "Verify against PubMed and replace with an accurate citation, or remove if no such study exists."
+        },
+        {
+          "severity": "medium",
+          "field": "ratings.evidence",
+          "issue": "Evidence rating of 7 is high given that nearly all human clinical data on Semax is from Russian-language trials with limited Western replication, and most mechanistic data is preclinical.",
+          "suggestion": "Lower evidence rating to 5–6 to better reflect the limited international clinical evidence base."
+        },
+        {
+          "severity": "medium",
+          "field": "ratings.efficacy",
+          "issue": "Efficacy rating of 8 may overstate effects in healthy users; controlled human cognitive enhancement data is sparse.",
+          "suggestion": "Consider lowering to 6–7 unless strong RCT data is cited."
+        },
+        {
+          "severity": "medium",
+          "field": "dosing.typicalDose",
+          "issue": "The 200–600 mcg range is reasonable for nootropic use, but Russian clinical protocols for stroke use significantly higher doses (up to 12–18 mg/day). Description does not distinguish nootropic vs therapeutic dosing.",
+          "suggestion": "Clarify that 200–600 mcg refers to nootropic/cognitive use, while clinical stroke protocols use much higher doses under medical supervision."
+        },
+        {
+          "severity": "low",
+          "field": "interactions",
+          "issue": "MAOI interaction is described as 'theoretical serotonergic and dopaminergic interaction' but Semax is a peptide with limited direct monoaminergic activity; the interaction risk is speculative.",
+          "suggestion": "Soften language to indicate this is theoretical/precautionary rather than established."
+        },
+        {
+          "severity": "low",
+          "field": "contraindications",
+          "issue": "Listing 'Seizure disorders (caution)' is reasonable but not strongly supported in literature; Semax has actually shown some anticonvulsant properties in preclinical studies.",
+          "suggestion": "Either provide citation for caution or reconsider inclusion."
+        },
+        {
+          "severity": "low",
+          "field": "detailedSideEffects",
+          "issue": "'Hair growth at application site' is not a recognized Semax side effect in the published literature; this may be confused with another peptide (e.g., PT-141 or melanotan adverse effects).",
+          "suggestion": "Remove unless a verifiable source can be cited."
+        }
+      ],
+      "auditedAt": "2026-04-28T15:10:34.047Z",
+      "model": "claude-opus-4-7"
+    },
+    {
+      "peptideId": "sermorelin",
+      "overallRating": "mostly_accurate",
+      "issues": [
+        {
+          "severity": "low",
+          "field": "dosing.typicalDose",
+          "issue": "Typical adult dose in the literature is often cited as 100-500 mcg, with 200-300 mcg being most common. The 200-500 mcg range is reasonable but the lower bound could be 100 mcg for sensitive patients or starter protocols.",
+          "suggestion": "Consider widening range to '100–500 mcg' to reflect common clinical practice."
+        },
+        {
+          "severity": "low",
+          "field": "keyStudies[N].pmid",
+          "issue": "Entry contains no keyStudies array. For a peptide with 'strong' evidence rating of 8, foundational citations (e.g., Walker 2006 review, Prakash & Goa 1999, Khorram et al. 1997) should be included.",
+          "suggestion": "Add 2-3 key references supporting the strong evidence claim."
+        },
+        {
+          "severity": "low",
+          "field": "interactions",
+          "issue": "No interactions field provided. Sermorelin has known interactions (e.g., glucocorticoids blunt GH response, somatostatin antagonism, thyroid hormone status affects response).",
+          "suggestion": "Add interactions array noting glucocorticoids, somatostatin/octreotide, and influence of hyperglycemia on response."
+        },
+        {
+          "severity": "low",
+          "field": "halfLifeHours",
+          "issue": "halfLifeHours field is missing. Sermorelin has a very short plasma half-life (~10-20 minutes / ~0.2 hours), which is clinically relevant to its bedtime dosing rationale.",
+          "suggestion": "Add halfLifeHours: ~0.2 (10-20 minutes)."
+        },
+        {
+          "severity": "low",
+          "field": "contraindications",
+          "issue": "Missing some commonly listed contraindications/cautions for GHRH analogs: severe obesity (blunted response), uncontrolled hypothyroidism, and acute critical illness.",
+          "suggestion": "Consider adding hypothyroidism (untreated) and acute critical illness as cautions."
+        }
+      ],
+      "auditedAt": "2026-04-28T15:08:23.456Z",
+      "model": "claude-opus-4-7"
+    },
+    {
+      "peptideId": "ss-31",
+      "overallRating": "mostly_accurate",
+      "issues": [
+        {
+          "severity": "medium",
+          "field": "dosing.typicalDose",
+          "issue": "Clinical trials of elamipretide have predominantly used 40 mg subcutaneous daily (e.g., MMPOWER, ReCLAIM, PROGRESS-HF trials), with some trials using 4 mg or 60 mg. The 10-50 mg range is broadly reasonable but the lower end (10 mg) is below typical therapeutic trial dosing for primary mitochondrial myopathy and Barth syndrome.",
+          "suggestion": "Consider revising to '40 mg daily (trial standard); range 4–60 mg studied' to better reflect actual clinical trial protocols."
+        },
+        {
+          "severity": "low",
+          "field": "fullName",
+          "issue": "Bendavia was an earlier development name; the current INN is elamipretide (also known as MTP-131). Listing 'Bendavia' as part of the full name is somewhat outdated though not incorrect.",
+          "suggestion": "Consider 'Elamipretide (MTP-131; formerly Bendavia)' for accuracy."
+        },
+        {
+          "severity": "low",
+          "field": "dosing.route",
+          "issue": "Subcutaneous is the primary route in trials, but topical/ophthalmic formulations have also been studied (e.g., for dry AMD in ReCLAIM trials).",
+          "suggestion": "Note that ophthalmic and IV routes have also been used in specific trials."
+        },
+        {
+          "severity": "low",
+          "field": "sideEffects",
+          "issue": "Injection site reactions (erythema, pruritus, induration) are by far the most commonly reported adverse event in trials and are notably more frequent than headache or nausea. The list is correct but does not convey relative frequency.",
+          "suggestion": "Emphasize that injection site reactions are the predominant AE; consider adding 'injection site erythema/pruritus (very common)'."
+        }
+      ],
+      "auditedAt": "2026-04-28T15:12:34.321Z",
+      "model": "claude-opus-4-7"
+    },
+    {
+      "peptideId": "tb-500",
+      "overallRating": "issues_found",
+      "issues": [
+        {
+          "severity": "medium",
+          "field": "description",
+          "issue": "TB-500 is often described as a synthetic peptide with a sequence corresponding to the active region (residues 17-23) of Thymosin Beta-4, but it is not technically a 'fraction' of TB4. The relationship is more nuanced — TB-500 is typically Ac-LKKTETQ or a similar short fragment, though some sources use TB-500 interchangeably with full-length TB4.",
+          "suggestion": "Clarify that TB-500 corresponds to the active site (residues 17-23) of Thymosin Beta-4, with note that the term is sometimes used loosely to refer to full-length TB4."
+        },
+        {
+          "severity": "high",
+          "field": "halfLifeHours",
+          "issue": "The 6-hour half-life claim is not well-supported in the literature. Full-length Thymosin Beta-4 has a plasma half-life of roughly 2 hours in humans (per Phase I/II trials by RegeneRx). The short TB-500 fragment likely has an even shorter plasma half-life, though tissue retention may be longer.",
+          "suggestion": "Revise to ~2 hours plasma half-life based on RegeneRx clinical pharmacokinetic data, or note uncertainty for the fragment form."
+        },
+        {
+          "severity": "high",
+          "field": "evidenceLevel",
+          "issue": "Evidence level 'moderate' and evidence rating of 6 overstate the human clinical data. Almost all efficacy data for tissue/muscle/cardiac repair is preclinical (rodent models). Human data is limited to a few small RegeneRx trials in dry eye, pressure ulcers, and epidermolysis bullosa using full-length TB4, not the TB-500 fragment used by athletes.",
+          "suggestion": "Downgrade to 'preliminary' or 'limited' evidence; lower evidence rating to 4-5 to reflect that musculoskeletal claims are largely preclinical."
+        },
+        {
+          "severity": "medium",
+          "field": "ratings.efficacy",
+          "issue": "Efficacy rating of 8 is not supported by controlled human trials for the indications listed (muscle/joint/tendon repair). Anecdotal reports dominate.",
+          "suggestion": "Consider lowering efficacy rating to 5-6 to align with evidence quality."
+        },
+        {
+          "severity": "medium",
+          "field": "ratings.safety",
+          "issue": "Safety rating of 8 is reasonable based on limited human trial data showing good tolerability, but long-term safety data is essentially absent and theoretical concerns about angiogenesis/tumor promotion exist. Rating may be slightly optimistic given the data gap.",
+          "suggestion": "Note explicitly that long-term safety data is lacking; consider rating 6-7."
+        },
+        {
+          "severity": "high",
+          "field": "keyStudies[0].pmid",
+          "issue": "PMID 22023096 does not correspond to a 2012 paper titled 'Thymosin beta4 accelerates wound healing.' That PMID maps to a different publication. The seminal TB4 wound healing papers are by Malinda et al. (1999, J Invest Dermatol, PMID 10417637) and Philp et al.",
+          "suggestion": "Verify and replace with a correctly matched PMID such as 10417637 (Malinda et al., 1999) or a confirmed Goldstein/Kleinman review."
+        },
+        {
+          "severity": "high",
+          "field": "keyStudies[1].pmid",
+          "issue": "PMID 22486606 does not appear to correspond to a TB4/cardiac repair paper. Bock-Marquette et al.'s landmark cardiac repair paper is in Nature 2004 (PMID 15525990).",
+          "suggestion": "Replace with PMID 15525990 (Bock-Marquette et al., Nature 2004, 'Thymosin beta4 activates integrin-linked kinase and promotes cardiac cell migration, survival and cardiac repair')."
+        },
+        {
+          "severity": "high",
+          "field": "keyStudies[2].pmid",
+          "issue": "PMID 28944952 cannot be verified as corresponding to the cited TB4 muscle regeneration finding; appears likely fabricated or mismatched.",
+          "suggestion": "Verify PMID against an actual TB4 skeletal muscle regeneration study (e.g., work by Spurney et al. on mdx mice) or remove."
+        },
+        {
+          "severity": "medium",
+          "field": "contraindications",
+          "issue": "Missing important theoretical contraindication: history of cancer (not just active cancer) is often cited due to TB4's pro-angiogenic and pro-migratory effects, which could theoretically promote tumor progression/metastasis. Also missing: pediatric use and lactation.",
+          "suggestion": "Add 'history of malignancy' and 'lactation/breastfeeding' to contraindications; expand cancer warning to include theoretical metastasis risk."
+        },
+        {
+          "severity": "medium",
+          "field": "interactions",
+          "issue": "The Warfarin/Heparin interaction rationale is questionable — TB4's angiogenic effects don't have an established mechanistic interaction with anticoagulants. There is no documented clinical interaction.",
+          "suggestion": "Either remove this interaction or reframe as 'theoretical/unstudied' rather than implying a known interaction requiring monitoring."
+        },
+        {
+          "severity": "low",
+          "field": "dosing.frequency",
+          "issue": "Common protocols in practitioner literature describe loading at 2-2.5 mg twice weekly, which fits, but some protocols use a higher loading frequency (e.g., daily for first week). The 2x/week framing is reasonable but not the only common pattern.",
+          "suggestion": "Note variation in protocols; some use front-loaded daily dosing initially."
+        },
+        {
+          "severity": "low",
+          "field": "sideEffects",
+          "issue": "'Head rush' is unusual phrasing and overlaps with 'lightheadedness' in detailedSideEffects.",
+          "suggestion": "Use consistent terminology (e.g., 'transient lightheadedness') across both fields."
+        }
+      ],
+      "auditedAt": "2026-04-28T15:06:52.962Z",
+      "model": "claude-opus-4-7"
+    },
+    {
+      "peptideId": "tesamorelin",
+      "overallRating": "mostly_accurate",
+      "issues": [
+        {
+          "severity": "medium",
+          "field": "keyStudies[1].pmid",
+          "issue": "PMID 22024906 is cited as an 'FDA approval of tesamorelin' paper from 2011, but this PMID does not correspond to a known tesamorelin FDA approval review article. The actual FDA approval of Egrifta occurred in November 2010, not 2011. The cited PMID/title combination appears questionable.",
+          "suggestion": "Verify PMID; consider replacing with Falutz et al. 2010 (PMID 20554752 or similar) covering the phase 3 pivotal trial, or Stanley et al. 2012 long-term safety/efficacy publication."
+        },
+        {
+          "severity": "medium",
+          "field": "keyStudies[2].finding",
+          "issue": "PMID 28535505 (Baker et al., 2012, Arch Neurol) studied tesamorelin/GHRH in adults with MCI and healthy older adults, but the finding statement overstates results. The trial showed modest cognitive improvements (primarily executive function), and the year of the original Baker GHRH cognition trial is 2012, not 2017. PMID 28535505 corresponds to a different publication.",
+          "suggestion": "Verify the PMID and align year/finding. The widely cited Baker et al. cognition study is PMID 22431837 (2012). Soften the finding wording to match actual effect sizes."
+        },
+        {
+          "severity": "low",
+          "field": "keyStudies[0].title",
+          "issue": "Title is paraphrased rather than the actual published title. PMID 20581223 should be verified against the original NEJM Falutz et al. publication title.",
+          "suggestion": "Use the verbatim published title for accuracy."
+        },
+        {
+          "severity": "low",
+          "field": "effects",
+          "issue": "'muscle-growth' is listed as an effect, but tesamorelin's lean mass effects are modest and not a primary indication; clinical trials show small lean mass changes secondary to GH normalization.",
+          "suggestion": "Consider downgrading or qualifying 'muscle-growth' to reflect that this is a secondary, modest effect."
+        },
+        {
+          "severity": "low",
+          "field": "sideEffects",
+          "issue": "Missing notable side effects from clinical trials: glucose intolerance/hyperglycemia and IGF-1 elevation requiring monitoring, both of which are FDA-label warnings.",
+          "suggestion": "Add hyperglycemia/impaired glucose tolerance and elevated IGF-1 to side effects list."
+        },
+        {
+          "severity": "low",
+          "field": "contraindications",
+          "issue": "FDA label specifically lists pituitary tumor/hypophysectomy/head irradiation/head trauma (disruption of HP axis is mentioned but could be more specific). Also missing acute critical illness as a contraindication per label.",
+          "suggestion": "Expand to explicitly include pituitary tumor/surgery/radiation/trauma and acute critical illness per Egrifta prescribing information."
+        }
+      ],
+      "auditedAt": "2026-04-28T15:08:11.559Z",
+      "model": "claude-opus-4-7"
+    },
+    {
+      "peptideId": "thymosin-alpha-1",
+      "overallRating": "mostly_accurate",
+      "issues": [
+        {
+          "severity": "low",
+          "field": "description",
+          "issue": "The claim of approval 'in over 35 countries' is commonly repeated but Zadaxin is approved in approximately 35 countries; phrasing is acceptable but sourcing is vague.",
+          "suggestion": "Consider softening to 'approved in approximately 35 countries' or cite a specific source."
+        },
+        {
+          "severity": "medium",
+          "field": "dosing.frequency",
+          "issue": "The FDA-style label dosing for Zadaxin in chronic hepatitis B/C is 1.6 mg subcutaneously twice weekly, not '2–3x per week'. The 3x/week regimen is not standard in the approved literature.",
+          "suggestion": "Change to '2x per week (standard); occasionally 3x per week in some protocols' or simply '2x per week'."
+        },
+        {
+          "severity": "medium",
+          "field": "ratings.evidence",
+          "issue": "An evidence rating of 9 is high. While TA1 has substantial clinical data for hepatitis B/C and as a vaccine adjuvant, evidence for the broader 'immune-boost' and 'anti-aging' indications listed here is much weaker. A 9 may overstate evidence for the use cases implied.",
+          "suggestion": "Consider lowering to 7–8, or clarify that the high evidence rating applies specifically to hepatitis B/C and sepsis adjunct use."
+        },
+        {
+          "severity": "medium",
+          "field": "effects",
+          "issue": "'Anti-aging' is listed as an effect but is not well-supported by clinical evidence for TA1; mechanism is immune restoration in immunosenescence rather than direct anti-aging.",
+          "suggestion": "Remove 'anti-aging' or replace with 'immunosenescence support' with appropriate caveats."
+        },
+        {
+          "severity": "medium",
+          "field": "sideEffects",
+          "issue": "Missing commonly reported side effects including transient elevation in liver enzymes (in hepatitis patients), local erythema at injection site, and rare polyarthralgia/myalgia reported in trials.",
+          "suggestion": "Add transient ALT elevation (in hepatitis context), erythema at injection site, and rare myalgia/arthralgia."
+        },
+        {
+          "severity": "medium",
+          "field": "contraindications",
+          "issue": "Missing notable contraindication/caution: known hypersensitivity to thymosin alpha-1 or any component. Also, autoimmune disease is often listed as a relative caution due to immune stimulation, though evidence is limited.",
+          "suggestion": "Add 'known hypersensitivity to thymalfasin' and consider 'caution in active autoimmune disease (theoretical)'."
+        },
+        {
+          "severity": "low",
+          "field": "keyStudies[0].pmid",
+          "issue": "No keyStudies array is provided in the entry, which is unusual for a peptide with extensive clinical literature and an evidence rating of 9.",
+          "suggestion": "Add key references such as Camerini & Garaci 2010 review, or sepsis trials by Wu et al. 2013 (PMID 23725546)."
+        }
+      ],
+      "auditedAt": "2026-04-28T15:13:11.125Z",
+      "model": "claude-opus-4-7"
+    },
+    {
+      "peptideId": "vip",
+      "overallRating": "issues_found",
+      "issues": [
+        {
+          "severity": "high",
+          "field": "evidenceLevel",
+          "issue": "Evidence level rated 'moderate' and evidence rating of 6 overstate the clinical evidence base. VIP for CIRS is supported almost entirely by Ritchie Shoemaker's case series and clinical observations, not RCTs. Most VIP human research relates to pulmonary hypertension (Aviptadil), sarcoidosis, and IBD - not CIRS specifically.",
+          "suggestion": "Downgrade evidenceLevel to 'limited' or 'preliminary' and reduce ratings.evidence to 3-4 to reflect the predominantly observational/case-series evidence base for the CIRS indication."
+        },
+        {
+          "severity": "high",
+          "field": "dosing.typicalDose",
+          "issue": "The Shoemaker CIRS protocol specifies 50 mcg total per spray (delivering ~50 mcg dosed intranasally), typically 1 spray QID, not 50 mcg per nostril (which would double the intended dose). Per-nostril dosing is not the standard published protocol.",
+          "suggestion": "Clarify as '50 mcg intranasally (1 spray) up to 4x daily' per Shoemaker protocol, or cite source if recommending bilateral dosing."
+        },
+        {
+          "severity": "high",
+          "field": "dosing.frequency",
+          "issue": "Shoemaker's published CIRS protocol typically begins with 1 spray every 4 hours while awake (4x daily) only after meeting strict pre-treatment criteria (treated MARCoNS, normal VCS, lipase <ULN, no exposure). Listing 4x daily as 'typical' without these prerequisites is misleading and could cause pancreatitis.",
+          "suggestion": "Add note about pre-treatment requirements (MARCoNS eradication, no ongoing biotoxin exposure, monitoring lipase) before initiating, and mention typical titration."
+        },
+        {
+          "severity": "high",
+          "field": "sideEffects",
+          "issue": "Missing pancreatitis/elevated lipase, which is the most clinically significant adverse effect documented in the Shoemaker CIRS protocol and the reason serial lipase monitoring is required.",
+          "suggestion": "Add 'Pancreatitis / elevated lipase (requires baseline and serial monitoring)' as a prominent side effect."
+        },
+        {
+          "severity": "medium",
+          "field": "contraindications",
+          "issue": "Missing key Shoemaker protocol contraindications: ongoing biotoxin/mold exposure, untreated MARCoNS, elevated baseline lipase, and abnormal VCS testing. Also missing severe hypotension considerations beyond generic 'hypotension'.",
+          "suggestion": "Add: ongoing mold/biotoxin exposure, untreated MARCoNS colonization, elevated lipase or history of pancreatitis, and abnormal visual contrast sensitivity per CIRS protocol."
+        },
+        {
+          "severity": "medium",
+          "field": "description",
+          "issue": "Description omits that VIP-for-CIRS is an off-label use of a compounded nasal spray with limited peer-reviewed support, while Aviptadil (synthetic VIP) is the form with the most published clinical research (pulmonary hypertension, ARDS).",
+          "suggestion": "Note the off-label/compounded nature for CIRS and distinguish from Aviptadil clinical research."
+        },
+        {
+          "severity": "low",
+          "field": "affectedRegions",
+          "issue": "Claim that VIP 'restores pulmonary artery pressure' is more applicable to Aviptadil in pulmonary arterial hypertension trials than to nasal VIP in CIRS; combining these contexts is misleading.",
+          "suggestion": "Separate the pulmonary hypertension evidence (Aviptadil, IV/inhaled) from CIRS nasal use."
+        }
+      ],
+      "auditedAt": "2026-04-28T15:14:01.754Z",
+      "model": "claude-opus-4-7"
+    }
+  ]
+}
