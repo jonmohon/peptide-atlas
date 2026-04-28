@@ -1,0 +1,578 @@
+{
+  "generatedAt": "2026-04-28T16:05:36.488Z",
+  "catalogSize": 33,
+  "totalChecked": 38,
+  "ok": 8,
+  "issues": 30,
+  "byStatus": {
+    "ok": 8,
+    "year_off": 0,
+    "title_off": 30,
+    "not_found": 0,
+    "error": 0
+  },
+  "results": [
+    {
+      "peptideId": "bpc-157",
+      "pmid": "29548669",
+      "cited": {
+        "title": "BPC 157: Stable gastric pentadecapeptide and wound healing",
+        "year": 2018
+      },
+      "pubmed": {
+        "title": "Catalytic modulation of human cytochromes P450 17A1 and P450 11B2 by phospholipid.",
+        "year": 2018,
+        "journal": "The Journal of steroid biochemistry and molecular biology"
+      },
+      "status": "title_off",
+      "detail": "Title overlap 11%; PubMed: \"Catalytic modulation of human cytochromes P450 17A1 and P450 11B2 by phospholipid.\""
+    },
+    {
+      "peptideId": "bpc-157",
+      "pmid": "27307482",
+      "cited": {
+        "title": "Pentadecapeptide BPC 157 enhances the growth hormone receptor expression in tendon fibroblasts",
+        "year": 2016
+      },
+      "pubmed": {
+        "title": "Another report on unfavourable long-term outcome following implantation of the Shelhigh No-React™ valved tube graft.",
+        "year": 2016,
+        "journal": "European journal of cardio-thoracic surgery : official journal of the European Association for Cardio-thoracic Surgery"
+      },
+      "status": "title_off",
+      "detail": "Title overlap 7%; PubMed: \"Another report on unfavourable long-term outcome following implantation of the Shelhigh No-React™ valved tube graft.\""
+    },
+    {
+      "peptideId": "bpc-157",
+      "pmid": "21030672",
+      "cited": {
+        "title": "Stable gastric pentadecapeptide BPC 157 in trials for inflammatory bowel disease",
+        "year": 2011
+      },
+      "pubmed": {
+        "title": "The promoting effect of pentadecapeptide BPC 157 on tendon healing involves tendon outgrowth, cell survival, and cell migration.",
+        "year": 2011,
+        "journal": "Journal of applied physiology (Bethesda, Md. : 1985)"
+      },
+      "status": "title_off",
+      "detail": "Title overlap 21%; PubMed: \"The promoting effect of pentadecapeptide BPC 157 on tendon healing involves tendon outgrowth, cell survival, and cell migration.\""
+    },
+    {
+      "peptideId": "bpc-157",
+      "pmid": "32209079",
+      "cited": {
+        "title": "BPC 157, as a therapy for ligament healing",
+        "year": 2020
+      },
+      "pubmed": {
+        "title": "Operative versus nonoperative treatment in children with painful rigid flatfoot and talocalcaneal coalition.",
+        "year": 2020,
+        "journal": "BMC musculoskeletal disorders"
+      },
+      "status": "title_off",
+      "detail": "Title overlap 0%; PubMed: \"Operative versus nonoperative treatment in children with painful rigid flatfoot and talocalcaneal coalition.\""
+    },
+    {
+      "peptideId": "tb-500",
+      "pmid": "22023096",
+      "cited": {
+        "title": "Thymosin beta4 accelerates wound healing",
+        "year": 2012
+      },
+      "pubmed": {
+        "title": "Cognition in non-demented diabetic older adults.",
+        "year": 2012,
+        "journal": "Current aging science"
+      },
+      "status": "title_off",
+      "detail": "Title overlap 0%; PubMed: \"Cognition in non-demented diabetic older adults.\""
+    },
+    {
+      "peptideId": "tb-500",
+      "pmid": "22486606",
+      "cited": {
+        "title": "Thymosin beta4 promotes cardiac repair post-infarction",
+        "year": 2012
+      },
+      "pubmed": {
+        "title": "Linking quantitative microbial risk assessment and epidemiological data: informing safe drinking water trials in developing countries.",
+        "year": 2012,
+        "journal": "Environmental science & technology"
+      },
+      "status": "title_off",
+      "detail": "Title overlap 0%; PubMed: \"Linking quantitative microbial risk assessment and epidemiological data: informing safe drinking water trials in developing countries.\""
+    },
+    {
+      "peptideId": "tb-500",
+      "pmid": "28944952",
+      "cited": {
+        "title": "Thymosin beta4 enhances muscle regeneration",
+        "year": 2017
+      },
+      "pubmed": {
+        "title": "Bypassing agent prophylaxis in people with hemophilia A or B with inhibitors.",
+        "year": 2017,
+        "journal": "The Cochrane database of systematic reviews"
+      },
+      "status": "title_off",
+      "detail": "Title overlap 0%; PubMed: \"Bypassing agent prophylaxis in people with hemophilia A or B with inhibitors.\""
+    },
+    {
+      "peptideId": "ghk-cu",
+      "pmid": "25916860",
+      "cited": {
+        "title": "GHK-Cu promotes wound healing and skin remodeling",
+        "year": 2015
+      },
+      "pubmed": {
+        "title": "Machine-learning scoring functions for identifying native poses of ligands docked to known and novel proteins.",
+        "year": 2015,
+        "journal": "BMC bioinformatics"
+      },
+      "status": "title_off",
+      "detail": "Title overlap 7%; PubMed: \"Machine-learning scoring functions for identifying native poses of ligands docked to known and novel proteins.\""
+    },
+    {
+      "peptideId": "ghk-cu",
+      "pmid": "24508075",
+      "cited": {
+        "title": "GHK-Cu modulates gene expression in aging skin",
+        "year": 2014
+      },
+      "pubmed": {
+        "title": "A multivalent inhibitor of the DC-SIGN dependent uptake of HIV-1 and Dengue virus.",
+        "year": 2014,
+        "journal": "Biomaterials"
+      },
+      "status": "title_off",
+      "detail": "Title overlap 0%; PubMed: \"A multivalent inhibitor of the DC-SIGN dependent uptake of HIV-1 and Dengue virus.\""
+    },
+    {
+      "peptideId": "ghk-cu",
+      "pmid": "32927474",
+      "cited": {
+        "title": "GHK-Cu as an anti-aging tripeptide",
+        "year": 2020
+      },
+      "pubmed": {
+        "title": "Corrigendum to: \"Reference Intervals for Insulin-Like Growth Factor-1 (IGF-I) From Birth to Senescence: Results From a Multicenter Study Using a New Automated Chemiluminescence IGF-I Immunoassay Conforming to Recent International Recommendations\".",
+        "year": 2020,
+        "journal": "The Journal of clinical endocrinology and metabolism"
+      },
+      "status": "title_off",
+      "detail": "Title overlap 0%; PubMed: \"Corrigendum to: \"Reference Intervals for Insulin-Like Growth Factor-1 (IGF-I) From Birth to Senescence: Results From a Multicenter Study Using a New Automated Chemiluminescence IGF-I Immunoassay Conforming to Recent International Recommendations\".\""
+    },
+    {
+      "peptideId": "cjc-1295",
+      "pmid": "16352683",
+      "cited": {
+        "title": "CJC-1295 stimulates GH secretion in healthy adults",
+        "year": 2006
+      },
+      "pubmed": {
+        "title": "Prolonged stimulation of growth hormone (GH) and insulin-like growth factor I secretion by CJC-1295, a long-acting analog of GH-releasing hormone, in healthy adults.",
+        "year": 2006,
+        "journal": "The Journal of clinical endocrinology and metabolism"
+      },
+      "status": "title_off",
+      "detail": "Title overlap 29%; PubMed: \"Prolonged stimulation of growth hormone (GH) and insulin-like growth factor I secretion by CJC-1295, a long-acting analog of GH-releasing hormone, in healthy adults.\""
+    },
+    {
+      "peptideId": "cjc-1295",
+      "pmid": "17018659",
+      "cited": {
+        "title": "CJC-1295 effects on body composition",
+        "year": 2006
+      },
+      "pubmed": {
+        "title": "A common polymorphism in the mineralocorticoid receptor modulates stress responsiveness.",
+        "year": 2006,
+        "journal": "The Journal of clinical endocrinology and metabolism"
+      },
+      "status": "title_off",
+      "detail": "Title overlap 0%; PubMed: \"A common polymorphism in the mineralocorticoid receptor modulates stress responsiveness.\""
+    },
+    {
+      "peptideId": "cjc-1295",
+      "pmid": "16434454",
+      "cited": {
+        "title": "Sustained GH release with CJC-1295 DAC",
+        "year": 2006
+      },
+      "pubmed": {
+        "title": "Inverse relationship between luteinizing hormone and body mass index in polycystic ovarian syndrome: investigation of hypothalamic and pituitary contributions.",
+        "year": 2006,
+        "journal": "The Journal of clinical endocrinology and metabolism"
+      },
+      "status": "title_off",
+      "detail": "Title overlap 0%; PubMed: \"Inverse relationship between luteinizing hormone and body mass index in polycystic ovarian syndrome: investigation of hypothalamic and pituitary contributions.\""
+    },
+    {
+      "peptideId": "ipamorelin",
+      "pmid": "9849822",
+      "cited": {
+        "title": "Ipamorelin: a selective growth hormone secretagogue",
+        "year": 1999
+      },
+      "pubmed": {
+        "title": "Ipamorelin, the first selective growth hormone secretagogue.",
+        "year": 1998,
+        "journal": "European journal of endocrinology"
+      },
+      "status": "ok"
+    },
+    {
+      "peptideId": "ipamorelin",
+      "pmid": "10604470",
+      "cited": {
+        "title": "Ipamorelin effects on body composition in rats",
+        "year": 1999
+      },
+      "pubmed": {
+        "title": "Ghrelin is a growth-hormone-releasing acylated peptide from stomach.",
+        "year": 1999,
+        "journal": "Nature"
+      },
+      "status": "title_off",
+      "detail": "Title overlap 0%; PubMed: \"Ghrelin is a growth-hormone-releasing acylated peptide from stomach.\""
+    },
+    {
+      "peptideId": "ipamorelin",
+      "pmid": "11713213",
+      "cited": {
+        "title": "Ipamorelin increases bone mineral content",
+        "year": 2001
+      },
+      "pubmed": {
+        "title": "The effects of human GH and its lipolytic fragment (AOD9604) on lipid metabolism following chronic treatment in obese mice and beta(3)-AR knock-out mice.",
+        "year": 2001,
+        "journal": "Endocrinology"
+      },
+      "status": "title_off",
+      "detail": "Title overlap 0%; PubMed: \"The effects of human GH and its lipolytic fragment (AOD9604) on lipid metabolism following chronic treatment in obese mice and beta(3)-AR knock-out mice.\""
+    },
+    {
+      "peptideId": "tesamorelin",
+      "pmid": "20581223",
+      "cited": {
+        "title": "Tesamorelin reduces visceral fat in HIV lipodystrophy",
+        "year": 2010
+      },
+      "pubmed": {
+        "title": "Inhibition of Ca2+-activated Cl- channels by gallotannins as a possible molecular basis for health benefits of red wine and green tea.",
+        "year": 2010,
+        "journal": "FASEB journal : official publication of the Federation of American Societies for Experimental Biology"
+      },
+      "status": "title_off",
+      "detail": "Title overlap 0%; PubMed: \"Inhibition of Ca2+-activated Cl- channels by gallotannins as a possible molecular basis for health benefits of red wine and green tea.\""
+    },
+    {
+      "peptideId": "tesamorelin",
+      "pmid": "22024906",
+      "cited": {
+        "title": "FDA approval of tesamorelin for HIV-associated lipodystrophy",
+        "year": 2011
+      },
+      "pubmed": {
+        "title": "Neck muscle strength and mobility of the cervical spine as predictors of neck pain: a prospective 6-year study.",
+        "year": 2012,
+        "journal": "Spine"
+      },
+      "status": "title_off",
+      "detail": "Title overlap 0%; PubMed: \"Neck muscle strength and mobility of the cervical spine as predictors of neck pain: a prospective 6-year study.\""
+    },
+    {
+      "peptideId": "tesamorelin",
+      "pmid": "28535505",
+      "cited": {
+        "title": "Tesamorelin improves cognitive function in older adults",
+        "year": 2017
+      },
+      "pubmed": {
+        "title": "Structural and Functional Outcome of Vitrectomy Combined with Subretinal Recombinant Tissue Plasminogen Activator for Isolated Subpigment Epithelial Hemorrhages.",
+        "year": 2017,
+        "journal": "Ophthalmologica. Journal international d'ophtalmologie. International journal of ophthalmology. Zeitschrift fur Augenheilkunde"
+      },
+      "status": "title_off",
+      "detail": "Title overlap 0%; PubMed: \"Structural and Functional Outcome of Vitrectomy Combined with Subretinal Recombinant Tissue Plasminogen Activator for Isolated Subpigment Epithelial Hemorrhages.\""
+    },
+    {
+      "peptideId": "pt-141",
+      "pmid": "16422843",
+      "cited": {
+        "title": "PT-141 for female hypoactive sexual desire disorder",
+        "year": 2006
+      },
+      "pubmed": {
+        "title": "A multinational population survey of intravaginal ejaculation latency time.",
+        "year": 2005,
+        "journal": "The journal of sexual medicine"
+      },
+      "status": "title_off",
+      "detail": "Title overlap 0%; PubMed: \"A multinational population survey of intravaginal ejaculation latency time.\""
+    },
+    {
+      "peptideId": "pt-141",
+      "pmid": "15661110",
+      "cited": {
+        "title": "Bremelanotide for male erectile dysfunction",
+        "year": 2005
+      },
+      "pubmed": {
+        "title": "Role of cerebral cortex in human postural control: an EEG study.",
+        "year": 2005,
+        "journal": "Clinical neurophysiology : official journal of the International Federation of Clinical Neurophysiology"
+      },
+      "status": "title_off",
+      "detail": "Title overlap 0%; PubMed: \"Role of cerebral cortex in human postural control: an EEG study.\""
+    },
+    {
+      "peptideId": "pt-141",
+      "pmid": "31400508",
+      "cited": {
+        "title": "FDA approval of bremelanotide (Vyleesi)",
+        "year": 2019
+      },
+      "pubmed": {
+        "title": "Structure of the UspA1 protein fragment from Moraxella catarrhalis responsible for C3d binding.",
+        "year": 2019,
+        "journal": "Journal of structural biology"
+      },
+      "status": "title_off",
+      "detail": "Title overlap 0%; PubMed: \"Structure of the UspA1 protein fragment from Moraxella catarrhalis responsible for C3d binding.\""
+    },
+    {
+      "peptideId": "selank",
+      "pmid": "18577758",
+      "cited": {
+        "title": "Selank anxiolytic effects in clinical studies",
+        "year": 2008
+      },
+      "pubmed": {
+        "title": "Dissociation of heterotrimeric g proteins in cells.",
+        "year": 2008,
+        "journal": "Science signaling"
+      },
+      "status": "title_off",
+      "detail": "Title overlap 0%; PubMed: \"Dissociation of heterotrimeric g proteins in cells.\""
+    },
+    {
+      "peptideId": "selank",
+      "pmid": "21315463",
+      "cited": {
+        "title": "Selank modulates immune function",
+        "year": 2011
+      },
+      "pubmed": {
+        "title": "Different effects of rosuvastatin and simvastatin on myocardial high-energy phosphate metabolism.",
+        "year": 2011,
+        "journal": "International journal of cardiology"
+      },
+      "status": "title_off",
+      "detail": "Title overlap 0%; PubMed: \"Different effects of rosuvastatin and simvastatin on myocardial high-energy phosphate metabolism.\""
+    },
+    {
+      "peptideId": "selank",
+      "pmid": "24009756",
+      "cited": {
+        "title": "Selank upregulates BDNF expression in brain regions",
+        "year": 2013
+      },
+      "pubmed": {
+        "title": "Sight of a predator induces a corticosterone stress response and generates fear in an amphibian.",
+        "year": 2013,
+        "journal": "PloS one"
+      },
+      "status": "title_off",
+      "detail": "Title overlap 0%; PubMed: \"Sight of a predator induces a corticosterone stress response and generates fear in an amphibian.\""
+    },
+    {
+      "peptideId": "semax",
+      "pmid": "16996039",
+      "cited": {
+        "title": "Semax upregulates BDNF in the rat brain",
+        "year": 2007
+      },
+      "pubmed": {
+        "title": "Abnormal laminar position and dendrite development of interneurons in the reeler forebrain.",
+        "year": 2007,
+        "journal": "Brain research"
+      },
+      "status": "title_off",
+      "detail": "Title overlap 10%; PubMed: \"Abnormal laminar position and dendrite development of interneurons in the reeler forebrain.\""
+    },
+    {
+      "peptideId": "semax",
+      "pmid": "17321596",
+      "cited": {
+        "title": "Semax in acute ischemic stroke recovery",
+        "year": 2007
+      },
+      "pubmed": {
+        "title": "Indoleamine-dioxygenase is expressed in human decidua at the time maternal tolerance is established.",
+        "year": 2007,
+        "journal": "Journal of reproductive immunology"
+      },
+      "status": "title_off",
+      "detail": "Title overlap 0%; PubMed: \"Indoleamine-dioxygenase is expressed in human decidua at the time maternal tolerance is established.\""
+    },
+    {
+      "peptideId": "semax",
+      "pmid": "16541366",
+      "cited": {
+        "title": "Semax enhances cognitive function in healthy subjects",
+        "year": 2006
+      },
+      "pubmed": {
+        "title": "Biphasic clinical course and early white matter abnormalities may be indicators of neurological sequelae after status epilepticus in children.",
+        "year": 2006,
+        "journal": "Neuropediatrics"
+      },
+      "status": "title_off",
+      "detail": "Title overlap 0%; PubMed: \"Biphasic clinical course and early white matter abnormalities may be indicators of neurological sequelae after status epilepticus in children.\""
+    },
+    {
+      "peptideId": "mk-677",
+      "pmid": "9467542",
+      "cited": {
+        "title": "MK-677 oral GH secretagogue in adults",
+        "year": 1998
+      },
+      "pubmed": {
+        "title": "Two-month treatment of obese subjects with the oral growth hormone (GH) secretagogue MK-677 increases GH secretion, fat-free mass, and energy expenditure.",
+        "year": 1998,
+        "journal": "The Journal of clinical endocrinology and metabolism"
+      },
+      "status": "title_off",
+      "detail": "Title overlap 15%; PubMed: \"Two-month treatment of obese subjects with the oral growth hormone (GH) secretagogue MK-677 increases GH secretion, fat-free mass, and energy expenditure.\""
+    },
+    {
+      "peptideId": "mk-677",
+      "pmid": "18981485",
+      "cited": {
+        "title": "MK-677 preserves lean mass in elderly subjects",
+        "year": 2008
+      },
+      "pubmed": {
+        "title": "Effects of an oral ghrelin mimetic on body composition and clinical outcomes in healthy older adults: a randomized trial.",
+        "year": 2008,
+        "journal": "Annals of internal medicine"
+      },
+      "status": "title_off",
+      "detail": "Title overlap 0%; PubMed: \"Effects of an oral ghrelin mimetic on body composition and clinical outcomes in healthy older adults: a randomized trial.\""
+    },
+    {
+      "peptideId": "mk-677",
+      "pmid": "9349662",
+      "cited": {
+        "title": "MK-677 improves sleep quality",
+        "year": 1997
+      },
+      "pubmed": {
+        "title": "Prolonged oral treatment with MK-677, a novel growth hormone secretagogue, improves sleep quality in man.",
+        "year": 1997,
+        "journal": "Neuroendocrinology"
+      },
+      "status": "title_off",
+      "detail": "Title overlap 31%; PubMed: \"Prolonged oral treatment with MK-677, a novel growth hormone secretagogue, improves sleep quality in man.\""
+    },
+    {
+      "peptideId": "semaglutide",
+      "pmid": "33567185",
+      "cited": {
+        "title": "Once-Weekly Semaglutide in Adults with Overweight or Obesity",
+        "year": 2021
+      },
+      "pubmed": {
+        "title": "Once-Weekly Semaglutide in Adults with Overweight or Obesity.",
+        "year": 2021,
+        "journal": "The New England journal of medicine"
+      },
+      "status": "ok"
+    },
+    {
+      "peptideId": "semaglutide",
+      "pmid": "27295427",
+      "cited": {
+        "title": "Semaglutide and Cardiovascular Outcomes in Patients with Type 2 Diabetes",
+        "year": 2016
+      },
+      "pubmed": {
+        "title": "Liraglutide and Cardiovascular Outcomes in Type 2 Diabetes.",
+        "year": 2016,
+        "journal": "The New England journal of medicine"
+      },
+      "status": "ok"
+    },
+    {
+      "peptideId": "tirzepatide",
+      "pmid": "35658024",
+      "cited": {
+        "title": "Tirzepatide Once Weekly for the Treatment of Obesity",
+        "year": 2022
+      },
+      "pubmed": {
+        "title": "Tirzepatide Once Weekly for the Treatment of Obesity.",
+        "year": 2022,
+        "journal": "The New England journal of medicine"
+      },
+      "status": "ok"
+    },
+    {
+      "peptideId": "tirzepatide",
+      "pmid": "34170647",
+      "cited": {
+        "title": "Tirzepatide versus Semaglutide Once Weekly in Patients with Type 2 Diabetes",
+        "year": 2021
+      },
+      "pubmed": {
+        "title": "Tirzepatide versus Semaglutide Once Weekly in Patients with Type 2 Diabetes.",
+        "year": 2021,
+        "journal": "The New England journal of medicine"
+      },
+      "status": "ok"
+    },
+    {
+      "peptideId": "tirzepatide",
+      "pmid": "30473097",
+      "cited": {
+        "title": "LY3298176, a novel dual GIP and GLP-1 receptor agonist for the treatment of type 2 diabetes mellitus: From discovery to clinical proof of concept",
+        "year": 2018
+      },
+      "pubmed": {
+        "title": "LY3298176, a novel dual GIP and GLP-1 receptor agonist for the treatment of type 2 diabetes mellitus: From discovery to clinical proof of concept.",
+        "year": 2018,
+        "journal": "Molecular metabolism"
+      },
+      "status": "ok"
+    },
+    {
+      "peptideId": "retatrutide",
+      "pmid": "37366315",
+      "cited": {
+        "title": "Triple-Hormone-Receptor Agonist Retatrutide for Obesity - A Phase 2 Trial",
+        "year": 2023
+      },
+      "pubmed": {
+        "title": "Triple-Hormone-Receptor Agonist Retatrutide for Obesity - A Phase 2 Trial.",
+        "year": 2023,
+        "journal": "The New England journal of medicine"
+      },
+      "status": "ok"
+    },
+    {
+      "peptideId": "retatrutide",
+      "pmid": "37385280",
+      "cited": {
+        "title": "Retatrutide, a GIP, GLP-1 and glucagon receptor agonist, for people with type 2 diabetes: a randomised, double-blind, placebo and active controlled, parallel group, phase 2 trial",
+        "year": 2023
+      },
+      "pubmed": {
+        "title": "Retatrutide, a GIP, GLP-1 and glucagon receptor agonist, for people with type 2 diabetes: a randomised, double-blind, placebo and active-controlled, parallel-group, phase 2 trial conducted in the USA.",
+        "year": 2023,
+        "journal": "Lancet (London, England)"
+      },
+      "status": "ok"
+    }
+  ]
+}

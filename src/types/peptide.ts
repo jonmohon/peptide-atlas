@@ -76,6 +76,15 @@ export interface DetailedSideEffect {
   notes?: string;
 }
 
+/**
+ * Confidence in the catalog entry's accuracy:
+ *   verified     — claims cross-checked against literature; PMIDs validated
+ *                  on PubMed; reviewed within the last 6 months.
+ *   likely       — primary claims sourced but not all citations re-verified.
+ *   preliminary  — written from general knowledge; requires review.
+ */
+export type DataConfidence = 'verified' | 'likely' | 'preliminary';
+
 export interface Peptide {
   id: string;
   slug: string;
@@ -98,4 +107,8 @@ export interface Peptide {
   sideEffects?: string[];
   reconstitution?: ReconstitutionInfo;
   halfLifeHours?: number;
+  /** When was this entry last reviewed against literature (ISO date). */
+  lastReviewedAt?: string;
+  /** Confidence in the data accuracy. Defaults to 'preliminary' if absent. */
+  confidence?: DataConfidence;
 }

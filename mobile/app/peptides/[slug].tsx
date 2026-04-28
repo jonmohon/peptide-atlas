@@ -22,6 +22,12 @@ const EVIDENCE_LABEL: Record<Peptide['evidenceLevel'], { label: string; color: s
   preclinical: { label: 'Preclinical', color: '#a855f7' },
 };
 
+const CONFIDENCE_BADGE: Record<NonNullable<Peptide['confidence']>, { label: string; color: string; icon: keyof typeof Ionicons.glyphMap }> = {
+  verified: { label: 'Verified', color: '#10b981', icon: 'shield-checkmark' },
+  likely: { label: 'Sourced', color: '#06b6d4', icon: 'shield' },
+  preliminary: { label: 'Needs review', color: '#f97316', icon: 'shield-half' },
+};
+
 const SEVERITY_COLOR: Record<string, string> = {
   mild: '#10b981',
   moderate: '#f97316',
@@ -44,6 +50,7 @@ export default function PeptideDetailScreen() {
   const cat = categories.find((c) => c.id === peptide.category);
   const accent = cat?.color ?? '#06b6d4';
   const evidence = EVIDENCE_LABEL[peptide.evidenceLevel];
+  const confidence = CONFIDENCE_BADGE[peptide.confidence ?? 'preliminary'];
 
   return (
     <>
@@ -54,7 +61,7 @@ export default function PeptideDetailScreen() {
           <Text className="text-sm text-text-secondary">Library</Text>
         </Pressable>
 
-        <View className="mb-1 flex-row items-center gap-2">
+        <View className="mb-1 flex-row flex-wrap" style={{ gap: 6 }}>
           <View
             className="rounded-full px-2 py-0.5"
             style={{ backgroundColor: `${accent}1f` }}
@@ -71,10 +78,24 @@ export default function PeptideDetailScreen() {
               {evidence.label} evidence
             </Text>
           </View>
+          <View
+            className="flex-row items-center gap-1 rounded-full px-2 py-0.5"
+            style={{ backgroundColor: `${confidence.color}1f` }}
+          >
+            <Ionicons name={confidence.icon} size={9} color={confidence.color} />
+            <Text className="text-[10px] font-medium uppercase tracking-wider" style={{ color: confidence.color }}>
+              {confidence.label}
+            </Text>
+          </View>
         </View>
 
         <Text className="text-3xl font-bold text-foreground">{peptide.name}</Text>
         <Text className="mt-0.5 text-sm text-text-secondary">{peptide.fullName}</Text>
+        {peptide.lastReviewedAt && (
+          <Text className="mt-1 text-[10px] text-text-muted">
+            Reviewed {new Date(peptide.lastReviewedAt).toLocaleDateString(undefined, { month: 'short', year: 'numeric' })}
+          </Text>
+        )}
 
         <Text className="mt-4 text-sm leading-relaxed text-foreground/90">{peptide.description}</Text>
 
