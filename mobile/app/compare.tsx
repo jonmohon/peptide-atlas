@@ -6,15 +6,19 @@
  */
 
 import { Ionicons } from '@expo/vector-icons';
+import { fetch as expoFetch } from 'expo/fetch';
 import { useRouter } from 'expo-router';
 import { useMemo, useState } from 'react';
-import { Pressable, ScrollView, Text, TextInput, View } from 'react-native';
+import { ActivityIndicator, Pressable, ScrollView, Text, TextInput, View } from 'react-native';
+import Markdown from 'react-native-markdown-display';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { GlassCard } from '@/components/glass-card';
 import { categories } from '@/data/categories';
 import { peptides } from '@/data/peptides';
 import type { Peptide } from '@/types';
+import { getIdToken } from '@/lib/amplify';
+import { API_BASE_URL } from '@/lib/config';
 
 export default function CompareScreen() {
   const router = useRouter();
@@ -120,12 +124,46 @@ function Slot({
 }
 
 function ComparisonGrid({ a, b }: { a: Peptide; b: Peptide }) {
+  const [aiSummary, setAiSummary] = useState('');
+  const [aiStreaming, setAiStreaming] = useState(false);
+  const [aiError, setAiError] = useState<string | null>(null);
+
   const sharedEffects = useMemo(
     () => a.effects.filter((e) => b.effects.includes(e)),
     [a, b]
   );
   const onlyA = useMemo(() => a.effects.filter((e) => !b.effects.includes(e)), [a, b]);
   const onlyB = useMemo(() => b.effects.filter((e) => !a.effects.includes(e)), [a, b]);
+
+  const askAi = async () => {
+    setAiSummary('');
+    setAiError(null);
+    setAiStreaming(true);
+    try {
+      const token = await getIdToken();
+      if (!token) throw new Error('Sign in required');
+      const res = await expoFetch(`${API_BASE_URL}/api/ai/compare`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ peptideIds: [a.id, b.id] }),
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      if (!res.body) throw new Error('Empty response');
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let acc = '';
+      for (;;) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        acc += decoder.decode(value, { stream: true });
+        setAiSummary(acc);
+      }
+    } catch (e) {
+      setAiError(e instanceof Error ? e.message : 'Failed');
+    } finally {
+      setAiStreaming(false);
+    }
+  };
 
   return (
     <>
@@ -185,9 +223,67 @@ function ComparisonGrid({ a, b }: { a: Peptide; b: Peptide }) {
           </View>
         </>
       )}
+
+      {!aiSummary && !aiStreaming ? (
+        <Pressable onPress={askAi} className="mb-5 active:opacity-70">
+          <View
+            className="flex-row items-center justify-center gap-2 rounded-xl border px-4 py-3.5"
+            style={{
+              backgroundColor: 'rgba(168,85,247,0.20)',
+              borderColor: 'rgba(168,85,247,0.45)',
+            }}
+          >
+            <Ionicons name="sparkles" size={16} color="#a855f7" />
+            <Text className="text-sm font-semibold text-neon-purple">
+              Ask Atlas AI: which is right for me?
+            </Text>
+          </View>
+        </Pressable>
+      ) : (
+        <View className="mb-5">
+          <View className="mb-2 flex-row items-center gap-2">
+            <View className="h-6 w-6 items-center justify-center rounded-md bg-neon-purple/20">
+              <Ionicons name="sparkles" size={12} color="#c084fc" />
+            </View>
+            <Text className="text-xs font-semibold text-foreground">Comparison · Atlas AI</Text>
+          </View>
+          <View
+            className="rounded-2xl border px-4 py-3"
+            style={{
+              backgroundColor: 'rgba(168,85,247,0.10)',
+              borderColor: 'rgba(168,85,247,0.28)',
+            }}
+          >
+            {aiSummary ? (
+              <Markdown style={MD_STYLES}>{aiSummary}</Markdown>
+            ) : (
+              <View className="py-2 flex-row items-center gap-2">
+                <ActivityIndicator size="small" color="#a855f7" />
+                <Text className="text-xs text-text-secondary">Analyzing…</Text>
+              </View>
+            )}
+          </View>
+          {aiError && (
+            <View className="mt-2 rounded-xl border border-red-500/25 bg-red-500/10 p-2.5">
+              <Text className="text-[11px] text-red-400">{aiError}</Text>
+            </View>
+          )}
+        </View>
+      )}
     </>
   );
 }
+
+const MD_STYLES = {
+  body: { color: '#fafafa', fontSize: 13, lineHeight: 20 },
+  paragraph: { color: '#fafafa', fontSize: 13, lineHeight: 20, marginTop: 0, marginBottom: 8 },
+  strong: { color: '#ffffff', fontWeight: '700' as const },
+  em: { color: '#fafafa', fontStyle: 'italic' as const },
+  heading2: { color: '#ffffff', fontSize: 14, fontWeight: '700' as const, marginTop: 6, marginBottom: 4 },
+  heading3: { color: '#ffffff', fontSize: 13, fontWeight: '700' as const, marginTop: 4, marginBottom: 2 },
+  list_item: { marginBottom: 3 },
+  bullet_list_icon: { color: '#06b6d4', marginRight: 6 },
+};
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
   return (

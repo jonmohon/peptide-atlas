@@ -8,8 +8,10 @@ import { streamText } from 'ai';
 import { JOURNAL_INSIGHT_PROMPT } from '@/lib/ai/prompts';
 import { auth } from '@/lib/auth';
 import { buildUserContext } from '@/lib/ai/user-context';
+import { AI_CORS_HEADERS, aiOptions } from '@/lib/ai/cors';
 
 export const maxDuration = 30;
+export const OPTIONS = aiOptions;
 
 export async function POST(req: Request) {
   const { entries, period } = await req.json();
@@ -18,15 +20,15 @@ export async function POST(req: Request) {
   if (!apiKey) {
     return new Response(
       JSON.stringify({ error: 'ANTHROPIC_API_KEY not configured' }),
-      { status: 500, headers: { 'Content-Type': 'application/json' } }
+      { status: 500, headers: { 'Content-Type': 'application/json', ...AI_CORS_HEADERS } }
     );
   }
 
-  const session = await auth();
+  const session = await auth(req);
   if (!session?.user?.id) {
     return new Response(
       JSON.stringify({ error: 'Sign in required' }),
-      { status: 401, headers: { 'Content-Type': 'application/json' } }
+      { status: 401, headers: { 'Content-Type': 'application/json', ...AI_CORS_HEADERS } }
     );
   }
 
@@ -55,5 +57,5 @@ export async function POST(req: Request) {
     maxOutputTokens: 2048,
   });
 
-  return result.toTextStreamResponse();
+  return result.toTextStreamResponse({ headers: AI_CORS_HEADERS });
 }

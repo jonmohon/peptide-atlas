@@ -4,8 +4,10 @@ import { SEARCH_SYSTEM_PROMPT } from '@/lib/ai/prompts';
 import { searchResultSchema } from '@/lib/ai/schemas';
 import { auth } from '@/lib/auth';
 import { buildUserContext } from '@/lib/ai/user-context';
+import { AI_CORS_HEADERS, aiOptions } from '@/lib/ai/cors';
 
 export const maxDuration = 15;
+export const OPTIONS = aiOptions;
 
 export async function POST(req: Request) {
   const { query, userContext: clientContext } = await req.json();
@@ -14,11 +16,11 @@ export async function POST(req: Request) {
   if (!apiKey) {
     return new Response(
       JSON.stringify({ error: 'ANTHROPIC_API_KEY not configured' }),
-      { status: 500, headers: { 'Content-Type': 'application/json' } }
+      { status: 500, headers: { 'Content-Type': 'application/json', ...AI_CORS_HEADERS } }
     );
   }
 
-  const session = await auth();
+  const session = await auth(req);
   const serverContext = session?.user?.id ? await buildUserContext(session.user.id) : '';
   const userContext = `${serverContext}${typeof clientContext === 'string' ? clientContext : ''}`;
 
@@ -31,6 +33,6 @@ export async function POST(req: Request) {
   });
 
   return new Response(JSON.stringify(result.object), {
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', ...AI_CORS_HEADERS },
   });
 }

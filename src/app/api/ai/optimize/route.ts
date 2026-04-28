@@ -5,8 +5,10 @@ import { stackAnalysisSchema } from '@/lib/ai/schemas';
 import { peptides } from '@/data/peptides';
 import { auth } from '@/lib/auth';
 import { buildUserContext } from '@/lib/ai/user-context';
+import { AI_CORS_HEADERS, aiOptions } from '@/lib/ai/cors';
 
 export const maxDuration = 20;
+export const OPTIONS = aiOptions;
 
 interface CycleContext {
   durationWeeks: number;
@@ -30,7 +32,7 @@ export async function POST(req: Request) {
   if (!apiKey) {
     return new Response(
       JSON.stringify({ error: 'ANTHROPIC_API_KEY not configured' }),
-      { status: 500, headers: { 'Content-Type': 'application/json' } }
+      { status: 500, headers: { 'Content-Type': 'application/json', ...AI_CORS_HEADERS } }
     );
   }
 
@@ -42,7 +44,7 @@ export async function POST(req: Request) {
     .map((p) => `${p.name}: ${p.description} Effects: ${p.effects.join(', ')}`)
     .join('\n');
 
-  const session = await auth();
+  const session = await auth(req);
   const serverContext = session?.user?.id ? await buildUserContext(session.user.id) : '';
   const userContext = `${serverContext}${typeof clientContext === 'string' ? clientContext : ''}`;
 
@@ -66,6 +68,6 @@ export async function POST(req: Request) {
   });
 
   return new Response(JSON.stringify(result.object), {
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', ...AI_CORS_HEADERS },
   });
 }

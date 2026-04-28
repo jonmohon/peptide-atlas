@@ -4,8 +4,10 @@ import { COMPARISON_SYSTEM_PROMPT } from '@/lib/ai/prompts';
 import { peptides } from '@/data/peptides';
 import { auth } from '@/lib/auth';
 import { buildUserContext } from '@/lib/ai/user-context';
+import { AI_CORS_HEADERS, aiOptions } from '@/lib/ai/cors';
 
 export const maxDuration = 20;
+export const OPTIONS = aiOptions;
 
 export async function POST(req: Request) {
   const { peptideIds } = await req.json();
@@ -13,7 +15,7 @@ export async function POST(req: Request) {
   if (!apiKey) {
     return new Response(
       JSON.stringify({ error: 'ANTHROPIC_API_KEY not configured' }),
-      { status: 500, headers: { 'Content-Type': 'application/json' } }
+      { status: 500, headers: { 'Content-Type': 'application/json', ...AI_CORS_HEADERS } }
     );
   }
 
@@ -28,7 +30,7 @@ export async function POST(req: Request) {
     )
     .join('\n');
 
-  const session = await auth();
+  const session = await auth(req);
   const userContext = session?.user?.id ? await buildUserContext(session.user.id) : '';
 
   const result = streamText({
@@ -38,5 +40,5 @@ export async function POST(req: Request) {
     maxOutputTokens: 1024,
   });
 
-  return result.toTextStreamResponse();
+  return result.toTextStreamResponse({ headers: AI_CORS_HEADERS });
 }
