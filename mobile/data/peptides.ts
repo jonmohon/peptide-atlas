@@ -64,6 +64,8 @@ export const peptides: Peptide[] = [
       { name: 'Dizziness', frequency: 'uncommon', severity: 'mild' },
       { name: 'Headache', frequency: 'rare', severity: 'mild' },
     ],
+    lastReviewedAt: '2026-04-28',
+    confidence: 'likely',
   },
 
   // ─── 2. TB-500 ──────────────────────────────────────────────
@@ -104,11 +106,11 @@ export const peptides: Peptide[] = [
       { label: 'Loading Phase', weekStart: 1, weekEnd: 3, description: 'Reduced inflammation and early signs of tissue mobilization' },
       { label: 'Repair Phase', weekStart: 4, weekEnd: 6, description: 'Active tissue regeneration, improved range of motion, reduced pain' },
     ],
-    evidenceLevel: 'moderate',
-    ratings: { efficacy: 8, evidence: 6, easeOfUse: 6, cost: 6, safety: 8, popularity: 9 },
-    sideEffects: ['Head rush', 'Lethargy (temporary)', 'Injection site irritation'],
+    evidenceLevel: 'preclinical',
+    ratings: { efficacy: 6, evidence: 4, easeOfUse: 6, cost: 6, safety: 7, popularity: 8 },
+    sideEffects: ['Head rush', 'Lethargy (temporary)', 'Injection site irritation', 'Limited human safety data — most evidence is rodent or anecdotal'],
     contraindications: ['Active cancer', 'Pregnancy'],
-    halfLifeHours: 6,
+    halfLifeHours: 2,
     keyStudies: [
     ],
     interactions: [
@@ -121,6 +123,8 @@ export const peptides: Peptide[] = [
       { name: 'Headache', frequency: 'uncommon', severity: 'mild' },
       { name: 'Lightheadedness', frequency: 'rare', severity: 'mild' },
     ],
+    lastReviewedAt: '2026-04-28',
+    confidence: 'likely',
   },
 
   // ─── 3. GHK-Cu ──────────────────────────────────────────────
@@ -178,6 +182,8 @@ export const peptides: Peptide[] = [
       { name: 'Skin irritation (topical)', frequency: 'common', severity: 'mild', notes: 'Redness or tingling at application site, typically transient' },
       { name: 'Injection site discomfort', frequency: 'uncommon', severity: 'mild' },
     ],
+    lastReviewedAt: '2026-04-28',
+    confidence: 'likely',
   },
 
   // ─── 4. CJC-1295 ────────────────────────────────────────────
@@ -253,6 +259,8 @@ export const peptides: Peptide[] = [
       { name: 'Numbness/tingling', frequency: 'uncommon', severity: 'mild', notes: 'Paresthesia in extremities; typically transient' },
       { name: 'Headache', frequency: 'uncommon', severity: 'mild' },
     ],
+    lastReviewedAt: '2026-04-28',
+    confidence: 'likely',
   },
 
   // ─── 5. Ipamorelin ──────────────────────────────────────────
@@ -311,6 +319,8 @@ export const peptides: Peptide[] = [
       { name: 'Numbness/tingling', frequency: 'uncommon', severity: 'mild', notes: 'Paresthesia typically in hands or feet' },
       { name: 'Increased hunger', frequency: 'uncommon', severity: 'mild', notes: 'Less pronounced than other GHRPs' },
     ],
+    lastReviewedAt: '2026-04-28',
+    confidence: 'likely',
   },
 
   // ─── 6. Tesamorelin ─────────────────────────────────────────
@@ -368,6 +378,8 @@ export const peptides: Peptide[] = [
       { name: 'Nausea', frequency: 'uncommon', severity: 'mild' },
       { name: 'Muscle pain', frequency: 'uncommon', severity: 'mild' },
     ],
+    lastReviewedAt: '2026-04-28',
+    confidence: 'likely',
   },
 
   // ─── 7. Sermorelin ──────────────────────────────────────────
@@ -411,6 +423,8 @@ export const peptides: Peptide[] = [
     ratings: { efficacy: 7, evidence: 8, easeOfUse: 7, cost: 7, safety: 9, popularity: 8 },
     sideEffects: ['Facial flushing', 'Injection site pain', 'Headache', 'Dizziness'],
     contraindications: ['Active malignancy', 'Pregnancy', 'Hypersensitivity to sermorelin'],
+    lastReviewedAt: '2026-04-28',
+    confidence: 'likely',
   },
 
   // ─── 8. GHRP-2 ──────────────────────────────────────────────
@@ -451,9 +465,19 @@ export const peptides: Peptide[] = [
       { label: 'Peak Response', weekStart: 9, weekEnd: 12, description: 'Optimized GH output and body composition changes' },
     ],
     evidenceLevel: 'moderate',
-    ratings: { efficacy: 8, evidence: 7, easeOfUse: 6, cost: 7, safety: 7, popularity: 7 },
-    sideEffects: ['Increased appetite', 'Elevated cortisol', 'Water retention', 'Tiredness'],
+    ratings: { efficacy: 7, evidence: 6, easeOfUse: 6, cost: 7, safety: 6, popularity: 7 },
+    sideEffects: [
+      'Increased appetite',
+      'Elevated cortisol',
+      'Elevated prolactin',
+      'Water retention',
+      'Tiredness',
+      'Flushing/tingling at injection site',
+      'Reduced insulin sensitivity with chronic use',
+    ],
     contraindications: ['Active cancer', 'Obesity-related conditions where appetite increase is undesirable', 'Pregnancy'],
+    lastReviewedAt: '2026-04-28',
+    confidence: 'likely',
   },
 
   // ─── 9. GHRP-6 ──────────────────────────────────────────────
@@ -494,9 +518,11 @@ export const peptides: Peptide[] = [
       { label: 'Sustained Gains', weekStart: 9, weekEnd: 12, description: 'Continued anabolic benefit with normalized appetite response' },
     ],
     evidenceLevel: 'moderate',
-    ratings: { efficacy: 7, evidence: 7, easeOfUse: 6, cost: 8, safety: 7, popularity: 6 },
-    sideEffects: ['Intense hunger', 'Water retention', 'Elevated cortisol and prolactin', 'Mild dizziness'],
+    ratings: { efficacy: 7, evidence: 6, easeOfUse: 6, cost: 8, safety: 7, popularity: 6 },
+    sideEffects: ['Intense hunger', 'Water retention', 'Mild cortisol/prolactin elevation (less than GHRP-2 or hexarelin)', 'Mild dizziness'],
     contraindications: ['Active cancer', 'Obesity where appetite stimulation is harmful', 'Pregnancy'],
+    lastReviewedAt: '2026-04-28',
+    confidence: 'likely',
   },
 
   // ─── 10. Hexarelin ──────────────────────────────────────────
@@ -536,9 +562,18 @@ export const peptides: Peptide[] = [
       { label: 'Taper', weekStart: 7, weekEnd: 8, description: 'Diminishing returns as desensitization sets in; time to cycle off' },
     ],
     evidenceLevel: 'moderate',
-    ratings: { efficacy: 8, evidence: 6, easeOfUse: 5, cost: 6, safety: 7, popularity: 5 },
-    sideEffects: ['Elevated cortisol and prolactin', 'Water retention', 'Receptor desensitization', 'Hunger'],
-    contraindications: ['Active cancer', 'Pituitary disorders', 'Pregnancy'],
+    ratings: { efficacy: 7, evidence: 5, easeOfUse: 5, cost: 6, safety: 5, popularity: 5 },
+    sideEffects: [
+      'Elevated cortisol and prolactin',
+      'Water retention',
+      'Receptor desensitization',
+      'Hunger',
+      'Suppression of endogenous GH pulsatility with chronic use',
+      'Cardiac hypertrophy risk at chronic supraphysiologic doses',
+    ],
+    contraindications: ['Active cancer', 'Pituitary disorders', 'Pregnancy', 'Cardiac disease (hypertrophy risk at chronic high doses)'],
+    lastReviewedAt: '2026-04-28',
+    confidence: 'likely',
   },
 
   // ─── 11. PT-141 ─────────────────────────────────────────────
@@ -590,6 +625,8 @@ export const peptides: Peptide[] = [
       { name: 'Headache', frequency: 'common', severity: 'mild' },
       { name: 'Elevated blood pressure (transient)', frequency: 'uncommon', severity: 'moderate', notes: 'Blood pressure typically rises 6–12 mmHg for 6–12 hours post-dose; monitor in at-risk patients' },
     ],
+    lastReviewedAt: '2026-04-28',
+    confidence: 'likely',
   },
 
   // ─── 12. Melanotan II ───────────────────────────────────────
@@ -646,6 +683,8 @@ export const peptides: Peptide[] = [
       'Pregnancy and breastfeeding',
       'Not FDA-approved; obtained only from unregulated sources',
     ],
+    lastReviewedAt: '2026-04-28',
+    confidence: 'likely',
   },
 
   // ─── 13. Selank ─────────────────────────────────────────────
@@ -699,6 +738,8 @@ export const peptides: Peptide[] = [
       { name: 'Fatigue', frequency: 'uncommon', severity: 'mild' },
       { name: 'Mild sedation', frequency: 'rare', severity: 'mild' },
     ],
+    lastReviewedAt: '2026-04-28',
+    confidence: 'likely',
   },
 
   // ─── 14. Semax ──────────────────────────────────────────────
@@ -750,6 +791,8 @@ export const peptides: Peptide[] = [
       { name: 'Mild headache', frequency: 'uncommon', severity: 'mild' },
       { name: 'Hair growth at application site', frequency: 'rare', severity: 'mild', notes: 'Reported with intranasal use; mechanism unclear' },
     ],
+    lastReviewedAt: '2026-04-28',
+    confidence: 'likely',
   },
 
   // ─── 15. Dihexa ─────────────────────────────────────────────
@@ -787,6 +830,8 @@ export const peptides: Peptide[] = [
     ratings: { efficacy: 8, evidence: 3, easeOfUse: 8, cost: 5, safety: 4, popularity: 5 },
     sideEffects: ['Unknown long-term effects', 'Potential overstimulation', 'Theoretical cancer risk (HGF/c-Met pathway)'],
     contraindications: ['Cancer or cancer history (c-Met activation)', 'Pregnancy', 'Liver disease'],
+    lastReviewedAt: '2026-04-28',
+    confidence: 'likely',
   },
 
   // ─── 16. NA-Selank ──────────────────────────────────────────
@@ -827,6 +872,8 @@ export const peptides: Peptide[] = [
     ratings: { efficacy: 8, evidence: 5, easeOfUse: 9, cost: 5, safety: 8, popularity: 6 },
     sideEffects: ['Nasal irritation', 'Mild drowsiness (rare)'],
     contraindications: ['Pregnancy', 'Autoimmune conditions (consult physician)'],
+    lastReviewedAt: '2026-04-28',
+    confidence: 'likely',
   },
 
   // ─── 17. NA-Semax ───────────────────────────────────────────
@@ -865,6 +912,8 @@ export const peptides: Peptide[] = [
     ratings: { efficacy: 8, evidence: 5, easeOfUse: 9, cost: 5, safety: 8, popularity: 6 },
     sideEffects: ['Nasal irritation', 'Overstimulation at high doses', 'Irritability (rare)'],
     contraindications: ['Pregnancy', 'Seizure disorders', 'Acute psychotic states'],
+    lastReviewedAt: '2026-04-28',
+    confidence: 'likely',
   },
 
   // ─── 18. Cerebrolysin ───────────────────────────────────────
@@ -903,6 +952,8 @@ export const peptides: Peptide[] = [
     ratings: { efficacy: 8, evidence: 8, easeOfUse: 3, cost: 5, safety: 7, popularity: 5 },
     sideEffects: ['Injection site pain', 'Dizziness', 'Headache', 'Agitation (rare)'],
     contraindications: ['Epilepsy', 'Severe renal insufficiency', 'Allergy to porcine products', 'Pregnancy'],
+    lastReviewedAt: '2026-04-28',
+    confidence: 'likely',
   },
 
   // ─── 19. AOD-9604 ───────────────────────────────────────────
@@ -947,6 +998,8 @@ export const peptides: Peptide[] = [
       'Phase IIb human clinical trials failed to show meaningful weight loss vs placebo',
       'Not FDA-approved; lost GRAS-style status in the United States',
     ],
+    lastReviewedAt: '2026-04-28',
+    confidence: 'likely',
   },
 
   // ─── 20. MOTS-c ─────────────────────────────────────────────
@@ -988,6 +1041,8 @@ export const peptides: Peptide[] = [
     ratings: { efficacy: 7, evidence: 5, easeOfUse: 6, cost: 4, safety: 7, popularity: 6 },
     sideEffects: ['Injection site discomfort', 'Mild GI upset', 'Transient fatigue'],
     contraindications: ['Pregnancy', 'Severe metabolic disease (consult physician)'],
+    lastReviewedAt: '2026-04-28',
+    confidence: 'likely',
   },
 
   // ─── 21. SS-31 (Elamipretide) ──────────────────────────────
@@ -1029,6 +1084,8 @@ export const peptides: Peptide[] = [
     ratings: { efficacy: 7, evidence: 6, easeOfUse: 6, cost: 3, safety: 7, popularity: 4 },
     sideEffects: ['Injection site reactions', 'Headache', 'Mild nausea'],
     contraindications: ['Pregnancy', 'Severe hepatic impairment'],
+    lastReviewedAt: '2026-04-28',
+    confidence: 'likely',
   },
 
   // ─── 22. Epithalon ──────────────────────────────────────────
@@ -1068,6 +1125,8 @@ export const peptides: Peptide[] = [
     ratings: { efficacy: 7, evidence: 5, easeOfUse: 7, cost: 5, safety: 8, popularity: 6 },
     sideEffects: ['Injection site irritation', 'Vivid dreams', 'Mild headache (rare)'],
     contraindications: ['Pregnancy', 'Active cancer (theoretical telomerase concern)'],
+    lastReviewedAt: '2026-04-28',
+    confidence: 'likely',
   },
 
   // ─── 23. Thymosin Alpha-1 ───────────────────────────────────
@@ -1107,6 +1166,8 @@ export const peptides: Peptide[] = [
     ratings: { efficacy: 8, evidence: 9, easeOfUse: 7, cost: 4, safety: 9, popularity: 7 },
     sideEffects: ['Injection site discomfort', 'Mild fatigue', 'Rare allergic reaction'],
     contraindications: ['Organ transplant recipients (immunosuppression required)', 'Pregnancy'],
+    lastReviewedAt: '2026-04-28',
+    confidence: 'likely',
   },
 
   // ─── 24. KPV ────────────────────────────────────────────────
@@ -1147,6 +1208,8 @@ export const peptides: Peptide[] = [
     ratings: { efficacy: 7, evidence: 5, easeOfUse: 8, cost: 6, safety: 9, popularity: 6 },
     sideEffects: ['Mild GI discomfort (rare)', 'Headache (uncommon)'],
     contraindications: ['Pregnancy', 'Known hypersensitivity to alpha-MSH derivatives'],
+    lastReviewedAt: '2026-04-28',
+    confidence: 'likely',
   },
 
   // ─── 25. LL-37 ──────────────────────────────────────────────
@@ -1186,7 +1249,9 @@ export const peptides: Peptide[] = [
     evidenceLevel: 'emerging',
     ratings: { efficacy: 7, evidence: 5, easeOfUse: 6, cost: 5, safety: 7, popularity: 5 },
     sideEffects: ['Injection site irritation', 'Mild inflammatory flare (temporary)', 'Redness'],
-    contraindications: ['Pregnancy', 'Autoimmune conditions (may exacerbate)', 'Rosacea (may worsen)'],
+    contraindications: ['Pregnancy', 'Autoimmune conditions (may exacerbate)', 'Rosacea (LL-37 mechanistically implicated per Yamasaki et al.)', 'Psoriasis (LL-37 implicated in psoriatic plaques)'],
+    lastReviewedAt: '2026-04-28',
+    confidence: 'likely',
   },
 
   // ─── 26. VIP ────────────────────────────────────────────────
@@ -1230,6 +1295,8 @@ export const peptides: Peptide[] = [
     ratings: { efficacy: 7, evidence: 6, easeOfUse: 7, cost: 5, safety: 7, popularity: 5 },
     sideEffects: ['Nasal congestion', 'Diarrhea', 'Lowered blood pressure', 'Facial flushing'],
     contraindications: ['Hypotension', 'Active GI bleeding', 'Pregnancy'],
+    lastReviewedAt: '2026-04-28',
+    confidence: 'likely',
   },
 
   // ─── 27. DSIP ───────────────────────────────────────────────
@@ -1270,6 +1337,8 @@ export const peptides: Peptide[] = [
     ratings: { efficacy: 7, evidence: 4, easeOfUse: 7, cost: 6, safety: 8, popularity: 6 },
     sideEffects: ['Mild morning grogginess (initial)', 'Headache (rare)', 'Vivid dreams'],
     contraindications: ['Pregnancy', 'Low blood pressure'],
+    lastReviewedAt: '2026-04-28',
+    confidence: 'likely',
   },
 
   // ─── 28. Oxytocin ───────────────────────────────────────────
@@ -1324,6 +1393,8 @@ export const peptides: Peptide[] = [
       'History of seizure disorder',
       'Hyponatremia or conditions predisposing to water retention',
     ],
+    lastReviewedAt: '2026-04-28',
+    confidence: 'likely',
   },
 
   // ─── 29. Kisspeptin-10 ──────────────────────────────────────
@@ -1363,6 +1434,8 @@ export const peptides: Peptide[] = [
     ratings: { efficacy: 7, evidence: 5, easeOfUse: 5, cost: 4, safety: 7, popularity: 4 },
     sideEffects: ['Injection site discomfort', 'Flushing', 'Mild headache', 'Nausea'],
     contraindications: ['Hormone-sensitive cancers', 'Pregnancy', 'Pituitary disorders'],
+    lastReviewedAt: '2026-04-28',
+    confidence: 'likely',
   },
 
   // ─── 30. MK-677 ─────────────────────────────────────────────
@@ -1442,6 +1515,8 @@ export const peptides: Peptide[] = [
       { name: 'Joint pain', frequency: 'uncommon', severity: 'mild' },
       { name: 'Lethargy', frequency: 'uncommon', severity: 'mild', notes: 'Particularly when taken in the morning; take at night to minimize daytime fatigue' },
     ],
+    lastReviewedAt: '2026-04-28',
+    confidence: 'likely',
   },
 
   // ─── 31. Semaglutide ─────────────────────────────────────────
