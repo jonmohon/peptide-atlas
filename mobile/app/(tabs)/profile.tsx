@@ -102,7 +102,7 @@ export default function ProfileScreen() {
 
       <Link href="/saved-stacks" asChild>
         <Pressable className="active:opacity-70">
-          <GlassCard className="mb-5 p-4">
+          <GlassCard className="mb-3 p-4">
             <View className="flex-row items-center gap-3">
               <View className="h-10 w-10 items-center justify-center rounded-xl bg-neon-green/15">
                 <Ionicons name="bookmark-outline" size={20} color="#10b981" />
@@ -111,6 +111,25 @@ export default function ProfileScreen() {
                 <Text className="text-sm font-semibold text-foreground">Saved stacks</Text>
                 <Text className="mt-0.5 text-[11px] text-text-secondary">
                   Quick access to combinations you bookmarked
+                </Text>
+              </View>
+              <Ionicons name="chevron-forward" size={16} color="#737373" />
+            </View>
+          </GlassCard>
+        </Pressable>
+      </Link>
+
+      <Link href="/reminders" asChild>
+        <Pressable className="active:opacity-70">
+          <GlassCard className="mb-5 p-4">
+            <View className="flex-row items-center gap-3">
+              <View className="h-10 w-10 items-center justify-center rounded-xl bg-neon-purple/15">
+                <Ionicons name="notifications-outline" size={20} color="#a855f7" />
+              </View>
+              <View className="flex-1">
+                <Text className="text-sm font-semibold text-foreground">Reminders</Text>
+                <Text className="mt-0.5 text-[11px] text-text-secondary">
+                  Daily nudge to log your dose, sleep, and how you feel
                 </Text>
               </View>
               <Ionicons name="chevron-forward" size={16} color="#737373" />

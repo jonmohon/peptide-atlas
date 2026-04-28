@@ -14,8 +14,10 @@ import { configureAmplify } from '@/lib/amplify';
 configureAmplify();
 
 import { DarkTheme, ThemeProvider } from '@react-navigation/native';
-import { Stack } from 'expo-router';
+import * as Notifications from 'expo-notifications';
+import { Stack, useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
+import { useEffect } from 'react';
 import 'react-native-reanimated';
 
 import '../global.css';
@@ -26,6 +28,17 @@ export const unstable_settings = {
 };
 
 export default function RootLayout() {
+  const router = useRouter();
+  useEffect(() => {
+    // When the user taps a notification, route them to the journal log form.
+    const sub = Notifications.addNotificationResponseReceivedListener((response) => {
+      const data = response.notification.request.content.data as { route?: string } | undefined;
+      const target = data?.route ?? '/log-entry';
+      router.push(target as never);
+    });
+    return () => sub.remove();
+  }, [router]);
+
   return (
     <AuthProvider>
       <ThemeProvider value={DarkTheme}>
@@ -42,6 +55,7 @@ export default function RootLayout() {
           <Stack.Screen name="saved-stacks" />
           <Stack.Screen name="bloodwork" />
           <Stack.Screen name="onboarding" />
+          <Stack.Screen name="reminders" />
           <Stack.Screen name="profile-edit" options={{ presentation: 'modal' }} />
           <Stack.Screen name="log-entry" options={{ presentation: 'modal' }} />
           <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
