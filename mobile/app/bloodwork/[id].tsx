@@ -22,6 +22,7 @@ import Markdown from 'react-native-markdown-display';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { GlassCard } from '@/components/glass-card';
+import { StepSequencer, type Step, consumeSseStream } from '@/components/step-sequencer';
 import {
   deleteBloodworkPanel,
   fetchBloodworkPanels,
@@ -32,6 +33,13 @@ import {
 import { getIdToken } from '@/lib/amplify';
 import { API_BASE_URL } from '@/lib/config';
 
+const INTERPRET_STEPS: Step[] = [
+  { id: 'profile', label: 'Reading your profile', state: 'pending' },
+  { id: 'draft', label: 'Interpreting markers', state: 'pending' },
+  { id: 'critique', label: 'Running safety check', state: 'pending' },
+  { id: 'format', label: 'Finalizing', state: 'pending' },
+];
+
 export default function BloodworkDetailScreen() {
   const router = useRouter();
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -39,6 +47,8 @@ export default function BloodworkDetailScreen() {
   const [loading, setLoading] = useState(true);
   const [streaming, setStreaming] = useState(false);
   const [aiText, setAiText] = useState('');
+  const [steps, setSteps] = useState<Step[]>(INTERPRET_STEPS);
+  const [warnings, setWarnings] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
 
   const load = useCallback(async () => {
@@ -68,6 +78,8 @@ export default function BloodworkDetailScreen() {
     setStreaming(true);
     setAiText('');
     setError(null);
+    setWarnings([]);
+    setSteps(INTERPRET_STEPS.map((s) => ({ ...s })));
     try {
       const token = await getIdToken();
       if (!token) throw new Error('Sign in required');
@@ -94,17 +106,32 @@ export default function BloodworkDetailScreen() {
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       if (!res.body) throw new Error('Empty response');
 
-      const reader = res.body.getReader();
-      const decoder = new TextDecoder();
       let acc = '';
-      for (;;) {
-        const { value, done } = await reader.read();
-        if (done) break;
-        acc += decoder.decode(value, { stream: true });
-        setAiText(acc);
-      }
+      await consumeSseStream(res.body, {
+        onStage: (id) => {
+          setSteps((prev) => {
+            const idx = prev.findIndex((s) => s.id === id);
+            if (idx === -1) return prev;
+            return prev.map((s, i) => ({
+              ...s,
+              state: i < idx ? 'done' : i === idx ? 'active' : 'pending',
+            }));
+          });
+        },
+        onText: (delta) => {
+          acc += delta;
+          setAiText(acc);
+        },
+        onWarning: (msg) => setWarnings((prev) => [...prev, msg]),
+        onError: (msg) => setError(msg),
+        onDone: () => {
+          setSteps((prev) => prev.map((s) => ({ ...s, state: 'done' })));
+        },
+      });
       // Persist so revisits don't re-bill the AI.
-      await updateBloodworkInterpretation(panel.id, acc);
+      if (acc.trim().length > 0) {
+        await updateBloodworkInterpretation(panel.id, acc);
+      }
     } catch (e) {
       setError(e instanceof Error ? e.message : 'AI failed');
     } finally {
@@ -194,7 +221,7 @@ export default function BloodworkDetailScreen() {
           </Pressable>
         )}
 
-        {(aiText || streaming) && (
+        {(aiText || streaming || steps.some((s) => s.state !== 'pending')) && (
           <View className="mb-5">
             <View className="mb-2 flex-row items-center gap-2">
               <View className="h-6 w-6 items-center justify-center rounded-md bg-neon-purple/20">
@@ -202,6 +229,30 @@ export default function BloodworkDetailScreen() {
               </View>
               <Text className="text-xs font-semibold text-foreground">Interpretation · Atlas AI</Text>
             </View>
+
+            <View className="mb-3 rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+              <Text className="mb-3 text-[11px] font-semibold uppercase tracking-widest text-text-secondary">
+                Pipeline
+              </Text>
+              <StepSequencer steps={steps} />
+            </View>
+
+            {warnings.length > 0 && (
+              <View className="mb-3 rounded-2xl border border-amber-500/30 bg-amber-500/10 p-3">
+                <View className="mb-1 flex-row items-center gap-1.5">
+                  <Ionicons name="warning" size={12} color="#f59e0b" />
+                  <Text className="text-[11px] font-semibold uppercase tracking-widest text-amber-300">
+                    Safety check flagged
+                  </Text>
+                </View>
+                {warnings.map((w, i) => (
+                  <Text key={i} className="mt-1 text-[11px] leading-relaxed text-amber-100">
+                    • {w}
+                  </Text>
+                ))}
+              </View>
+            )}
+
             <View
               className="rounded-2xl border px-4 py-3"
               style={{
@@ -212,10 +263,9 @@ export default function BloodworkDetailScreen() {
               {aiText ? (
                 <Markdown style={MD_STYLES}>{aiText}</Markdown>
               ) : (
-                <View className="py-2 flex-row items-center gap-2">
-                  <ActivityIndicator size="small" color="#a855f7" />
-                  <Text className="text-xs text-text-secondary">Analyzing…</Text>
-                </View>
+                <Text className="py-1 text-xs text-text-secondary">
+                  Output will stream here when the pipeline finishes…
+                </Text>
               )}
             </View>
           </View>
