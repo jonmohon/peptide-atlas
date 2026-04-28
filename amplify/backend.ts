@@ -8,6 +8,7 @@
  */
 
 import { defineBackend } from '@aws-amplify/backend';
+import { CfnUserPoolDomain } from 'aws-cdk-lib/aws-cognito';
 import { auth } from './auth/resource';
 import { data } from './data/resource';
 import { storage } from './storage/resource';
@@ -24,3 +25,12 @@ cfnUserPoolClient.explicitAuthFlows = [
   'ALLOW_USER_PASSWORD_AUTH',
   'ALLOW_REFRESH_TOKEN_AUTH',
 ];
+
+// Cognito Hosted UI domain — used by the Google OAuth redirect flow.
+// Provisions https://peptide-atlas-auth.auth.us-east-2.amazoncognito.com
+// which Cognito uses as the /oauth2/idpresponse endpoint configured in Google.
+const { userPool } = backend.auth.resources;
+new CfnUserPoolDomain(userPool.stack, 'PeptideAtlasAuthDomain', {
+  domain: 'peptide-atlas-auth',
+  userPoolId: userPool.userPoolId,
+});

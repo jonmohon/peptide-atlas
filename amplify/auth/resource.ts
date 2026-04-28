@@ -38,9 +38,12 @@ export const auth = defineAuth({
             },
             callbackUrls: [
               'http://localhost:3000/atlas',
-              'https://peptide-atlas.app/atlas',
+              'https://peptideatlas.ai/atlas',
             ],
-            logoutUrls: ['http://localhost:3000/', 'https://peptide-atlas.app/'],
+            logoutUrls: [
+              'http://localhost:3000/',
+              'https://peptideatlas.ai/',
+            ],
           },
         }
       : {}),
