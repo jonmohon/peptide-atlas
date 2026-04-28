@@ -4,10 +4,12 @@ backend:
     build:
       commands:
         - nvm use 20
-        # npm 10.8.2 (default for node 20.19) crashes on this dep tree;
-        # upgrading to 10.9+ has the lockfile-resolution fix. --legacy-peer-deps
-        # avoids strict peer-dep reconciliation across nested @aws-amplify zod ranges.
-        - npm install -g npm@10.9.0
+        # npm 10.8.2 crashes on the current lockfile with "Cannot read properties
+        # of null (reading 'resolve')" — a known Arborist bug. Removing the lock
+        # before install forces fresh resolution and sidesteps the crash; the
+        # downside (non-deterministic deps across builds) is acceptable for now
+        # and would normally be resolved by upgrading npm or moving to pnpm.
+        - rm -f package-lock.json
         - npm install --legacy-peer-deps
         - npx ampx pipeline-deploy --branch $AWS_BRANCH --app-id $AWS_APP_ID
 frontend:
@@ -34,5 +36,3 @@ frontend:
   cache:
     paths:
       - .next/cache/**/*
-      - .npm/**/*
-      - node_modules/**/*
