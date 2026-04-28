@@ -12,6 +12,16 @@ import { buildUserContext } from '@/lib/ai/user-context';
 
 export const maxDuration = 30;
 
+const CORS_HEADERS = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+};
+
+export async function OPTIONS() {
+  return new Response(null, { status: 204, headers: CORS_HEADERS });
+}
+
 export async function POST(req: Request) {
   const { markers, labDate } = await req.json();
 
@@ -19,15 +29,15 @@ export async function POST(req: Request) {
   if (!apiKey) {
     return new Response(
       JSON.stringify({ error: 'ANTHROPIC_API_KEY not configured' }),
-      { status: 500, headers: { 'Content-Type': 'application/json' } }
+      { status: 500, headers: { 'Content-Type': 'application/json', ...CORS_HEADERS } }
     );
   }
 
-  const session = await auth();
+  const session = await auth(req);
   if (!session?.user?.id) {
     return new Response(
       JSON.stringify({ error: 'Sign in required' }),
-      { status: 401, headers: { 'Content-Type': 'application/json' } }
+      { status: 401, headers: { 'Content-Type': 'application/json', ...CORS_HEADERS } }
     );
   }
 
@@ -48,5 +58,5 @@ export async function POST(req: Request) {
     maxOutputTokens: 1536,
   });
 
-  return result.toTextStreamResponse();
+  return result.toTextStreamResponse({ headers: CORS_HEADERS });
 }

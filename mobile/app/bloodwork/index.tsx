@@ -111,41 +111,46 @@ export default function BloodworkScreen() {
         ) : (
           <View className="gap-3">
             {rows.map((p) => (
-              <GlassCard key={p.id} className="p-4">
-                <View className="flex-row items-start justify-between gap-2">
-                  <View className="flex-1">
-                    <Text className="text-sm font-semibold text-foreground">
-                      {formatDate(p.date)}
-                    </Text>
-                    {p.labName && (
-                      <Text className="mt-0.5 text-[11px] text-text-secondary">{p.labName}</Text>
-                    )}
-                    <View className="mt-2 flex-row items-center gap-3">
-                      <View className="flex-row items-center gap-1.5">
-                        <Ionicons name="pulse-outline" size={12} color="#ef4444" />
-                        <Text className="text-[11px] text-text-secondary">
-                          {p.markers.length} marker{p.markers.length === 1 ? '' : 's'}
+              <Link key={p.id} href={`/bloodwork/${p.id}`} asChild>
+                <Pressable className="active:opacity-70">
+                  <GlassCard className="p-4">
+                    <View className="flex-row items-start justify-between gap-2">
+                      <View className="flex-1">
+                        <Text className="text-sm font-semibold text-foreground">
+                          {formatDate(p.date)}
                         </Text>
+                        {p.labName && (
+                          <Text className="mt-0.5 text-[11px] text-text-secondary">{p.labName}</Text>
+                        )}
+                        <View className="mt-2 flex-row items-center gap-3">
+                          <View className="flex-row items-center gap-1.5">
+                            <Ionicons name="pulse-outline" size={12} color="#ef4444" />
+                            <Text className="text-[11px] text-text-secondary">
+                              {p.markers.length} marker{p.markers.length === 1 ? '' : 's'}
+                            </Text>
+                          </View>
+                          {p.aiInterpretation ? (
+                            <View className="flex-row items-center gap-1.5">
+                              <Ionicons name="sparkles" size={11} color="#a855f7" />
+                              <Text className="text-[11px] text-neon-purple">AI summary</Text>
+                            </View>
+                          ) : (
+                            <View className="rounded-full border border-amber-500/30 bg-amber-500/10 px-2 py-0.5">
+                              <Text className="text-[10px] text-amber-300">No AI yet</Text>
+                            </View>
+                          )}
+                        </View>
+                        {p.aiInterpretation && (
+                          <Text className="mt-2 text-[11px] leading-relaxed text-text-secondary" numberOfLines={3}>
+                            {p.aiInterpretation}
+                          </Text>
+                        )}
                       </View>
-                      {p.aiInterpretation ? (
-                        <View className="flex-row items-center gap-1.5">
-                          <Ionicons name="sparkles" size={11} color="#a855f7" />
-                          <Text className="text-[11px] text-neon-purple">AI summary</Text>
-                        </View>
-                      ) : (
-                        <View className="rounded-full border border-amber-500/30 bg-amber-500/10 px-2 py-0.5">
-                          <Text className="text-[10px] text-amber-300">No AI yet</Text>
-                        </View>
-                      )}
+                      <Ionicons name="chevron-forward" size={14} color="#737373" />
                     </View>
-                    {p.aiInterpretation && (
-                      <Text className="mt-2 text-[11px] leading-relaxed text-text-secondary" numberOfLines={3}>
-                        {p.aiInterpretation}
-                      </Text>
-                    )}
-                  </View>
-                </View>
-              </GlassCard>
+                  </GlassCard>
+                </Pressable>
+              </Link>
             ))}
           </View>
         )}
