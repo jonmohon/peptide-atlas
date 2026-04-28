@@ -83,7 +83,7 @@ export default function ProfileScreen() {
 
       <Link href="/profile-edit" asChild>
         <Pressable className="active:opacity-70">
-          <GlassCard className="mb-5 p-4">
+          <GlassCard className="mb-3 p-4">
             <View className="flex-row items-center gap-3">
               <View className="h-10 w-10 items-center justify-center rounded-xl bg-neon-cyan/15">
                 <Ionicons name="person-circle-outline" size={22} color="#06b6d4" />
@@ -92,6 +92,25 @@ export default function ProfileScreen() {
                 <Text className="text-sm font-semibold text-foreground">Edit profile</Text>
                 <Text className="mt-0.5 text-[11px] text-text-secondary">
                   Goals, body metrics, health context — used by Atlas AI
+                </Text>
+              </View>
+              <Ionicons name="chevron-forward" size={16} color="#737373" />
+            </View>
+          </GlassCard>
+        </Pressable>
+      </Link>
+
+      <Link href="/saved-stacks" asChild>
+        <Pressable className="active:opacity-70">
+          <GlassCard className="mb-5 p-4">
+            <View className="flex-row items-center gap-3">
+              <View className="h-10 w-10 items-center justify-center rounded-xl bg-neon-green/15">
+                <Ionicons name="bookmark-outline" size={20} color="#10b981" />
+              </View>
+              <View className="flex-1">
+                <Text className="text-sm font-semibold text-foreground">Saved stacks</Text>
+                <Text className="mt-0.5 text-[11px] text-text-secondary">
+                  Quick access to combinations you bookmarked
                 </Text>
               </View>
               <Ionicons name="chevron-forward" size={16} color="#737373" />

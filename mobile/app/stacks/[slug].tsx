@@ -5,7 +5,9 @@
  */
 
 import { Ionicons } from '@expo/vector-icons';
+import { useFocusEffect } from '@react-navigation/native';
 import { Link, useLocalSearchParams, useRouter } from 'expo-router';
+import { useCallback, useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 
 import { GlassCard } from '@/components/glass-card';
@@ -14,6 +16,12 @@ import { bodyRegions } from '@/data/body-regions';
 import { categories } from '@/data/categories';
 import { peptides } from '@/data/peptides';
 import { stacks } from '@/data/stacks';
+import {
+  deleteSavedStack,
+  fetchSavedStacks,
+  saveStack,
+  type SavedStackRow,
+} from '@/lib/amplify-data';
 
 const ROLE_INFO: Record<'primary' | 'synergist' | 'support', { label: string; color: string }> = {
   primary: { label: 'Primary', color: '#06b6d4' },
@@ -25,6 +33,31 @@ export default function StackDetailScreen() {
   const { slug } = useLocalSearchParams<{ slug: string }>();
   const router = useRouter();
   const stack = stacks.find((s) => s.slug === slug);
+  const [saved, setSaved] = useState<SavedStackRow | null>(null);
+  const [savingState, setSavingState] = useState(false);
+
+  useFocusEffect(
+    useCallback(() => {
+      let alive = true;
+      if (!stack) return;
+      fetchSavedStacks()
+        .then((rows) => {
+          if (!alive) return;
+          // Match by name OR by exact peptide-set equality.
+          const match = rows.find(
+            (r) =>
+              r.name === stack.name ||
+              (r.peptideIds.length === stack.peptides.length &&
+                stack.peptides.every((p) => r.peptideIds.includes(p.peptideId)))
+          );
+          setSaved(match ?? null);
+        })
+        .catch(() => setSaved(null));
+      return () => {
+        alive = false;
+      };
+    }, [stack])
+  );
 
   if (!stack) {
     return (
@@ -34,12 +67,54 @@ export default function StackDetailScreen() {
     );
   }
 
+  const toggleSave = async () => {
+    setSavingState(true);
+    try {
+      if (saved) {
+        await deleteSavedStack(saved.id);
+        setSaved(null);
+      } else {
+        const row = await saveStack({
+          name: stack.name,
+          peptideIds: stack.peptides.map((p) => p.peptideId),
+        });
+        setSaved(row);
+      }
+    } finally {
+      setSavingState(false);
+    }
+  };
+
   return (
     <Screen contentContainerStyle={{ paddingTop: 8 }}>
-      <Pressable onPress={() => router.back()} className="-ml-2 mb-3 flex-row items-center gap-1 active:opacity-60">
-        <Ionicons name="chevron-back" size={20} color="#a3a3a3" />
-        <Text className="text-sm text-text-secondary">Stacks</Text>
-      </Pressable>
+      <View className="mb-3 flex-row items-center justify-between">
+        <Pressable onPress={() => router.back()} className="-ml-2 flex-row items-center gap-1 active:opacity-60">
+          <Ionicons name="chevron-back" size={20} color="#a3a3a3" />
+          <Text className="text-sm text-text-secondary">Stacks</Text>
+        </Pressable>
+        <Pressable onPress={toggleSave} disabled={savingState} className="active:opacity-70">
+          <View
+            className="flex-row items-center gap-1.5 rounded-full border px-3 py-1.5"
+            style={{
+              backgroundColor: saved ? 'rgba(6,182,212,0.20)' : 'rgba(255,255,255,0.04)',
+              borderColor: saved ? 'rgba(6,182,212,0.45)' : 'rgba(255,255,255,0.1)',
+              opacity: savingState ? 0.5 : 1,
+            }}
+          >
+            <Ionicons
+              name={saved ? 'bookmark' : 'bookmark-outline'}
+              size={14}
+              color={saved ? '#06b6d4' : '#a3a3a3'}
+            />
+            <Text
+              className="text-[11px] font-semibold"
+              style={{ color: saved ? '#06b6d4' : '#a3a3a3' }}
+            >
+              {saved ? 'Saved' : 'Save'}
+            </Text>
+          </View>
+        </Pressable>
+      </View>
 
       <View className="mb-2 flex-row items-center gap-3">
         <Text className="text-4xl">{stack.icon}</Text>

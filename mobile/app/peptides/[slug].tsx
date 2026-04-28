@@ -8,6 +8,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import { Pressable, Text, View } from 'react-native';
 
+import { AiExplain } from '@/components/ai-explain';
 import { GlassCard } from '@/components/glass-card';
 import { Screen } from '@/components/screen';
 import { categories } from '@/data/categories';
@@ -76,6 +77,10 @@ export default function PeptideDetailScreen() {
         <Text className="mt-0.5 text-sm text-text-secondary">{peptide.fullName}</Text>
 
         <Text className="mt-4 text-sm leading-relaxed text-foreground/90">{peptide.description}</Text>
+
+        <View className="mt-6">
+          <AiExplain peptideId={peptide.id} peptideName={peptide.name} />
+        </View>
 
         <Text className="mb-3 mt-7 text-xs font-semibold uppercase tracking-widest text-text-secondary">
           Ratings

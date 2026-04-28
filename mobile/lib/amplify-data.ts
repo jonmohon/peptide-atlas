@@ -153,6 +153,38 @@ export async function togglePinNote(id: string, pinned: boolean): Promise<NoteRo
   return result.data as NoteRow;
 }
 
+export type SavedStackRow = {
+  id: string;
+  name: string;
+  peptideIds: string[];
+  analysis?: unknown;
+  createdAt?: string;
+  updatedAt?: string;
+};
+
+export async function fetchSavedStacks(): Promise<SavedStackRow[]> {
+  const result = await client().models.SavedStack.list();
+  const rows = result.data as SavedStackRow[];
+  return rows.sort((a, b) => ((b.updatedAt ?? '') > (a.updatedAt ?? '') ? 1 : -1));
+}
+
+export async function saveStack(input: {
+  name: string;
+  peptideIds: string[];
+  analysis?: unknown;
+}): Promise<SavedStackRow> {
+  const result = await client().models.SavedStack.create({
+    name: input.name,
+    peptideIds: input.peptideIds,
+    analysis: input.analysis ?? null,
+  });
+  return result.data as SavedStackRow;
+}
+
+export async function deleteSavedStack(id: string): Promise<void> {
+  await client().models.SavedStack.delete({ id });
+}
+
 export async function createJournalEntry(input: {
   date: string;
   peptideDoses: DoseInput[];

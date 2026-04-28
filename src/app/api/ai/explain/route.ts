@@ -7,6 +7,16 @@ import { buildUserContext } from '@/lib/ai/user-context';
 
 export const maxDuration = 20;
 
+const CORS_HEADERS = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+};
+
+export async function OPTIONS() {
+  return new Response(null, { status: 204, headers: CORS_HEADERS });
+}
+
 export async function POST(req: Request) {
   const {
     peptideId,
@@ -18,7 +28,7 @@ export async function POST(req: Request) {
   if (!apiKey) {
     return new Response(
       JSON.stringify({ error: 'ANTHROPIC_API_KEY not configured' }),
-      { status: 500, headers: { 'Content-Type': 'application/json' } }
+      { status: 500, headers: { 'Content-Type': 'application/json', ...CORS_HEADERS } }
     );
   }
 
@@ -26,7 +36,7 @@ export async function POST(req: Request) {
   if (!peptide) {
     return new Response(
       JSON.stringify({ error: 'Peptide not found' }),
-      { status: 404, headers: { 'Content-Type': 'application/json' } }
+      { status: 404, headers: { 'Content-Type': 'application/json', ...CORS_HEADERS } }
     );
   }
 
@@ -36,7 +46,7 @@ Peptide details: ${peptide.description}
 Effects: ${peptide.effects.join(', ')}
 Affected regions: ${peptide.affectedRegions.map((r) => r.regionId).join(', ')}`;
 
-  const session = await auth();
+  const session = await auth(req);
   const serverContext = session?.user?.id ? await buildUserContext(session.user.id) : '';
   const userContext = `${serverContext}${typeof clientContext === 'string' ? clientContext : ''}`;
 
@@ -47,5 +57,5 @@ Affected regions: ${peptide.affectedRegions.map((r) => r.regionId).join(', ')}`;
     maxOutputTokens: 1024,
   });
 
-  return result.toTextStreamResponse();
+  return result.toTextStreamResponse({ headers: CORS_HEADERS });
 }

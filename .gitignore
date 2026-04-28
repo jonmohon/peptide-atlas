@@ -44,3 +44,9 @@ next-env.d.ts
 amplify_outputs.json
 amplify_outputs.*
 .amplify/
+
+# claude code local state
+.claude/scheduled_tasks.lock
+
+# expo cli scratch (mobile dir)
+.expo/
