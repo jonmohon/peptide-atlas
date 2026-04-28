@@ -5,29 +5,30 @@
  * Handles email+password and Google OAuth flows, plus email-code verification step.
  */
 
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import { signIn, signUp, confirmSignUp } from 'aws-amplify/auth';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 type Step = 'signIn' | 'signUp' | 'confirm';
 
-export default function SignInPage() {
-  const [step, setStep] = useState<Step>('signIn');
+function SignInForm() {
+  const searchParams = useSearchParams();
+  // Honor ?next= so the auth gate's redirect chain lands the user back
+  // where they were trying to go. Default to the dashboard.
+  const nextPath = (() => {
+    const n = searchParams.get('next');
+    return n && n.startsWith('/') ? n : '/atlas';
+  })();
+  const initialStep: Step = searchParams.get('mode') === 'signup' ? 'signUp' : 'signIn';
+
+  const [step, setStep] = useState<Step>(initialStep);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmCode, setConfirmCode] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const searchParams = useSearchParams();
-  // Honor ?next= so the auth gate's redirect chain lands the user back
-  // where they were trying to go. Default to the dashboard.
-  const nextPath = (() => {
-    const n = searchParams.get('next');
-    // Refuse to redirect off-domain or to anything weird.
-    return n && n.startsWith('/') ? n : '/atlas';
-  })();
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -194,5 +195,24 @@ export default function SignInPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+function SignInFallback() {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-background px-4">
+      <div className="glass-bright w-full max-w-sm rounded-2xl p-8 text-center">
+        <div className="text-neon-cyan font-bold text-lg">PeptideAtlas</div>
+        <p className="text-sm text-text-secondary mt-4">Loading…</p>
+      </div>
+    </div>
+  );
+}
+
+export default function SignInPage() {
+  return (
+    <Suspense fallback={<SignInFallback />}>
+      <SignInForm />
+    </Suspense>
   );
 }
