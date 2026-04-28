@@ -66,11 +66,18 @@ export default function BloodworkScreen() {
           <Ionicons name="chevron-back" size={20} color="#a3a3a3" />
         </Pressable>
         <Text className="text-base font-semibold text-foreground">Bloodwork</Text>
-        <Link href="/bloodwork/new" asChild>
-          <Pressable className="active:opacity-60">
-            <Ionicons name="add" size={22} color="#06b6d4" />
-          </Pressable>
-        </Link>
+        <View className="flex-row items-center gap-3">
+          <Link href="/bloodwork/trends" asChild>
+            <Pressable className="active:opacity-60" hitSlop={6}>
+              <Ionicons name="trending-up-outline" size={20} color="#a3a3a3" />
+            </Pressable>
+          </Link>
+          <Link href="/bloodwork/new" asChild>
+            <Pressable className="active:opacity-60" hitSlop={6}>
+              <Ionicons name="add" size={22} color="#06b6d4" />
+            </Pressable>
+          </Link>
+        </View>
       </View>
 
       <ScrollView

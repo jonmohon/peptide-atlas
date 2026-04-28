@@ -41,6 +41,7 @@ export default function RootLayout() {
           <Stack.Screen name="notes" />
           <Stack.Screen name="saved-stacks" />
           <Stack.Screen name="bloodwork" />
+          <Stack.Screen name="onboarding" />
           <Stack.Screen name="profile-edit" options={{ presentation: 'modal' }} />
           <Stack.Screen name="log-entry" options={{ presentation: 'modal' }} />
           <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />

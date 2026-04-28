@@ -45,7 +45,7 @@ export default function SignUpScreen() {
     setLoading(true);
     try {
       await confirmSignUp(email.trim(), code.trim(), password);
-      router.replace('/(tabs)');
+      router.replace('/onboarding');
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Confirmation failed');
     } finally {
