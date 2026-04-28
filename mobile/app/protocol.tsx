@@ -80,14 +80,37 @@ export default function ProtocolScreen() {
       }
       if (!res.body) throw new Error('Empty response');
 
+      // Parse the SSE-style UI message stream (same shape /api/ai/chat returns).
+      // Each SSE line is `data: {json}` where json events of type=text-delta
+      // carry the streaming text in `delta`.
       const reader = res.body.getReader();
       const decoder = new TextDecoder();
+      let buffer = '';
       let acc = '';
       for (;;) {
         const { value, done } = await reader.read();
         if (done) break;
-        acc += decoder.decode(value, { stream: true });
-        setOutput(acc);
+        buffer += decoder.decode(value, { stream: true });
+        let nl = buffer.indexOf('\n');
+        while (nl !== -1) {
+          const line = buffer.slice(0, nl).trim();
+          buffer = buffer.slice(nl + 1);
+          if (line.startsWith('data:')) {
+            const payload = line.slice(5).trim();
+            if (payload && payload !== '[DONE]') {
+              try {
+                const evt = JSON.parse(payload) as { type?: string; delta?: string };
+                if (evt.type === 'text-delta' && typeof evt.delta === 'string') {
+                  acc += evt.delta;
+                  setOutput(acc);
+                }
+              } catch {
+                // Ignore non-JSON lines.
+              }
+            }
+          }
+          nl = buffer.indexOf('\n');
+        }
       }
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Failed to generate');

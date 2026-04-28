@@ -50,5 +50,7 @@ Use the USER PROFILE block above (if present) to personalize — do not re-ask i
     maxOutputTokens: 1500,
   });
 
-  return result.toTextStreamResponse({ headers: CORS_HEADERS });
+  // Use the UI message stream — toTextStreamResponse hangs on Amplify's
+  // streaming Lambda, but toUIMessageStreamResponse works (same as /api/ai/chat).
+  return result.toUIMessageStreamResponse({ headers: CORS_HEADERS });
 }
