@@ -6,6 +6,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: '*',
       allow: '/',
     },
-    sitemap: 'https://peptideatlas.com/sitemap.xml',
+    sitemap: 'https://peptideatlas.ai/sitemap.xml',
   };
 }

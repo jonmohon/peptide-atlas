@@ -43,7 +43,7 @@ export default function MedicalDisclaimerPage() {
           badge ("Verified", "Sourced", "Needs review") on each entry. We continuously audit
           our data and remove citations that cannot be verified against PubMed. If you find an
           error, please email{' '}
-          <a href="mailto:support@peptide-atlas.com">support@peptide-atlas.com</a>.
+          <a href="mailto:support@peptideatlas.ai">support@peptideatlas.ai</a>.
         </p>
 
         <h2>Emergencies</h2>

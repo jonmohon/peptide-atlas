@@ -3,7 +3,7 @@ import { getPostSlugs } from '@/lib/blog';
 import { peptides } from '@/data/peptides';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://peptideatlas.com';
+  const baseUrl = 'https://peptideatlas.ai';
 
   const staticPages = [
     '',

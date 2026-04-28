@@ -6,4 +6,4 @@
  * Authorization header (see src/lib/auth.ts on the web side for verification).
  */
 
-export const API_BASE_URL = 'https://main.d3p5rtdaradk56.amplifyapp.com';
+export const API_BASE_URL = 'https://peptideatlas.ai';
