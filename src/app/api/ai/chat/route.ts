@@ -6,6 +6,16 @@ import { buildUserContext } from '@/lib/ai/user-context';
 
 export const maxDuration = 30;
 
+const CORS_HEADERS = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+};
+
+export async function OPTIONS() {
+  return new Response(null, { status: 204, headers: CORS_HEADERS });
+}
+
 export async function POST(req: Request) {
   const { messages, userContext: clientContext } = await req.json();
 
@@ -13,11 +23,12 @@ export async function POST(req: Request) {
   if (!apiKey) {
     return new Response(
       JSON.stringify({ error: 'ANTHROPIC_API_KEY not configured' }),
-      { status: 500, headers: { 'Content-Type': 'application/json' } }
+      { status: 500, headers: { 'Content-Type': 'application/json', ...CORS_HEADERS } }
     );
   }
 
-  const session = await auth();
+  // auth(req) accepts Bearer tokens (mobile) or falls back to cookies (web).
+  const session = await auth(req);
   const serverContext = session?.user?.id ? await buildUserContext(session.user.id) : '';
   const fullContext = `${serverContext}${typeof clientContext === 'string' ? clientContext : ''}`;
 
@@ -30,5 +41,7 @@ export async function POST(req: Request) {
     maxOutputTokens: 1024,
   });
 
-  return result.toUIMessageStreamResponse();
+  return result.toUIMessageStreamResponse({
+    headers: CORS_HEADERS,
+  });
 }
