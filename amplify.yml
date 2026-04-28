@@ -12,6 +12,14 @@ frontend:
       commands:
         - nvm use 20
         - npx ampx generate outputs --branch $AWS_BRANCH --app-id $AWS_APP_ID
+        # Write Amplify Console env vars to .env.production so Next.js SSR
+        # runtime can read them (process.env.* in route handlers). Without this,
+        # standalone-output Lambdas don't see app-level secrets like
+        # ANTHROPIC_API_KEY at request time, only at build time.
+        - |
+          for v in ANTHROPIC_API_KEY RESEND_API_KEY EMAIL_FROM GOOGLE_CLIENT_ID GOOGLE_CLIENT_SECRET GOOGLE_OAUTH_ENABLED NEXT_PUBLIC_APP_URL; do
+            if [ -n "${!v}" ]; then echo "${v}=${!v}" >> .env.production; fi
+          done
     build:
       commands:
         - npm run build
