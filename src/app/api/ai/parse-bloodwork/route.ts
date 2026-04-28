@@ -9,6 +9,7 @@ import { generateObject } from 'ai';
 import { bloodworkParseSchema } from '@/lib/ai/schemas';
 import { auth } from '@/lib/auth';
 import { AI_CORS_HEADERS, aiOptions } from '@/lib/ai/cors';
+import { hardenedSystemPrompt } from '@/lib/ai/safety';
 
 export const maxDuration = 60;
 export const OPTIONS = aiOptions;
@@ -100,7 +101,7 @@ export async function POST(req: Request) {
 
   const result = await generateObject({
     model: anthropic('claude-sonnet-4-6'),
-    system: SYSTEM_PROMPT,
+    system: hardenedSystemPrompt(SYSTEM_PROMPT),
     messages: [
       {
         role: 'user',

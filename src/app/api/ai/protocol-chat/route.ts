@@ -10,13 +10,12 @@ import { PROTOCOL_CHAT_PROMPT } from '@/lib/ai/prompts';
 import { auth } from '@/lib/auth';
 import { buildUserContext } from '@/lib/ai/user-context';
 import { AI_CORS_HEADERS, aiOptions } from '@/lib/ai/cors';
+import { badRequest, enforceInputLimits, hardenedSystemPrompt, outputBudget } from '@/lib/ai/safety';
 
 export const maxDuration = 30;
 export const OPTIONS = aiOptions;
 
 export async function POST(req: Request) {
-  const { messages, userContext: clientContext } = await req.json();
-
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
     return new Response(
@@ -32,12 +31,18 @@ export async function POST(req: Request) {
       { status: 401, headers: { 'Content-Type': 'application/json', ...AI_CORS_HEADERS } }
     );
   }
+  const tier = session.user.tier;
+
+  const body = await req.json();
+  const { messages, userContext: clientContext } = body;
+
+  const limit = enforceInputLimits(body, tier);
+  if (!limit.ok) return badRequest(limit.reason, AI_CORS_HEADERS);
 
   const serverContext = await buildUserContext(session.user.id);
   const fullContext = `${serverContext}${typeof clientContext === 'string' ? clientContext : ''}`;
-  const system = `${PROTOCOL_CHAT_PROMPT}${fullContext}`;
+  const system = hardenedSystemPrompt(PROTOCOL_CHAT_PROMPT, fullContext);
 
-  // Mirror the same dual-shape handling as /api/ai/chat.
   const first = Array.isArray(messages) ? messages[0] : null;
   const looksLikeUI = first && typeof first === 'object' && 'parts' in first;
   const modelMessages = looksLikeUI
@@ -48,7 +53,7 @@ export async function POST(req: Request) {
     model: anthropic('claude-sonnet-4-6'),
     system,
     messages: modelMessages,
-    maxOutputTokens: 1024,
+    maxOutputTokens: outputBudget(tier, 1024),
   });
 
   return result.toUIMessageStreamResponse({ headers: AI_CORS_HEADERS });
