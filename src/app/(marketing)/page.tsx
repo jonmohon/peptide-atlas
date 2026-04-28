@@ -4,6 +4,7 @@ import { StatsBar } from '@/components/marketing/stats-bar';
 import { FeatureShowcase } from '@/components/marketing/feature-showcase';
 import { HowItWorks } from '@/components/marketing/how-it-works';
 import { AtlasPreview } from '@/components/marketing/atlas-preview';
+import { MobileAppSection } from '@/components/marketing/mobile-app-section';
 import { CTASection } from '@/components/marketing/cta-section';
 
 export const metadata: Metadata = {
@@ -20,6 +21,7 @@ export default function LandingPage() {
       <FeatureShowcase />
       <HowItWorks />
       <AtlasPreview />
+      <MobileAppSection />
       <CTASection />
     </>
   );

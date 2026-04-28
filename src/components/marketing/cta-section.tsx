@@ -25,17 +25,27 @@ export function CTASection() {
           className="flex flex-col items-center text-center"
         >
           <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-            Ready to Explore?
+            Stop guessing. Start tracking.
           </h2>
-          <p className="text-base sm:text-lg text-text-secondary max-w-lg mb-8 leading-relaxed">
-            Discover how peptides affect your body with our free interactive
-            atlas.
+          <p className="text-base sm:text-lg text-text-secondary max-w-xl mb-8 leading-relaxed">
+            Create a free account to unlock the AI protocol generator,
+            bloodwork interpretation, daily journal, and saved stacks —
+            personalized to your goals and history.
           </p>
-          <CTAButton href="/atlas" className="px-8 py-4 text-lg">
-            Launch Atlas
-          </CTAButton>
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            <CTAButton href="/auth/signin?mode=signup" className="px-8 py-4 text-lg">
+              Get started — free
+            </CTAButton>
+            <a
+              href="/auth/signin"
+              className="px-6 py-4 text-base font-medium text-foreground/80 hover:text-foreground transition-colors"
+            >
+              Sign in →
+            </a>
+          </div>
           <p className="mt-5 text-xs text-text-muted">
-            No signup required. Always free.
+            Free tier includes the full peptide library and body map. Upgrade
+            anytime for unlimited AI runs.
           </p>
         </motion.div>
       </PageContainer>
