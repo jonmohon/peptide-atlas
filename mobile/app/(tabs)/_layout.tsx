@@ -6,15 +6,28 @@
 
 import { Ionicons } from '@expo/vector-icons';
 import { Redirect, Tabs } from 'expo-router';
+import { useEffect, useState } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 
 import { HapticTab } from '@/components/haptic-tab';
+import { hasAcceptedDisclaimer } from '@/app/medical-disclaimer';
 import { useAuth } from '@/lib/auth-context';
 
 export default function TabLayout() {
   const { user, loading } = useAuth();
+  const [disclaimerOk, setDisclaimerOk] = useState<boolean | null>(null);
 
-  if (loading) {
+  useEffect(() => {
+    let alive = true;
+    hasAcceptedDisclaimer().then((ok) => {
+      if (alive) setDisclaimerOk(ok);
+    });
+    return () => {
+      alive = false;
+    };
+  }, []);
+
+  if (loading || disclaimerOk === null) {
     return (
       <View className="flex-1 items-center justify-center bg-background">
         <ActivityIndicator color="#06b6d4" />
@@ -24,6 +37,9 @@ export default function TabLayout() {
 
   if (!user) {
     return <Redirect href="/(auth)/sign-in" />;
+  }
+  if (!disclaimerOk) {
+    return <Redirect href="/medical-disclaimer" />;
   }
 
   return (

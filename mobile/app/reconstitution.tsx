@@ -71,12 +71,23 @@ export default function ReconstitutionScreen() {
         </Pressable>
 
         <View className="mb-5">
-          <Text className="text-xs uppercase tracking-widest text-text-secondary">Tools</Text>
-          <Text className="mt-1 text-3xl font-bold text-foreground">Reconstitution</Text>
+          <Text className="text-xs uppercase tracking-widest text-text-secondary">Reference</Text>
+          <Text className="mt-1 text-3xl font-bold text-foreground">Reconstitution reference</Text>
           <Text className="mt-2 text-sm leading-relaxed text-text-secondary">
-            Mix a vial. Calculate concentration and how many units to draw on a U-100 insulin
-            syringe.
+            Educational reference for converting vial size + diluent volume into concentration
+            and U-100 syringe units. Not a clinical dose calculator.
           </Text>
+        </View>
+
+        <View className="mb-5 rounded-xl border border-orange-500/30 bg-orange-500/10 p-3">
+          <View className="flex-row items-start gap-2">
+            <Ionicons name="warning-outline" size={14} color="#f97316" />
+            <Text className="flex-1 text-[11px] leading-relaxed text-amber-100">
+              The numbers here are educational estimates. Always verify dose, concentration, and
+              technique with a licensed pharmacist or clinician before any injection. Not a
+              substitute for medical guidance.
+            </Text>
+          </View>
         </View>
 
         <Text className="mb-2 text-xs font-semibold uppercase tracking-widest text-text-secondary">
@@ -221,12 +232,14 @@ export default function ReconstitutionScreen() {
           </View>
         </GlassCard>
 
-        <View className="rounded-xl border border-orange-500/20 bg-orange-500/5 p-3">
+        <View className="rounded-xl border border-red-500/25 bg-red-500/10 p-3">
           <View className="flex-row items-start gap-2">
-            <Ionicons name="warning-outline" size={14} color="#f97316" />
-            <Text className="flex-1 text-[11px] leading-relaxed text-text-secondary">
-              Calculations are estimates based on standard U-100 syringes. Always verify with a pharmacist
-              or licensed clinician before injection.
+            <Ionicons name="medical-outline" size={14} color="#ef4444" />
+            <Text className="flex-1 text-[11px] leading-relaxed text-red-100">
+              <Text className="font-semibold">Educational only.</Text> This page does not prescribe doses
+              or calculate medication. The math is shown for reference using a U-100 syringe convention.
+              Verify everything with a licensed pharmacist or clinician before any injection. Many
+              peptides referenced here are not FDA-approved for human use.
             </Text>
           </View>
         </View>

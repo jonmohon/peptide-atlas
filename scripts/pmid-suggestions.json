@@ -1,0 +1,409 @@
+{
+  "generatedAt": "2026-04-28T16:11:24.717Z",
+  "flagged": 30,
+  "high_confidence": 0,
+  "medium_confidence": 6,
+  "no_match": 24,
+  "suggestions": [
+    {
+      "peptideId": "bpc-157",
+      "citedPmid": "29548669",
+      "citedTitle": "BPC 157: Stable gastric pentadecapeptide and wound healing",
+      "citedYear": 2018,
+      "status": "medium_confidence",
+      "proposedPmid": "34267654",
+      "proposedTitle": "Stable Gastric Pentadecapeptide BPC 157 and Wound Healing.",
+      "proposedYear": 2021,
+      "titleOverlap": 1,
+      "yearDiff": 3,
+      "candidates": [
+        {
+          "pmid": "34267654",
+          "title": "Stable Gastric Pentadecapeptide BPC 157 and Wound Healing.",
+          "year": 2021,
+          "sim": 1,
+          "yearDiff": 3
+        }
+      ]
+    },
+    {
+      "peptideId": "bpc-157",
+      "citedPmid": "27307482",
+      "citedTitle": "Pentadecapeptide BPC 157 enhances the growth hormone receptor expression in tendon fibroblasts",
+      "citedYear": 2016,
+      "status": "medium_confidence",
+      "proposedPmid": "25415472",
+      "proposedTitle": "Pentadecapeptide BPC 157 enhances the growth hormone receptor expression in tendon fibroblasts.",
+      "proposedYear": 2014,
+      "titleOverlap": 1,
+      "yearDiff": 2,
+      "candidates": [
+        {
+          "pmid": "25415472",
+          "title": "Pentadecapeptide BPC 157 enhances the growth hormone receptor expression in tendon fibroblasts.",
+          "year": 2014,
+          "sim": 1,
+          "yearDiff": 2
+        }
+      ]
+    },
+    {
+      "peptideId": "bpc-157",
+      "citedPmid": "21030672",
+      "citedTitle": "Stable gastric pentadecapeptide BPC 157 in trials for inflammatory bowel disease",
+      "citedYear": 2011,
+      "status": "medium_confidence",
+      "proposedPmid": "17713731",
+      "proposedTitle": "Stable gastric pentadecapeptide BPC 157 in trials for inflammatory bowel disease (PL-10, PLD-116, PL14736, Pliva, Croatia) heals ileoileal anastomosis in the rat.",
+      "proposedYear": 2007,
+      "titleOverlap": 0.5,
+      "yearDiff": 4,
+      "candidates": [
+        {
+          "pmid": "17713731",
+          "title": "Stable gastric pentadecapeptide BPC 157 in trials for inflammatory bowel disease (PL-10, PLD-116, PL14736, Pliva, Croatia) heals ileoileal anastomosis in the rat.",
+          "year": 2007,
+          "sim": 0.5,
+          "yearDiff": 4
+        },
+        {
+          "pmid": "17186181",
+          "title": "Stable gastric pentadecapeptide BPC 157 in trials for inflammatory bowel disease (PL-10, PLD-116, PL 14736, Pliva, Croatia). Full and distended stomach, and vascular response.",
+          "year": 2006,
+          "sim": 0.47619047619047616,
+          "yearDiff": 5
+        },
+        {
+          "pmid": "18818478",
+          "title": "Pentadecapeptide BPC 157, in clinical trials as a therapy for inflammatory bowel disease (PL14736), is effective in the healing of colocutaneous fistulas in rats: role of the nitric oxide-system.",
+          "year": 2008,
+          "sim": 0.38095238095238093,
+          "yearDiff": 3
+        }
+      ]
+    },
+    {
+      "peptideId": "bpc-157",
+      "citedPmid": "32209079",
+      "citedTitle": "BPC 157, as a therapy for ligament healing",
+      "citedYear": 2020,
+      "status": "medium_confidence",
+      "proposedPmid": "20225319",
+      "proposedTitle": "Pentadecapeptide BPC 157 (PL 14736) improves ligament healing in the rat.",
+      "proposedYear": 2010,
+      "titleOverlap": 0.44,
+      "yearDiff": 10,
+      "candidates": [
+        {
+          "pmid": "20225319",
+          "title": "Pentadecapeptide BPC 157 (PL 14736) improves ligament healing in the rat.",
+          "year": 2010,
+          "sim": 0.4444444444444444,
+          "yearDiff": 10
+        }
+      ]
+    },
+    {
+      "peptideId": "tb-500",
+      "citedPmid": "22023096",
+      "citedTitle": "Thymosin beta4 accelerates wound healing",
+      "citedYear": 2012,
+      "status": "no_match",
+      "candidates": [
+        {
+          "pmid": "31590392",
+          "title": "Cloning, Expression and Effects of P. americana Thymosin on Wound Healing.",
+          "year": 2019,
+          "sim": 0.375,
+          "yearDiff": 7
+        },
+        {
+          "pmid": "24109178",
+          "title": "A novel dimeric thymosin beta 4 with enhanced activities accelerates the rate of wound healing.",
+          "year": 2013,
+          "sim": 0.3333333333333333,
+          "yearDiff": 1
+        },
+        {
+          "pmid": "41467542",
+          "title": "Low-Temperature Fabrication of Thymosin β4-Loaded Soluble Microneedles to Promote Wound Healing by Specific Binding to Downregulated Immune Regulators Vsig4 and IL22rɑ2.",
+          "year": 2026,
+          "sim": 0.16666666666666666,
+          "yearDiff": 14
+        }
+      ]
+    },
+    {
+      "peptideId": "tb-500",
+      "citedPmid": "22486606",
+      "citedTitle": "Thymosin beta4 promotes cardiac repair post-infarction",
+      "citedYear": 2012,
+      "status": "no_match",
+      "candidates": []
+    },
+    {
+      "peptideId": "tb-500",
+      "citedPmid": "28944952",
+      "citedTitle": "Thymosin beta4 enhances muscle regeneration",
+      "citedYear": 2017,
+      "status": "no_match",
+      "candidates": []
+    },
+    {
+      "peptideId": "ghk-cu",
+      "citedPmid": "25916860",
+      "citedTitle": "GHK-Cu promotes wound healing and skin remodeling",
+      "citedYear": 2015,
+      "status": "no_match",
+      "candidates": []
+    },
+    {
+      "peptideId": "ghk-cu",
+      "citedPmid": "24508075",
+      "citedTitle": "GHK-Cu modulates gene expression in aging skin",
+      "citedYear": 2014,
+      "status": "no_match",
+      "candidates": []
+    },
+    {
+      "peptideId": "ghk-cu",
+      "citedPmid": "32927474",
+      "citedTitle": "GHK-Cu as an anti-aging tripeptide",
+      "citedYear": 2020,
+      "status": "no_match",
+      "candidates": []
+    },
+    {
+      "peptideId": "cjc-1295",
+      "citedPmid": "16352683",
+      "citedTitle": "CJC-1295 stimulates GH secretion in healthy adults",
+      "citedYear": 2006,
+      "status": "no_match",
+      "candidates": [
+        {
+          "pmid": "16352683",
+          "title": "Prolonged stimulation of growth hormone (GH) and insulin-like growth factor I secretion by CJC-1295, a long-acting analog of GH-releasing hormone, in healthy adults.",
+          "year": 2006,
+          "sim": 0.29411764705882354,
+          "yearDiff": 0
+        }
+      ]
+    },
+    {
+      "peptideId": "cjc-1295",
+      "citedPmid": "17018659",
+      "citedTitle": "CJC-1295 effects on body composition",
+      "citedYear": 2006,
+      "status": "no_match",
+      "candidates": []
+    },
+    {
+      "peptideId": "cjc-1295",
+      "citedPmid": "16434454",
+      "citedTitle": "Sustained GH release with CJC-1295 DAC",
+      "citedYear": 2006,
+      "status": "no_match",
+      "candidates": []
+    },
+    {
+      "peptideId": "ipamorelin",
+      "citedPmid": "10604470",
+      "citedTitle": "Ipamorelin effects on body composition in rats",
+      "citedYear": 1999,
+      "status": "no_match",
+      "candidates": []
+    },
+    {
+      "peptideId": "ipamorelin",
+      "citedPmid": "11713213",
+      "citedTitle": "Ipamorelin increases bone mineral content",
+      "citedYear": 2001,
+      "status": "no_match",
+      "candidates": [
+        {
+          "pmid": "10828840",
+          "title": "The GH secretagogues ipamorelin and GH-releasing peptide-6 increase bone mineral content in adult female rats.",
+          "year": 2000,
+          "sim": 0.3076923076923077,
+          "yearDiff": 1
+        }
+      ]
+    },
+    {
+      "peptideId": "tesamorelin",
+      "citedPmid": "20581223",
+      "citedTitle": "Tesamorelin reduces visceral fat in HIV lipodystrophy",
+      "citedYear": 2010,
+      "status": "no_match",
+      "candidates": []
+    },
+    {
+      "peptideId": "tesamorelin",
+      "citedPmid": "22024906",
+      "citedTitle": "FDA approval of tesamorelin for HIV-associated lipodystrophy",
+      "citedYear": 2011,
+      "status": "medium_confidence",
+      "proposedPmid": "22298602",
+      "proposedTitle": "Tesamorelin: a growth hormone-releasing factor analogue for HIV-associated lipodystrophy.",
+      "proposedYear": 2012,
+      "titleOverlap": 0.5,
+      "yearDiff": 1,
+      "candidates": [
+        {
+          "pmid": "22298602",
+          "title": "Tesamorelin: a growth hormone-releasing factor analogue for HIV-associated lipodystrophy.",
+          "year": 2012,
+          "sim": 0.5,
+          "yearDiff": 1
+        }
+      ]
+    },
+    {
+      "peptideId": "tesamorelin",
+      "citedPmid": "28535505",
+      "citedTitle": "Tesamorelin improves cognitive function in older adults",
+      "citedYear": 2017,
+      "status": "no_match",
+      "candidates": []
+    },
+    {
+      "peptideId": "pt-141",
+      "citedPmid": "16422843",
+      "citedTitle": "PT-141 for female hypoactive sexual desire disorder",
+      "citedYear": 2006,
+      "status": "medium_confidence",
+      "proposedPmid": "29198512",
+      "proposedTitle": "Understanding the Role of Serotonin in Female Hypoactive Sexual Desire Disorder and Treatment Options.",
+      "proposedYear": 2017,
+      "titleOverlap": 0.42,
+      "yearDiff": 11,
+      "candidates": [
+        {
+          "pmid": "29198512",
+          "title": "Understanding the Role of Serotonin in Female Hypoactive Sexual Desire Disorder and Treatment Options.",
+          "year": 2017,
+          "sim": 0.4166666666666667,
+          "yearDiff": 11
+        },
+        {
+          "pmid": "32460605",
+          "title": "Female Hypoactive Sexual Desire Disorder: A Practical Guide to Causes, Clinical Diagnosis, and Treatment.",
+          "year": 2020,
+          "sim": 0.4166666666666667,
+          "yearDiff": 14
+        },
+        {
+          "pmid": "39793696",
+          "title": "Female Syrian hamster analyses of bremelanotide, a US FDA approved drug for the treatment of female hypoactive sexual desire disorder.",
+          "year": 2025,
+          "sim": 0.4,
+          "yearDiff": 19
+        }
+      ]
+    },
+    {
+      "peptideId": "pt-141",
+      "citedPmid": "15661110",
+      "citedTitle": "Bremelanotide for male erectile dysfunction",
+      "citedYear": 2005,
+      "status": "no_match",
+      "candidates": []
+    },
+    {
+      "peptideId": "pt-141",
+      "citedPmid": "31400508",
+      "citedTitle": "FDA approval of bremelanotide (Vyleesi)",
+      "citedYear": 2019,
+      "status": "no_match",
+      "candidates": []
+    },
+    {
+      "peptideId": "selank",
+      "citedPmid": "18577758",
+      "citedTitle": "Selank anxiolytic effects in clinical studies",
+      "citedYear": 2008,
+      "status": "no_match",
+      "candidates": []
+    },
+    {
+      "peptideId": "selank",
+      "citedPmid": "21315463",
+      "citedTitle": "Selank modulates immune function",
+      "citedYear": 2011,
+      "status": "no_match",
+      "candidates": []
+    },
+    {
+      "peptideId": "selank",
+      "citedPmid": "24009756",
+      "citedTitle": "Selank upregulates BDNF expression in brain regions",
+      "citedYear": 2013,
+      "status": "no_match",
+      "candidates": []
+    },
+    {
+      "peptideId": "semax",
+      "citedPmid": "16996039",
+      "citedTitle": "Semax upregulates BDNF in the rat brain",
+      "citedYear": 2007,
+      "status": "no_match",
+      "candidates": [
+        {
+          "pmid": "17353092",
+          "title": "Neurotrophin gene expression in rat brain under the action of Semax, an analogue of ACTH 4-10.",
+          "year": 2007,
+          "sim": 0.36363636363636365,
+          "yearDiff": 0
+        }
+      ]
+    },
+    {
+      "peptideId": "semax",
+      "citedPmid": "17321596",
+      "citedTitle": "Semax in acute ischemic stroke recovery",
+      "citedYear": 2007,
+      "status": "no_match",
+      "candidates": []
+    },
+    {
+      "peptideId": "semax",
+      "citedPmid": "16541366",
+      "citedTitle": "Semax enhances cognitive function in healthy subjects",
+      "citedYear": 2006,
+      "status": "no_match",
+      "candidates": []
+    },
+    {
+      "peptideId": "mk-677",
+      "citedPmid": "9467542",
+      "citedTitle": "MK-677 oral GH secretagogue in adults",
+      "citedYear": 1998,
+      "status": "no_match",
+      "candidates": []
+    },
+    {
+      "peptideId": "mk-677",
+      "citedPmid": "18981485",
+      "citedTitle": "MK-677 preserves lean mass in elderly subjects",
+      "citedYear": 2008,
+      "status": "no_match",
+      "candidates": []
+    },
+    {
+      "peptideId": "mk-677",
+      "citedPmid": "9349662",
+      "citedTitle": "MK-677 improves sleep quality",
+      "citedYear": 1997,
+      "status": "no_match",
+      "candidates": [
+        {
+          "pmid": "9349662",
+          "title": "Prolonged oral treatment with MK-677, a novel growth hormone secretagogue, improves sleep quality in man.",
+          "year": 1997,
+          "sim": 0.3076923076923077,
+          "yearDiff": 0
+        }
+      ]
+    }
+  ]
+}

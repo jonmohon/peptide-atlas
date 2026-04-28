@@ -25,7 +25,9 @@ const SETTINGS_ROWS: SettingsRow[] = [
   { label: 'Body metrics', icon: 'fitness-outline', href: '/profile-edit' },
   { label: 'Health conditions', icon: 'medkit-outline', href: '/profile-edit' },
   { label: 'Notifications', icon: 'notifications-outline', href: '/reminders' },
-  { label: 'Privacy & data', icon: 'lock-closed-outline', url: 'https://peptide-atlas.com/privacy' },
+  { label: 'Medical disclaimer', icon: 'medkit-outline', href: '/medical-disclaimer' },
+  { label: 'Privacy policy', icon: 'lock-closed-outline', url: 'https://peptide-atlas.com/privacy' },
+  { label: 'Terms of service', icon: 'document-text-outline', url: 'https://peptide-atlas.com/terms' },
   { label: 'Help & feedback', icon: 'help-circle-outline', url: 'mailto:support@peptide-atlas.com?subject=Peptide%20Atlas%20mobile%20feedback' },
 ];
 
