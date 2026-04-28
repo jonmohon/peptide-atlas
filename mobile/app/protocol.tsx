@@ -1,7 +1,7 @@
 /**
- * Protocol generator — pick goals + experience, optional preferences, get a
- * streaming AI-generated protocol from /api/ai/protocol. Output is plain text
- * (toTextStreamResponse on the route), so we just append every chunk.
+ * Protocol generator — multi-stage Opus pipeline with self-critique. The route
+ * emits SSE 'stage' events and 'text-delta' events; we render the steps live in
+ * a step sequencer, then the markdown body in a purple bubble.
  */
 
 import { Ionicons } from '@expo/vector-icons';
@@ -9,7 +9,6 @@ import { fetch as expoFetch } from 'expo/fetch';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import {
-  ActivityIndicator,
   KeyboardAvoidingView,
   Platform,
   Pressable,
@@ -22,6 +21,7 @@ import Markdown from 'react-native-markdown-display';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { GlassCard } from '@/components/glass-card';
+import { StepSequencer, type Step, consumeSseStream } from '@/components/step-sequencer';
 import { getIdToken } from '@/lib/amplify';
 import { API_BASE_URL } from '@/lib/config';
 
@@ -40,6 +40,13 @@ const GOAL_OPTIONS = [
 
 const EXPERIENCE_OPTIONS = ['Beginner', 'Intermediate', 'Advanced'];
 
+const STEP_BLUEPRINT: Step[] = [
+  { id: 'profile', label: 'Reading your profile', state: 'pending' },
+  { id: 'draft', label: 'Drafting protocol', state: 'pending' },
+  { id: 'critique', label: 'Running safety check', state: 'pending' },
+  { id: 'format', label: 'Finalizing', state: 'pending' },
+];
+
 export default function ProtocolScreen() {
   const router = useRouter();
   const [goals, setGoals] = useState<string[]>([]);
@@ -47,6 +54,8 @@ export default function ProtocolScreen() {
   const [preferences, setPreferences] = useState('');
   const [output, setOutput] = useState('');
   const [streaming, setStreaming] = useState(false);
+  const [steps, setSteps] = useState<Step[]>(STEP_BLUEPRINT);
+  const [warnings, setWarnings] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
 
   const toggleGoal = (g: string) => {
@@ -60,6 +69,8 @@ export default function ProtocolScreen() {
     }
     setError(null);
     setOutput('');
+    setWarnings([]);
+    setSteps(STEP_BLUEPRINT.map((s) => ({ ...s })));
     setStreaming(true);
     try {
       const token = await getIdToken();
@@ -80,38 +91,29 @@ export default function ProtocolScreen() {
       }
       if (!res.body) throw new Error('Empty response');
 
-      // Parse the SSE-style UI message stream (same shape /api/ai/chat returns).
-      // Each SSE line is `data: {json}` where json events of type=text-delta
-      // carry the streaming text in `delta`.
-      const reader = res.body.getReader();
-      const decoder = new TextDecoder();
-      let buffer = '';
       let acc = '';
-      for (;;) {
-        const { value, done } = await reader.read();
-        if (done) break;
-        buffer += decoder.decode(value, { stream: true });
-        let nl = buffer.indexOf('\n');
-        while (nl !== -1) {
-          const line = buffer.slice(0, nl).trim();
-          buffer = buffer.slice(nl + 1);
-          if (line.startsWith('data:')) {
-            const payload = line.slice(5).trim();
-            if (payload && payload !== '[DONE]') {
-              try {
-                const evt = JSON.parse(payload) as { type?: string; delta?: string };
-                if (evt.type === 'text-delta' && typeof evt.delta === 'string') {
-                  acc += evt.delta;
-                  setOutput(acc);
-                }
-              } catch {
-                // Ignore non-JSON lines.
-              }
-            }
-          }
-          nl = buffer.indexOf('\n');
-        }
-      }
+      await consumeSseStream(res.body, {
+        onStage: (id) => {
+          setSteps((prev) => {
+            const idx = prev.findIndex((s) => s.id === id);
+            if (idx === -1) return prev;
+            return prev.map((s, i) => ({
+              ...s,
+              state: i < idx ? 'done' : i === idx ? 'active' : 'pending',
+            }));
+          });
+        },
+        onText: (delta) => {
+          acc += delta;
+          setOutput(acc);
+        },
+        onWarning: (msg) => setWarnings((prev) => [...prev, msg]),
+        onError: (msg) => setError(msg),
+        onDone: () => {
+          // Mark all steps done.
+          setSteps((prev) => prev.map((s) => ({ ...s, state: 'done' })));
+        },
+      });
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Failed to generate');
     } finally {
@@ -133,7 +135,7 @@ export default function ProtocolScreen() {
         </View>
 
         <ScrollView contentContainerStyle={{ padding: 20, paddingBottom: 60 }}>
-          {output.length === 0 && !streaming ? (
+          {output.length === 0 && !streaming && steps.every((s) => s.state === 'pending') ? (
             <>
               <View className="mb-5">
                 <Text className="text-xs uppercase tracking-widest text-text-secondary">AI</Text>
@@ -260,6 +262,8 @@ export default function ProtocolScreen() {
                   onPress={() => {
                     setOutput('');
                     setError(null);
+                    setWarnings([]);
+                    setSteps(STEP_BLUEPRINT.map((s) => ({ ...s })));
                   }}
                   disabled={streaming}
                   className={`active:opacity-60 ${streaming ? 'opacity-40' : ''}`}
@@ -279,22 +283,48 @@ export default function ProtocolScreen() {
                 </View>
               </View>
 
-              <View
-                className="rounded-2xl border px-4 py-3"
-                style={{
-                  backgroundColor: 'rgba(168,85,247,0.10)',
-                  borderColor: 'rgba(168,85,247,0.28)',
-                }}
-              >
-                {output ? (
-                  <Markdown style={MARKDOWN_STYLES}>{output}</Markdown>
-                ) : (
-                  <View className="py-2 flex-row items-center gap-2">
-                    <ActivityIndicator size="small" color="#a855f7" />
-                    <Text className="text-xs text-text-secondary">Generating…</Text>
-                  </View>
-                )}
+              {/* Live step sequencer — stays visible after completion to show
+                  what was actually done. */}
+              <View className="mb-4 rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+                <Text className="mb-3 text-[11px] font-semibold uppercase tracking-widest text-text-secondary">
+                  Pipeline
+                </Text>
+                <StepSequencer steps={steps} />
               </View>
+
+              {warnings.length > 0 && (
+                <View className="mb-4 rounded-2xl border border-amber-500/30 bg-amber-500/10 p-3">
+                  <View className="mb-1 flex-row items-center gap-1.5">
+                    <Ionicons name="warning" size={12} color="#f59e0b" />
+                    <Text className="text-[11px] font-semibold uppercase tracking-widest text-amber-300">
+                      Safety check flagged
+                    </Text>
+                  </View>
+                  {warnings.map((w, i) => (
+                    <Text key={i} className="mt-1 text-[11px] leading-relaxed text-amber-100">
+                      • {w}
+                    </Text>
+                  ))}
+                </View>
+              )}
+
+              {(output.length > 0 || streaming) && (
+                <View
+                  className="rounded-2xl border px-4 py-3"
+                  style={{
+                    backgroundColor: 'rgba(168,85,247,0.10)',
+                    borderColor: 'rgba(168,85,247,0.28)',
+                  }}
+                >
+                  {output ? (
+                    <Markdown style={MARKDOWN_STYLES}>{output}</Markdown>
+                  ) : (
+                    <Text className="py-1 text-xs text-text-secondary">
+                      Output will stream here when the pipeline finishes…
+                    </Text>
+                  )}
+                </View>
+              )}
 
               {error && (
                 <View className="mt-3 rounded-xl border border-red-500/25 bg-red-500/10 p-3">
