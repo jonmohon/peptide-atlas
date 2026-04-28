@@ -8,6 +8,7 @@
 
 import '@aws-amplify/react-native';
 import { Amplify } from 'aws-amplify';
+import { fetchAuthSession } from 'aws-amplify/auth';
 import { cognitoUserPoolsTokenProvider } from 'aws-amplify/auth/cognito';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -20,4 +21,17 @@ export function configureAmplify() {
   Amplify.configure(outputs);
   cognitoUserPoolsTokenProvider.setKeyValueStorage(AsyncStorage);
   configured = true;
+}
+
+/**
+ * Get the current Cognito ID token (JWT). Returns null if there's no session.
+ * Used to authorize calls to the web's AI streaming endpoints.
+ */
+export async function getIdToken(): Promise<string | null> {
+  try {
+    const session = await fetchAuthSession();
+    return session.tokens?.idToken?.toString() ?? null;
+  } catch {
+    return null;
+  }
 }

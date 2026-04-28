@@ -57,6 +57,38 @@ export async function fetchUserProfile(): Promise<UserProfileRow | null> {
   return rows[0] ?? null;
 }
 
+export type ProfilePatch = {
+  name?: string | null;
+  goals?: string[] | null;
+  experienceLevel?: string | null;
+  weight?: number | null;
+  heightCm?: number | null;
+  age?: number | null;
+  sex?: string | null;
+  healthConditions?: string[] | null;
+  allergies?: string[] | null;
+};
+
+export async function upsertUserProfile(
+  email: string,
+  patch: ProfilePatch
+): Promise<UserProfileRow> {
+  const existing = await fetchUserProfile();
+  if (existing) {
+    const result = await client().models.UserProfile.update({
+      id: existing.id,
+      ...patch,
+    } as Record<string, unknown>);
+    return result.data as UserProfileRow;
+  }
+  const result = await client().models.UserProfile.create({
+    email,
+    tier: 'FREE',
+    ...patch,
+  } as Record<string, unknown>);
+  return result.data as UserProfileRow;
+}
+
 export async function fetchJournalEntries(): Promise<JournalEntryRow[]> {
   const result = await client().models.JournalEntry.list();
   const rows = result.data as JournalEntryRow[];
@@ -71,6 +103,55 @@ export type DoseInput = {
   route: string;
   time?: string;
 };
+
+export type NoteRow = {
+  id: string;
+  title?: string | null;
+  content: string;
+  attachedTo?: 'PEPTIDE' | 'STACK' | 'PROTOCOL' | 'GENERAL' | null;
+  attachedId?: string | null;
+  tags?: string[] | null;
+  pinned?: boolean | null;
+  createdAt?: string;
+  updatedAt?: string;
+};
+
+export async function fetchNotes(): Promise<NoteRow[]> {
+  const result = await client().models.UserNote.list();
+  const rows = result.data as NoteRow[];
+  return rows.sort((a, b) => {
+    if (a.pinned !== b.pinned) return a.pinned ? -1 : 1;
+    return (b.updatedAt ?? '') > (a.updatedAt ?? '') ? 1 : -1;
+  });
+}
+
+export async function createNote(input: {
+  title?: string;
+  content: string;
+  attachedTo?: NoteRow['attachedTo'];
+  attachedId?: string;
+  tags?: string[];
+  pinned?: boolean;
+}): Promise<NoteRow> {
+  const result = await client().models.UserNote.create({
+    title: input.title ?? null,
+    content: input.content,
+    attachedTo: input.attachedTo ?? 'GENERAL',
+    attachedId: input.attachedId ?? null,
+    tags: input.tags ?? [],
+    pinned: input.pinned ?? false,
+  });
+  return result.data as NoteRow;
+}
+
+export async function deleteNote(id: string): Promise<void> {
+  await client().models.UserNote.delete({ id });
+}
+
+export async function togglePinNote(id: string, pinned: boolean): Promise<NoteRow> {
+  const result = await client().models.UserNote.update({ id, pinned });
+  return result.data as NoteRow;
+}
 
 export async function createJournalEntry(input: {
   date: string;

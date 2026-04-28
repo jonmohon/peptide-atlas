@@ -34,9 +34,12 @@ export default function RootLayout() {
           <Stack.Screen name="(auth)" />
           <Stack.Screen name="peptides" />
           <Stack.Screen name="body-map" />
-          <Stack.Screen name="stacks" />
           <Stack.Screen name="compare" />
           <Stack.Screen name="protocol" />
+          <Stack.Screen name="effects" />
+          <Stack.Screen name="reconstitution" />
+          <Stack.Screen name="notes" />
+          <Stack.Screen name="profile-edit" options={{ presentation: 'modal' }} />
           <Stack.Screen name="log-entry" options={{ presentation: 'modal' }} />
           <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
         </Stack>

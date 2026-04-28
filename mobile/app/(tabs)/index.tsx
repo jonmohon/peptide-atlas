@@ -22,9 +22,12 @@ const QUICK_ACTIONS = [
 
 const EXPLORE_CARDS = [
   { title: 'Body map', description: 'Tap any region to see relevant peptides and effects.', icon: 'body-outline' as const, accent: '#06b6d4', href: '/body-map' as const },
+  { title: 'Effects', description: 'Find peptides by what they do — fat loss, recovery, focus.', icon: 'flash-outline' as const, accent: '#f97316', href: '/effects' as const },
   { title: 'Stacks', description: 'Combinations curated by goal — fat loss, recovery, longevity.', icon: 'layers-outline' as const, accent: '#10b981', href: '/stacks' as const },
   { title: 'Compare', description: 'Side-by-side breakdown of any two peptides.', icon: 'git-compare-outline' as const, accent: '#a855f7', href: '/compare' as const },
-  { title: 'Protocol generator', description: 'AI-built protocol from your goals + journal data.', icon: 'construct-outline' as const, accent: '#f97316', href: '/protocol' as const },
+  { title: 'Reconstitution', description: 'Mix a vial — concentration and units to draw.', icon: 'beaker-outline' as const, accent: '#ec4899', href: '/reconstitution' as const },
+  { title: 'Notes', description: 'Personal research notes — observations, dosing tweaks.', icon: 'document-text-outline' as const, accent: '#22d3ee', href: '/notes' as const },
+  { title: 'Protocol generator', description: 'AI-built protocol from your goals + journal data.', icon: 'construct-outline' as const, accent: '#fbbf24', href: '/protocol' as const },
 ];
 
 export default function DashboardScreen() {
