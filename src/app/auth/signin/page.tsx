@@ -8,7 +8,7 @@
 import { useState } from 'react';
 import { signIn, signUp, confirmSignUp } from 'aws-amplify/auth';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 type Step = 'signIn' | 'signUp' | 'confirm';
 
@@ -20,6 +20,14 @@ export default function SignInPage() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  // Honor ?next= so the auth gate's redirect chain lands the user back
+  // where they were trying to go. Default to the dashboard.
+  const nextPath = (() => {
+    const n = searchParams.get('next');
+    // Refuse to redirect off-domain or to anything weird.
+    return n && n.startsWith('/') ? n : '/atlas';
+  })();
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,7 +36,7 @@ export default function SignInPage() {
     try {
       const result = await signIn({ username: email, password });
       if (result.isSignedIn) {
-        router.push('/atlas');
+        router.push(nextPath);
       }
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Sign in failed');
@@ -64,7 +72,7 @@ export default function SignInPage() {
     try {
       await confirmSignUp({ username: email, confirmationCode: confirmCode });
       await signIn({ username: email, password });
-      router.push('/atlas');
+      router.push(nextPath);
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Confirmation failed');
     } finally {
