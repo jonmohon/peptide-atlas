@@ -5,10 +5,14 @@
  */
 
 import { Ionicons } from '@expo/vector-icons';
+import { fetch as expoFetch } from 'expo/fetch';
 import { useFocusEffect } from '@react-navigation/native';
 import { Link, useLocalSearchParams, useRouter } from 'expo-router';
 import { useCallback, useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { ActivityIndicator, Pressable, Text, View } from 'react-native';
+
+import { getIdToken } from '@/lib/amplify';
+import { API_BASE_URL } from '@/lib/config';
 
 import { GlassCard } from '@/components/glass-card';
 import { Screen } from '@/components/screen';
@@ -29,12 +33,22 @@ const ROLE_INFO: Record<'primary' | 'synergist' | 'support', { label: string; co
   support: { label: 'Support', color: '#10b981' },
 };
 
+type StackAnalysis = {
+  overall_synergy: number;
+  synergies?: { peptides: string[]; description: string }[];
+  conflicts?: { peptides: string[]; description: string; severity?: string }[];
+  suggestions?: string[];
+};
+
 export default function StackDetailScreen() {
   const { slug } = useLocalSearchParams<{ slug: string }>();
   const router = useRouter();
   const stack = stacks.find((s) => s.slug === slug);
   const [saved, setSaved] = useState<SavedStackRow | null>(null);
   const [savingState, setSavingState] = useState(false);
+  const [analysis, setAnalysis] = useState<StackAnalysis | null>(null);
+  const [analyzing, setAnalyzing] = useState(false);
+  const [analysisError, setAnalysisError] = useState<string | null>(null);
 
   useFocusEffect(
     useCallback(() => {
@@ -66,6 +80,29 @@ export default function StackDetailScreen() {
       </Screen>
     );
   }
+
+  const runAnalysis = async () => {
+    if (!stack) return;
+    setAnalyzing(true);
+    setAnalysisError(null);
+    setAnalysis(null);
+    try {
+      const token = await getIdToken();
+      if (!token) throw new Error('Sign in required');
+      const res = await expoFetch(`${API_BASE_URL}/api/ai/optimize`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ peptideIds: stack.peptides.map((p) => p.peptideId) }),
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const json = (await res.json()) as StackAnalysis;
+      setAnalysis(json);
+    } catch (e) {
+      setAnalysisError(e instanceof Error ? e.message : 'Failed');
+    } finally {
+      setAnalyzing(false);
+    }
+  };
 
   const toggleSave = async () => {
     setSavingState(true);
@@ -172,6 +209,112 @@ export default function StackDetailScreen() {
           );
         })}
       </View>
+
+      {!analysis && !analyzing ? (
+        <Pressable onPress={runAnalysis} className="mb-6 active:opacity-70">
+          <View
+            className="flex-row items-center justify-center gap-2 rounded-xl border px-4 py-3.5"
+            style={{
+              backgroundColor: 'rgba(168,85,247,0.20)',
+              borderColor: 'rgba(168,85,247,0.45)',
+            }}
+          >
+            <Ionicons name="sparkles" size={16} color="#a855f7" />
+            <Text className="text-sm font-semibold text-neon-purple">
+              Analyze synergies with Atlas AI
+            </Text>
+          </View>
+        </Pressable>
+      ) : (
+        <View className="mb-6">
+          <Text className="mb-3 text-xs font-semibold uppercase tracking-widest text-text-secondary">
+            Synergy analysis · Atlas AI
+          </Text>
+          {analyzing && (
+            <GlassCard className="p-4">
+              <View className="flex-row items-center gap-2">
+                <ActivityIndicator size="small" color="#a855f7" />
+                <Text className="text-xs text-text-secondary">Running…</Text>
+              </View>
+            </GlassCard>
+          )}
+          {analysis && (
+            <View className="gap-3">
+              <GlassCard className="p-4" bright>
+                <Text className="text-[10px] uppercase tracking-widest text-text-secondary">
+                  Overall synergy
+                </Text>
+                <View className="mt-2 flex-row items-baseline gap-1">
+                  <Text className="text-3xl font-bold text-neon-purple">
+                    {analysis.overall_synergy}
+                  </Text>
+                  <Text className="text-sm text-text-muted">/10</Text>
+                </View>
+                <View className="mt-2 h-1.5 overflow-hidden rounded-full bg-white/[0.06]">
+                  <View
+                    className="h-full rounded-full bg-neon-purple"
+                    style={{ width: `${Math.min(100, analysis.overall_synergy * 10)}%` }}
+                  />
+                </View>
+              </GlassCard>
+              {analysis.synergies && analysis.synergies.length > 0 && (
+                <GlassCard className="p-4">
+                  <Text className="mb-2 text-xs font-semibold uppercase tracking-widest text-neon-green">
+                    Synergies
+                  </Text>
+                  {analysis.synergies.map((s, i) => (
+                    <View key={i} className={i > 0 ? 'mt-2.5 border-t border-white/5 pt-2.5' : ''}>
+                      <Text className="text-xs font-semibold text-foreground">
+                        {s.peptides.join(' + ')}
+                      </Text>
+                      <Text className="mt-1 text-[11px] leading-relaxed text-text-secondary">
+                        {s.description}
+                      </Text>
+                    </View>
+                  ))}
+                </GlassCard>
+              )}
+              {analysis.conflicts && analysis.conflicts.length > 0 && (
+                <GlassCard className="p-4">
+                  <Text className="mb-2 text-xs font-semibold uppercase tracking-widest text-orange-400">
+                    Conflicts
+                  </Text>
+                  {analysis.conflicts.map((c, i) => (
+                    <View key={i} className={i > 0 ? 'mt-2.5 border-t border-white/5 pt-2.5' : ''}>
+                      <Text className="text-xs font-semibold text-foreground">
+                        {c.peptides.join(' / ')}
+                      </Text>
+                      <Text className="mt-1 text-[11px] leading-relaxed text-text-secondary">
+                        {c.description}
+                      </Text>
+                    </View>
+                  ))}
+                </GlassCard>
+              )}
+              {analysis.suggestions && analysis.suggestions.length > 0 && (
+                <GlassCard className="p-4">
+                  <Text className="mb-2 text-xs font-semibold uppercase tracking-widest text-neon-cyan">
+                    Suggestions
+                  </Text>
+                  {analysis.suggestions.map((s, i) => (
+                    <View key={i} className={`flex-row gap-2 ${i > 0 ? 'mt-2' : ''}`}>
+                      <Text className="text-xs text-neon-cyan">•</Text>
+                      <Text className="flex-1 text-[12px] leading-relaxed text-foreground/90">
+                        {s}
+                      </Text>
+                    </View>
+                  ))}
+                </GlassCard>
+              )}
+            </View>
+          )}
+          {analysisError && (
+            <View className="mt-2 rounded-xl border border-red-500/25 bg-red-500/10 p-2.5">
+              <Text className="text-[11px] text-red-400">{analysisError}</Text>
+            </View>
+          )}
+        </View>
+      )}
 
       {stack.combinedEffects.length > 0 && (
         <>

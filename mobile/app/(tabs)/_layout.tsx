@@ -8,6 +8,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Redirect, Tabs } from 'expo-router';
 import { ActivityIndicator, View } from 'react-native';
 
+import { HapticTab } from '@/components/haptic-tab';
 import { useAuth } from '@/lib/auth-context';
 
 export default function TabLayout() {
@@ -31,6 +32,7 @@ export default function TabLayout() {
         tabBarActiveTintColor: '#06b6d4',
         tabBarInactiveTintColor: '#737373',
         headerShown: false,
+        tabBarButton: HapticTab,
         tabBarStyle: {
           backgroundColor: '#0a0a0a',
           borderTopColor: 'rgba(255,255,255,0.08)',
