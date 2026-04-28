@@ -36,6 +36,13 @@ export const auth = defineAuth({
                 fullname: 'name',
               },
             },
+            // Cognito Hosted UI prefix — produces
+            // https://peptide-atlas-auth.auth.us-east-2.amazoncognito.com
+            // which is the redirect URI configured in the Google OAuth client.
+            // Runtime supports this (auth-construct reads it directly), but
+            // @aws-amplify/backend's type definition omits the field.
+            // @ts-expect-error - domainPrefix supported by underlying construct
+            domainPrefix: 'peptide-atlas-auth',
             callbackUrls: [
               'http://localhost:3000/atlas',
               'https://peptideatlas.ai/atlas',
