@@ -49,16 +49,25 @@ export const handler: PreSignUpTriggerHandler = async (event) => {
         (attr) =>
           attr.Name === 'email' &&
           attr.Value === email &&
-          (u.UserStatus === 'CONFIRMED' || u.UserStatus === 'EXTERNAL_PROVIDER') &&
-          // skip the in-flight federated user we're about to create
-          !u.Username?.startsWith('Google_'),
+          u.UserStatus === 'CONFIRMED' &&
+          // skip federated usernames; we want the CONFIRMED native user only
+          !u.Username?.toLowerCase().startsWith('google_'),
       ),
     );
 
     if (native?.Username) {
-      // userName format from Cognito for federated users: "Google_<sub>"
-      const [providerName, ...rest] = userName.split('_');
-      const providerUserId = rest.join('_');
+      // userName format from Cognito for federated users: "<provider>_<sub>"
+      // where <provider> is lowercased. The configured ProviderName in the
+      // pool is the exact case (e.g. "Google"), so we map explicitly.
+      const lowerPrefix = userName.split('_')[0]?.toLowerCase();
+      const providerUserId = userName.slice(userName.indexOf('_') + 1);
+      const providerNameMap: Record<string, string> = {
+        google: 'Google',
+        facebook: 'Facebook',
+        amazon: 'LoginWithAmazon',
+        signinwithapple: 'SignInWithApple',
+      };
+      const providerName = lowerPrefix ? providerNameMap[lowerPrefix] : undefined;
       if (providerName && providerUserId) {
         await cognito.send(
           new AdminLinkProviderForUserCommand({
