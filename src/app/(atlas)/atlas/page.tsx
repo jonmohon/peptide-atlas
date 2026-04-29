@@ -68,7 +68,7 @@ export default function DashboardPage() {
   const todayLogged = calendarDays.some((d) => d.date === today && d.status === 'logged');
 
   return (
-    <div className="max-w-5xl mx-auto px-6 py-8 space-y-8">
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-6 sm:space-y-8">
       {/* Welcome + streak */}
       <div className="flex items-center justify-between">
         <div>

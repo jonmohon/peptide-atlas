@@ -109,12 +109,12 @@ export function BodyMapView({ peptides }: BodyMapViewProps) {
 
   return (
     <div className="flex flex-1 min-h-0 relative overflow-hidden">
-      {/* Left Sidebar - Filters */}
+      {/* Left Sidebar - Filters (hidden on mobile; SVG takes full width) */}
       <motion.div
         initial={false}
         animate={{ width: sidebarCollapsed ? 40 : 220 }}
         transition={{ duration: 0.2, ease: 'easeInOut' }}
-        className="shrink-0 glass-bright flex flex-col z-20 overflow-hidden border-r border-white/[0.06]"
+        className="hidden md:flex shrink-0 glass-bright flex-col z-20 overflow-hidden border-r border-white/[0.06]"
       >
         {/* Collapse toggle */}
         <button
