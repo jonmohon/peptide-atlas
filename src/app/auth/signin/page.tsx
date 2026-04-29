@@ -81,9 +81,11 @@ function SignInForm() {
     }
   };
 
-  const handleGoogleSignIn = async () => {
-    const { signInWithRedirect } = await import('aws-amplify/auth');
-    await signInWithRedirect({ provider: 'Google' });
+  const handleGoogleSignIn = () => {
+    // Server-side OAuth initiator. Sets PKCE+state cookies, redirects to
+    // Cognito Hosted UI, returns via /api/auth/sign-in-callback which lands
+    // the user on /atlas (configured in src/app/api/auth/[slug]/route.ts).
+    window.location.href = '/api/auth/sign-in?provider=google';
   };
 
   return (

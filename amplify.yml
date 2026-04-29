@@ -23,7 +23,7 @@ frontend:
         # standalone-output Lambdas don't see app-level secrets like
         # ANTHROPIC_API_KEY at request time, only at build time.
         - |
-          for v in ANTHROPIC_API_KEY RESEND_API_KEY EMAIL_FROM GOOGLE_CLIENT_ID GOOGLE_CLIENT_SECRET GOOGLE_OAUTH_ENABLED NEXT_PUBLIC_APP_URL; do
+          for v in ANTHROPIC_API_KEY RESEND_API_KEY EMAIL_FROM GOOGLE_CLIENT_ID GOOGLE_CLIENT_SECRET GOOGLE_OAUTH_ENABLED NEXT_PUBLIC_APP_URL AMPLIFY_APP_ORIGIN; do
             if [ -n "${!v}" ]; then echo "${v}=${!v}" >> .env.production; fi
           done
     build:
