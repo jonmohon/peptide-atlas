@@ -77,12 +77,17 @@ export async function POST(req: Request) {
     : '';
 
   try {
+    // Stack analysis fills synergies, issues, suggestions, timingSchedule —
+    // routinely ~2000 tokens. Bypassing outputBudget (which caps FREE at
+    // 1024) because anything under ~2000 truncates the JSON mid-stream and
+    // Zod rejects it with "No object generated: could not parse".
+    void tier;
     const result = await generateObject({
       model: anthropic('claude-sonnet-4-6'),
       system: hardenedSystemPrompt(STACK_OPTIMIZER_PROMPT, fullContext),
       prompt: `Analyze this peptide stack:\n${stackDescription}${cyclePrompt}`,
       schema: stackAnalysisSchema,
-      maxOutputTokens: outputBudget(tier, 1500),
+      maxOutputTokens: 3000,
     });
 
     return new Response(JSON.stringify(result.object), {
