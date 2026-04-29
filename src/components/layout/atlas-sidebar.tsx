@@ -139,7 +139,12 @@ const navGroups: NavGroup[] = [
   },
 ];
 
-export function AtlasSidebar() {
+interface AtlasSidebarProps {
+  drawerOpen?: boolean;
+  onCloseDrawer?: () => void;
+}
+
+export function AtlasSidebar({ drawerOpen, onCloseDrawer }: AtlasSidebarProps = {}) {
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(false);
 
@@ -151,12 +156,17 @@ export function AtlasSidebar() {
   return (
     <aside
       className={cn(
-        'shrink-0 glass border-r border-white/[0.06] flex flex-col transition-all duration-200 overflow-y-auto overflow-x-hidden',
-        collapsed ? 'w-14' : 'w-52'
+        'glass border-r border-white/[0.06] flex flex-col overflow-y-auto overflow-x-hidden',
+        // Mobile: slide-in drawer overlay
+        'fixed top-12 bottom-0 left-0 z-40 w-64 transition-transform duration-200',
+        drawerOpen ? 'translate-x-0' : '-translate-x-full',
+        // Desktop (md+): static, takes its own column, ignores drawer state
+        'md:static md:top-0 md:translate-x-0 md:transition-all md:shrink-0',
+        collapsed ? 'md:w-14' : 'md:w-52'
       )}
     >
-      {/* Collapse toggle */}
-      <div className="flex items-center justify-end p-2">
+      {/* Collapse toggle (desktop only) */}
+      <div className="hidden md:flex items-center justify-end p-2">
         <button
           onClick={() => setCollapsed(!collapsed)}
           className="p-1.5 rounded-lg hover:bg-white/[0.05] text-text-secondary transition-colors"
@@ -167,15 +177,33 @@ export function AtlasSidebar() {
         </button>
       </div>
 
+      {/* Mobile close button */}
+      {onCloseDrawer && (
+        <div className="md:hidden flex items-center justify-end p-2">
+          <button
+            onClick={onCloseDrawer}
+            aria-label="Close menu"
+            className="p-1.5 rounded-lg hover:bg-white/[0.05] text-text-secondary"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+      )}
+
       {/* Nav groups */}
       <nav className="flex-1 px-2 pb-4 space-y-5">
         {navGroups.map((group) => (
           <div key={group.title}>
-            {!collapsed && (
-              <h3 className="px-2 mb-1.5 text-[10px] font-semibold text-text-secondary uppercase tracking-wider">
-                {group.title}
-              </h3>
-            )}
+            <h3
+              className={cn(
+                'px-2 mb-1.5 text-[10px] font-semibold text-text-secondary uppercase tracking-wider',
+                collapsed && 'md:hidden'
+              )}
+            >
+              {group.title}
+            </h3>
             <div className="space-y-0.5">
               {group.items.map((item) => (
                 <Link
@@ -183,14 +211,14 @@ export function AtlasSidebar() {
                   href={item.href}
                   title={collapsed ? item.label : undefined}
                   className={cn(
-                    'flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-xs font-medium transition-all',
+                    'flex items-center gap-2.5 px-2.5 py-2.5 md:py-2 rounded-lg text-sm md:text-xs font-medium transition-all',
                     isActive(item.href)
                       ? 'text-neon-cyan bg-neon-cyan/10'
                       : 'text-text-secondary hover:text-foreground hover:bg-white/[0.05]'
                   )}
                 >
                   <span className="shrink-0">{item.icon}</span>
-                  {!collapsed && <span className="truncate">{item.label}</span>}
+                  <span className={cn('truncate', collapsed && 'md:hidden')}>{item.label}</span>
                 </Link>
               ))}
             </div>
@@ -204,7 +232,7 @@ export function AtlasSidebar() {
           href="/atlas/profile"
           title={collapsed ? 'Profile' : undefined}
           className={cn(
-            'flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-xs font-medium transition-all',
+            'flex items-center gap-2.5 px-2.5 py-2.5 md:py-2 rounded-lg text-sm md:text-xs font-medium transition-all',
             pathname === '/atlas/profile'
               ? 'text-neon-cyan bg-neon-cyan/10'
               : 'text-text-secondary hover:text-foreground hover:bg-white/[0.05]'
@@ -213,7 +241,7 @@ export function AtlasSidebar() {
           <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
-          {!collapsed && <span>Profile</span>}
+          <span className={cn(collapsed && 'md:hidden')}>Profile</span>
         </Link>
       </div>
     </aside>

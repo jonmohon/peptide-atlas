@@ -26,7 +26,7 @@ export function Footer() {
           <div>
             <h3 className="text-sm font-semibold text-foreground mb-3">Atlas</h3>
             <ul className="space-y-2">
-              <li><Link href="/atlas" className="text-sm text-text-secondary hover:text-neon-cyan transition-colors">Body Map</Link></li>
+              <li><Link href="/atlas/body-map" className="text-sm text-text-secondary hover:text-neon-cyan transition-colors">Body Map</Link></li>
               <li><Link href="/atlas/peptides" className="text-sm text-text-secondary hover:text-neon-cyan transition-colors">Peptide Database</Link></li>
               <li><Link href="/atlas/stacks" className="text-sm text-text-secondary hover:text-neon-cyan transition-colors">Stack Builder</Link></li>
               <li><Link href="/atlas/effects" className="text-sm text-text-secondary hover:text-neon-cyan transition-colors">Effects Explorer</Link></li>

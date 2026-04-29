@@ -81,7 +81,7 @@ export function AtlasPreview() {
               <p className="mt-2 text-sm text-text-muted mb-6">
                 Click any body region to explore peptide targets
               </p>
-              <CTAButton href="/atlas">Launch Atlas</CTAButton>
+              <CTAButton href="/auth/signin?mode=signup">Get started — free</CTAButton>
             </div>
           </div>
         </motion.div>

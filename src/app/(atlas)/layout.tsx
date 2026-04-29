@@ -1,6 +1,5 @@
 import { redirect } from 'next/navigation';
-import { AtlasHeader } from '@/components/layout/atlas-header';
-import { AtlasSidebar } from '@/components/layout/atlas-sidebar';
+import { AtlasShell } from '@/components/layout/atlas-shell';
 import { OnboardingGate } from '@/components/onboarding/onboarding-gate';
 import { isAuthenticated } from '@/lib/auth';
 
@@ -20,13 +19,9 @@ export default async function AtlasLayout({ children }: { children: React.ReactN
   }
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden">
-      <AtlasHeader />
-      <div className="flex flex-1 overflow-hidden">
-        <AtlasSidebar />
-        <main className="flex-1 overflow-auto">{children}</main>
-      </div>
+    <AtlasShell>
+      {children}
       <OnboardingGate />
-    </div>
+    </AtlasShell>
   );
 }

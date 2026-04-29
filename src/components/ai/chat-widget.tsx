@@ -35,7 +35,7 @@ export function ChatWidget() {
       {/* Floating button */}
       <button
         onClick={() => setOpen(!isOpen)}
-        className="fixed bottom-6 right-6 z-50 w-12 h-12 rounded-full bg-neon-cyan/20 border border-neon-cyan/30 text-neon-cyan shadow-[0_0_15px_rgba(0,212,255,0.2)] hover:bg-neon-cyan/30 hover:shadow-[0_0_20px_rgba(0,212,255,0.3)] transition-all hover:scale-105 flex items-center justify-center"
+        className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-neon-cyan/20 border border-neon-cyan/30 text-neon-cyan shadow-[0_0_15px_rgba(0,212,255,0.2)] hover:bg-neon-cyan/30 hover:shadow-[0_0_20px_rgba(0,212,255,0.3)] transition-all hover:scale-105 flex items-center justify-center"
         aria-label={isOpen ? 'Close chat' : 'Open AI assistant'}
       >
         {isOpen ? (
@@ -57,7 +57,7 @@ export function ChatWidget() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="fixed bottom-22 right-6 z-50 w-[380px] max-h-[520px] glass-bright rounded-2xl shadow-2xl flex flex-col overflow-hidden"
+            className="fixed bottom-20 right-3 left-3 sm:left-auto sm:right-6 z-50 sm:w-[380px] max-h-[520px] glass-bright rounded-2xl shadow-2xl flex flex-col overflow-hidden"
           >
             {/* Header */}
             <div className="px-4 py-3 bg-neon-cyan/10 border-b border-neon-cyan/20">
