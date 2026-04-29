@@ -4,7 +4,7 @@ export const searchResultSchema = z.object({
   results: z.array(
     z.object({
       peptideId: z.string().describe('The ID of the peptide from the database'),
-      relevanceScore: z.number().min(1).max(10).describe('Relevance score 1-10'),
+      relevanceScore: z.number().describe('Relevance score on a 1-10 scale (10 = best match)'),
       explanation: z.string().describe('One sentence explaining why this peptide matches'),
     })
   ),
@@ -12,7 +12,7 @@ export const searchResultSchema = z.object({
 });
 
 export const stackAnalysisSchema = z.object({
-  overallScore: z.number().min(1).max(10).describe('Overall synergy score'),
+  overallScore: z.number().describe('Overall synergy score on a 1-10 scale (10 = strong synergy)'),
   synergies: z.array(
     z.object({
       peptideA: z.string(),
