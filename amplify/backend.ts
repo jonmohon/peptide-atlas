@@ -30,11 +30,17 @@ cfnUserPoolClient.explicitAuthFlows = [
 
 // Grant the pre-sign-up Lambda the IAM perms it needs to look up existing
 // users by email and link a federated identity to a native account.
-const userPoolArn = backend.auth.resources.userPool.userPoolArn;
+//
+// Scope: arn:aws:cognito-idp:<region>:<account>:userpool/* — using the
+// concrete user pool ARN here causes a CloudFormation circular dependency
+// because the user pool also references the Lambda (as the preSignUp
+// trigger). The wildcard is scoped to this AWS account and region, which
+// for a single-stack project is effectively the same set of resources.
+const stack = backend.auth.resources.userPool.stack;
 backend.preSignUp.resources.lambda.role?.addToPrincipalPolicy(
   new PolicyStatement({
     effect: Effect.ALLOW,
     actions: ['cognito-idp:ListUsers', 'cognito-idp:AdminLinkProviderForUser'],
-    resources: [userPoolArn],
+    resources: [`arn:aws:cognito-idp:${stack.region}:${stack.account}:userpool/*`],
   }),
 );
