@@ -8,7 +8,10 @@ import { buildUserContext } from '@/lib/ai/user-context';
 import { AI_CORS_HEADERS, aiOptions } from '@/lib/ai/cors';
 import { badRequest, enforceInputLimits, hardenedSystemPrompt, outputBudget } from '@/lib/ai/safety';
 
-export const maxDuration = 20;
+// Stack analysis with the full peptide context routinely lands at ~22s.
+// Lambda timeout has to clear that with headroom, otherwise users get
+// a 504 from the gateway even though the model is producing a response.
+export const maxDuration = 30;
 export const OPTIONS = aiOptions;
 
 interface CycleContext {
