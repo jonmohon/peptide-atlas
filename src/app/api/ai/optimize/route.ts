@@ -73,15 +73,24 @@ export async function POST(req: Request) {
       `\n\nFactor in timing, sequencing, and overlap. Call out receptor-desensitization risk, redundant weeks, missed washout periods, and beneficial sequencing. Use week numbers in synergies/issues/suggestions.`
     : '';
 
-  const result = await generateObject({
-    model: anthropic('claude-sonnet-4-6'),
-    system: hardenedSystemPrompt(STACK_OPTIMIZER_PROMPT, fullContext),
-    prompt: `Analyze this peptide stack:\n${stackDescription}${cyclePrompt}`,
-    schema: stackAnalysisSchema,
-    maxOutputTokens: outputBudget(tier, 1500),
-  });
+  try {
+    const result = await generateObject({
+      model: anthropic('claude-sonnet-4-6'),
+      system: hardenedSystemPrompt(STACK_OPTIMIZER_PROMPT, fullContext),
+      prompt: `Analyze this peptide stack:\n${stackDescription}${cyclePrompt}`,
+      schema: stackAnalysisSchema,
+      maxOutputTokens: outputBudget(tier, 1500),
+    });
 
-  return new Response(JSON.stringify(result.object), {
-    headers: { 'Content-Type': 'application/json', ...AI_CORS_HEADERS },
-  });
+    return new Response(JSON.stringify(result.object), {
+      headers: { 'Content-Type': 'application/json', ...AI_CORS_HEADERS },
+    });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error('[ai/optimize] generateObject failed:', message);
+    return new Response(
+      JSON.stringify({ error: 'Stack analysis failed', detail: message }),
+      { status: 500, headers: { 'Content-Type': 'application/json', ...AI_CORS_HEADERS } }
+    );
+  }
 }

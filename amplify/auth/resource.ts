@@ -12,11 +12,17 @@
  */
 
 import { defineAuth, secret } from '@aws-amplify/backend';
+import { preSignUp } from './pre-sign-up/resource';
 
 const googleClientId = process.env.GOOGLE_OAUTH_ENABLED === 'true' ? secret('GOOGLE_CLIENT_ID') : undefined;
 const googleClientSecret = process.env.GOOGLE_OAUTH_ENABLED === 'true' ? secret('GOOGLE_CLIENT_SECRET') : undefined;
 
 export const auth = defineAuth({
+  triggers: {
+    // Links Google federated identities to existing email/password users when
+    // the email matches; auto-confirms federated users. See pre-sign-up/handler.ts.
+    preSignUp,
+  },
   loginWith: {
     email: {
       verificationEmailStyle: 'CODE',
