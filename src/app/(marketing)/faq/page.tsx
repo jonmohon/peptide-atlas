@@ -30,7 +30,7 @@ export default function FAQPage() {
             <h2 className="mb-4 text-xl font-semibold text-[#00d4ff]">
               {category}
             </h2>
-            <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] px-6">
+            <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] px-4 sm:px-6">
               <FAQAccordion
                 items={faqItems.filter((f) => f.category === category)}
               />
