@@ -43,17 +43,18 @@ export const auth = defineAuth({
             // @aws-amplify/backend's type definition omits the field.
             // @ts-expect-error - domainPrefix supported by underlying construct
             domainPrefix: 'peptide-atlas-auth',
-            // Server-side OAuth route handlers. See src/lib/amplify-server.ts
-            // and src/app/api/auth/[slug]/route.ts. Cognito redirects to
-            // /api/auth/sign-in-callback after the user picks a Google account;
-            // the route exchanges the code for tokens and lands them on /atlas.
+            // Client-side OAuth callback page. The OAuth listener in
+            // session-provider auto-processes the ?code= and writes tokens
+            // to CookieStorage (the same store email/password sign-in uses),
+            // so server-side auth gates and client-side AppSync calls both
+            // see the same session.
             callbackUrls: [
-              'http://localhost:3000/api/auth/sign-in-callback',
-              'https://peptideatlas.ai/api/auth/sign-in-callback',
+              'http://localhost:3000/auth/callback',
+              'https://peptideatlas.ai/auth/callback',
             ],
             logoutUrls: [
-              'http://localhost:3000/api/auth/sign-out-callback',
-              'https://peptideatlas.ai/api/auth/sign-out-callback',
+              'http://localhost:3000/',
+              'https://peptideatlas.ai/',
             ],
           },
         }

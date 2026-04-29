@@ -81,11 +81,20 @@ function SignInForm() {
     }
   };
 
-  const handleGoogleSignIn = () => {
-    // Server-side OAuth initiator. Sets PKCE+state cookies, redirects to
-    // Cognito Hosted UI, returns via /api/auth/sign-in-callback which lands
-    // the user on /atlas (configured in src/app/api/auth/[slug]/route.ts).
-    window.location.href = '/api/auth/sign-in?provider=google';
+  const handleGoogleSignIn = async () => {
+    setError('');
+    setLoading(true);
+    try {
+      // Client-side federated sign-in. Amplify stores PKCE+state in CookieStorage
+      // (ssr:true), redirects to Cognito Hosted UI. On return to /auth/callback,
+      // the OAuth listener (enabled in session-provider) auto-processes the
+      // ?code= and writes session tokens to the same cookie store.
+      const { signInWithRedirect } = await import('aws-amplify/auth');
+      await signInWithRedirect({ provider: 'Google' });
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Google sign-in failed');
+      setLoading(false);
+    }
   };
 
   return (
